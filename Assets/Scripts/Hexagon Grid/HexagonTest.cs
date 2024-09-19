@@ -14,7 +14,7 @@ public class HexagonTest : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
-        _flat = new Layout(Layout.flat, new Point(1.0f, 1.0f), new Point(0, 0));
+        _flat = new Layout(Layout.pointy, new Point(1.0f, 1.0f), new Point(0, 0));
         _listCorners.Clear();
         _listHexes.Clear();
         for (var q = -1; q < 2; q++)
