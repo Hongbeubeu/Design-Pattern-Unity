@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TestDFSSample : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
         // Create a board of size 5x5
         var board = new Board(3);
@@ -25,7 +25,7 @@ public class TestDFSSample : MonoBehaviour
         board.PlaceStack(new Vector2Int(1, 1), stack6);
 
         // Find the best move sequence starting from position (0, 0)
-        var bestMoveSequence = board.FindBestMoveSequence(new Vector2Int(1, 0));
+        var bestMoveSequence = board.FindBestMoveSequence(new Vector2Int(0, 0));
 
         // Print the results
         foreach (var move in bestMoveSequence)
