@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Board
+public class PlatesBoard
 {
-    private readonly StackOfPlates[,] _grid;
+    private readonly IGrid<StackOfPlates> _grid;
     private readonly int _size;
-    private readonly Vector2Int[] _directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
-    public Board(int size)
+    public PlatesBoard(IGrid<StackOfPlates> grid)
     {
-        _size = size;
-        _grid = new StackOfPlates[size, size];
+        _size = grid.Size;
+        _grid = grid;
     }
 
     public void PlaceStack(Vector2Int position, StackOfPlates stack)
     {
-        _grid[position.x, position.y] = stack;
+        _grid.SetGridValue(position, stack);
     }
 
-    private List<(Vector2Int, Vector2Int)> GetMoveableNeighbours(Vector2Int currentPosition)
+    private List<(Vector2, Vector2)> GetMoveableNeighbours(Vector2 currentPosition)
     {
-        var moveableNeighbours = new List<(Vector2Int, Vector2Int)>();
-        foreach (var dir in _directions)
+        var moveableNeighbours = new List<(Vector2, Vector2)>();
+        foreach (var dir in _grid.GetAllDirections())
         {
             var neighbourPosition = currentPosition + dir;
             if (IsEmptyCell(currentPosition) || !IsWithinBounds(neighbourPosition) || IsEmptyCell(neighbourPosition))
@@ -29,7 +28,7 @@ public class Board
                 continue;
             }
 
-            if (_grid[currentPosition.x, currentPosition.y].TopPlate().Id == _grid[neighbourPosition.x, neighbourPosition.y].TopPlate().Id)
+            if (_grid.GetGridValue(currentPosition).TopPlate().Id == _grid.GetGridValue(neighbourPosition).TopPlate().Id)
             {
                 moveableNeighbours.Add((currentPosition, neighbourPosition));
                 moveableNeighbours.Add((neighbourPosition, currentPosition));
@@ -39,15 +38,15 @@ public class Board
         return moveableNeighbours;
     }
 
-    public List<MoveData> FindBestMoveSequence(Vector2Int currentPosition)
+    public List<MoveData> FindBestMoveSequence(Vector2 currentPosition)
     {
         // If the current position is empty, return an empty list
         var resultMoveSequence = new List<MoveData>();
 
         if (IsEmptyCell(currentPosition)) return resultMoveSequence;
 
-        var toVisits = new GenericStack<Vector2Int>();
-        var branchPositions = new Stack<Vector2Int>(); // Store the positions from which the sequence branches
+        var toVisits = new GenericStack<Vector2>();
+        var branchPositions = new Stack<Vector2>(); // Store the positions from which the sequence branches
         var currentMoveSequence = new List<MoveData>();
 
         // Initialize the stack with the current position and its neighbours
@@ -66,12 +65,12 @@ public class Board
         return resultMoveSequence;
     }
 
-    private List<MoveData> CalculateSequence(GenericStack<Vector2Int> toVisits, List<MoveData> currentMoveSequence, Stack<Vector2Int> branchPositions, List<MoveData> resultMoveSequence)
+    private List<MoveData> CalculateSequence(GenericStack<Vector2> toVisits, List<MoveData> currentMoveSequence, Stack<Vector2> branchPositions, List<MoveData> resultMoveSequence)
     {
         var (from, to) = toVisits.Pop();
-        if (_grid[from.x, from.y].TopPlate().Id != _grid[to.x, to.y].TopPlate().Id) return resultMoveSequence;
+        if (_grid.GetGridValue(from).TopPlate().Id != _grid.GetGridValue(to).TopPlate().Id) return resultMoveSequence;
 
-        var movedPlates = _grid[from.x, from.y].MoveMatchingPlatesTo(_grid[to.x, to.y]);
+        var movedPlates = _grid.GetGridValue(from).MoveMatchingPlatesTo(_grid.GetGridValue(to));
         currentMoveSequence.Add(new MoveData(from, to, movedPlates.Count));
 
         // Check if the current position has a branch
@@ -147,17 +146,17 @@ public class Board
     {
         for (var i = 0; i < moveData.numberMoved; i++)
         {
-            var plate = _grid[moveData.to.x, moveData.to.y].PopPlate();
-            _grid[moveData.from.x, moveData.from.y].PushPlate(plate);
+            var plate = _grid.GetGridValue(moveData.to).PopPlate();
+            _grid.GetGridValue(moveData.from).PushPlate(plate);
         }
     }
 
-    private bool IsEmptyCell(Vector2Int position)
+    private bool IsEmptyCell(Vector2 position)
     {
-        return _grid[position.x, position.y] == null || _grid[position.x, position.y].IsEmpty();
+        return _grid.GetGridValue(position) == null || _grid.GetGridValue(position).IsEmpty();
     }
 
-    private bool IsWithinBounds(Vector2Int position)
+    private bool IsWithinBounds(Vector2 position)
     {
         return position.x >= 0 && position.x < _size && position.y >= 0 && position.y < _size;
     }

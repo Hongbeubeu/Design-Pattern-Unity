@@ -2,11 +2,11 @@
 
 public struct MoveData
 {
-    public Vector2Int from;
-    public Vector2Int to;
+    public Vector2 from;
+    public Vector2 to;
     public readonly int numberMoved;
 
-    public MoveData(Vector2Int from, Vector2Int to, int numberMoved)
+    public MoveData(Vector2 from, Vector2 to, int numberMoved)
     {
         this.from = from;
         this.to = to;

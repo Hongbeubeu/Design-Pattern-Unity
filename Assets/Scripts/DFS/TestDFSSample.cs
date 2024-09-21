@@ -6,7 +6,7 @@ public class TestDFSSample : MonoBehaviour
     private void Start()
     {
         // Create a board of size 5x5
-        var board = new Board(3);
+        var board = new PlatesBoard(new GenericSquareGrid<StackOfPlates>(3));
 
         // Create some stacks of plates
         var stack1 = new StackOfPlates(new List<Plate> { new() { Id = 1 }, new() { Id = 1 } });
