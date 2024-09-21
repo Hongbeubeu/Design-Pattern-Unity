@@ -75,9 +75,9 @@ public struct MoveData
 
 public class Board
 {
-    private StackOfPlates[,] _grid;
-    private int _size;
-    private Vector2Int[] _directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+    private readonly StackOfPlates[,] _grid;
+    private readonly int _size;
+    private readonly Vector2Int[] _directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
     public Board(int size)
     {
@@ -92,10 +92,15 @@ public class Board
 
     public List<MoveData> FindBestMoveSequence(Vector2Int currentPosition)
     {
+        // If the current position is empty, return an empty list
+        if (IsEmptyCell(currentPosition)) return new List<MoveData>();
+
+        var branchPositions = new Stack<Vector2Int>();
         var stack = new Stack<(Vector2Int from, Vector2Int to)>();
         var moveSequence = new List<MoveData>();
         var resultSequence = new List<MoveData>();
 
+        // Initialize the stack with the current position and its neighbours
         foreach (var dir in _directions)
         {
             var neighbourPosition = currentPosition + dir;
@@ -111,6 +116,7 @@ public class Board
             }
         }
 
+        // Find the best move sequence
         while (stack.Count > 0)
         {
             var (from, to) = stack.Pop();
@@ -118,56 +124,114 @@ public class Board
             {
                 var movedPlates = _grid[from.x, from.y].MoveMatchingPlatesTo(_grid[to.x, to.y]);
                 moveSequence.Add(new MoveData(from, to, movedPlates.Count));
-                Debug.LogError($"Move from {from} to {to}, number of plates moved: {movedPlates.Count}");
 
-                var canMove = false;
+                var hasBranch = false;
+                var canMoveTo = false;
+                var fromStackTemp = new Stack<(Vector2Int from, Vector2Int to)>();
+
+                // Check if the current position has a branch
                 foreach (var dir in _directions)
                 {
                     var neighbourFromPosition = from + dir;
-                    if (IsWithinBounds(neighbourFromPosition) && !IsEmptyCell(neighbourFromPosition))
+                    if (!IsEmptyCell(from) && IsWithinBounds(neighbourFromPosition) && !IsEmptyCell(neighbourFromPosition))
                     {
                         if (_grid[from.x, from.y].TopPlate().Id == _grid[neighbourFromPosition.x, neighbourFromPosition.y].TopPlate().Id)
                         {
-                            stack.Push((from, neighbourFromPosition));
-                            stack.Push((neighbourFromPosition, from));
-                            canMove = true;
+                            fromStackTemp.Push((from, neighbourFromPosition));
+                            fromStackTemp.Push((neighbourFromPosition, from));
+                            hasBranch = true;
                         }
                     }
+                }
 
+                // Check if the destination position has a neighbour with the same ID
+                foreach (var dir in _directions)
+                {
                     var neighbourToPosition = to + dir;
-                    if (IsWithinBounds(neighbourToPosition) && !IsEmptyCell(neighbourToPosition))
+                    if (!IsEmptyCell(to) && IsWithinBounds(neighbourToPosition) && !IsEmptyCell(neighbourToPosition))
                     {
                         if (_grid[to.x, to.y].TopPlate().Id == _grid[neighbourToPosition.x, neighbourToPosition.y].TopPlate().Id)
                         {
                             stack.Push((to, neighbourToPosition));
                             stack.Push((neighbourToPosition, to));
-                            canMove = true;
+                            canMoveTo = true;
                         }
                     }
                 }
 
-                if (!canMove)
+
+                // If the current position has a branch and the destination position has a neighbour with the same ID,
+                // push the branch position to the stack
+                if (hasBranch && canMoveTo)
                 {
-                    if (moveSequence.Count > resultSequence.Count)
-                    {
-                        resultSequence = new List<MoveData>(moveSequence);
-                    }
-
-                    var lastMove = moveSequence[^1];
-                    RevertMove(lastMove);
-
-                    moveSequence.RemoveAt(moveSequence.Count - 1);
+                    branchPositions.Push(from);
                 }
+
+                // If the current position has a branch but the destination position does not have a neighbour with the same ID,
+                // then let find the next move from the branch position
+                if (hasBranch && !canMoveTo)
+                {
+                    while (fromStackTemp.Count > 0)
+                    {
+                        var move = fromStackTemp.Pop();
+                        stack.Push(move);
+                    }
+                }
+
+                // If the current position does not have a branch,
+                // the destination position does not have a neighbour with the same ID,
+                // and there are branch positions available, then pop the branch position
+                var canMove = hasBranch || canMoveTo || branchPositions.Count > 0;
+                if (!hasBranch && !canMoveTo && branchPositions.Count > 0)
+                {
+                    var branchPosition = branchPositions.Pop();
+                    foreach (var dir in _directions)
+                    {
+                        var neighbourBranchPosition = branchPosition + dir;
+                        if (!IsEmptyCell(branchPosition) && IsWithinBounds(neighbourBranchPosition) && !IsEmptyCell(neighbourBranchPosition))
+                        {
+                            if (_grid[branchPosition.x, branchPosition.y].TopPlate().Id == _grid[neighbourBranchPosition.x, neighbourBranchPosition.y].TopPlate().Id)
+                            {
+                                stack.Push((branchPosition, neighbourBranchPosition));
+                                stack.Push((neighbourBranchPosition, branchPosition));
+                            }
+                        }
+                    }
+                }
+
+                // If there are no more moves,
+                // check if the current sequence is the best sequence
+                if (canMove) continue;
+
+                // If there are no more moves, check if the current sequence is the best sequence
+                if (moveSequence.Count > resultSequence.Count)
+                {
+                    resultSequence = new List<MoveData>(moveSequence);
+                }
+
+                // Revert the last move
+                RevertLastMove(moveSequence);
             }
+        }
+
+        // Revert all moves
+        while (moveSequence.Count > 0)
+        {
+            RevertLastMove(moveSequence);
         }
 
         return resultSequence;
     }
 
+    private void RevertLastMove(List<MoveData> moveSequence)
+    {
+        var lastMove = moveSequence[^1];
+        RevertMove(lastMove);
+        moveSequence.RemoveAt(moveSequence.Count - 1);
+    }
+
     private void RevertMove(MoveData moveData)
     {
-        Debug.LogError($"Move back from {moveData.to} to {moveData.from}, number of plates moved: {moveData.numberMoved}");
-
         for (var i = 0; i < moveData.numberMoved; i++)
         {
             var plate = _grid[moveData.to.x, moveData.to.y].PopPlate();
