@@ -10,60 +10,9 @@ namespace ObjectPooler
     /// </summary>
     public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
-        private class Pool
-        {
-            private readonly Queue<IPoolable> _objectQueue;
-            private readonly Func<IPoolable> _createFunc;
-            private int _additionalSize;
+       
 
-            public Pool(Func<IPoolable> createFunc, int initialSize, int additionalSize)
-            {
-                _createFunc = createFunc;
-                _additionalSize = additionalSize;
-                _objectQueue = new Queue<IPoolable>();
-                for (var i = 0; i < initialSize; i++)
-                {
-                    var obj = createFunc();
-                    obj.OnReturn();
-                    _objectQueue.Enqueue(obj);
-                }
-            }
-
-            private void AddAdditionalObjects()
-            {
-                // Ensure that the additional size is at least 1
-                if (_additionalSize == 0)
-                {
-                    _additionalSize = 1;
-                }
-
-                for (var i = 0; i < _additionalSize; i++)
-                {
-                    var obj = _createFunc();
-                    obj.OnReturn();
-                    _objectQueue.Enqueue(obj);
-                }
-            }
-
-            public IPoolable Get()
-            {
-                if (_objectQueue.Count == 0)
-                {
-                    AddAdditionalObjects();
-                }
-
-                var obj = _objectQueue.Dequeue();
-                return obj;
-            }
-
-            public void Return(IPoolable obj)
-            {
-                obj.OnReturn();
-                _objectQueue.Enqueue(obj);
-            }
-        }
-
-        private Dictionary<Type, Pool> _poolDictionary = new();
+        private Dictionary<object, Pool> _poolDictionary = new();
 
         /// <summary>
         /// Create a pool of objects
@@ -75,22 +24,18 @@ namespace ObjectPooler
         /// <typeparam name="T"></typeparam>
         public void CreatePool<T>(Func<T> createFunc, object targetObject, int poolSize, int additionalSize) where T : IPoolable
         {
-            var key = targetObject.GetType();
-            _poolDictionary ??= new Dictionary<Type, Pool>();
-            if (!_poolDictionary.ContainsKey(key))
-            {
-                var pool = new Pool(() => createFunc(), poolSize, additionalSize);
-                _poolDictionary.Add(key, pool);
-            }
+            var key = targetObject;
+            _poolDictionary ??= new Dictionary<object, Pool>();
+            if (_poolDictionary.ContainsKey(key)) return;
+            var pool = new Pool(() => createFunc(), poolSize, additionalSize);
+            _poolDictionary.Add(key, pool);
         }
 
         public T GetObject<T>(object targetObject) where T : IPoolable
         {
-            var key = targetObject.GetType();
-
-            if (!_poolDictionary.TryGetValue(key, out var pool))
+            if (!_poolDictionary.TryGetValue(targetObject, out var pool))
             {
-                Debug.LogWarning($"Pool with type {key} doesn't exist.");
+                Debug.LogWarning($"Pool with type {targetObject} doesn't exist.");
                 return default;
             }
 
@@ -100,18 +45,17 @@ namespace ObjectPooler
             return obj;
         }
 
-        public void ReturnObject<T>(T objectToReturn) where T : IPoolable
+        public void ReturnObject(object key, object objectToReturn)
         {
-            var key = typeof(T);
-
             if (!_poolDictionary.TryGetValue(key, value: out var pool))
             {
                 Debug.LogWarning($"Pool with type {key} doesn't exist.");
                 return;
             }
 
-            objectToReturn.OnReturn();
-            pool.Return(objectToReturn);
+            var obj = (IPoolable)objectToReturn;
+            obj.OnReturn();
+            pool.Return(obj);
         }
     }
 }

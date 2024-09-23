@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ObjectPooler
+namespace ObjectPooler.TestDrive
 {
     public class ObjectPoolTestDrive : MonoBehaviour
     {
@@ -24,7 +24,7 @@ namespace ObjectPooler
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                var obj = ObjectPoolManager.Instance.GetObject<Item>(prefabs[0]);
+                var obj = ObjectPoolManager.Instance.GetObject<PoolableMonoBehaviourBase>(prefabs[0]);
                 if (!obj) return;
                 _items.Add(obj);
                 var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -33,7 +33,7 @@ namespace ObjectPooler
 
             if (Input.GetKeyDown(KeyCode.W))
             {
-                var obj = ObjectPoolManager.Instance.GetObject<Item>(prefabs[1]);
+                var obj = ObjectPoolManager.Instance.GetObject<PoolableMonoBehaviourBase>(prefabs[1]);
                 if (!obj) return;
                 _items.Add(obj);
                 var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -45,7 +45,7 @@ namespace ObjectPooler
                 if (_items.Count == 0) return;
                 var obj = _items[0];
                 _items.RemoveAt(0);
-                ObjectPoolManager.Instance.ReturnObject(obj);
+                obj.ReturnToPool();
             }
         }
     }
