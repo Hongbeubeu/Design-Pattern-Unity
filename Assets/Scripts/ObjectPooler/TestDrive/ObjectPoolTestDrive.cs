@@ -28,6 +28,7 @@ namespace ObjectPooler.TestDrive
                 if (!obj) return;
                 _items.Add(obj);
                 var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePosition.z = 0;
                 obj.transform.position = mousePosition;
             }
 
@@ -37,6 +38,7 @@ namespace ObjectPooler.TestDrive
                 if (!obj) return;
                 _items.Add(obj);
                 var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePosition.z = 0;
                 obj.transform.position = mousePosition;
             }
 
