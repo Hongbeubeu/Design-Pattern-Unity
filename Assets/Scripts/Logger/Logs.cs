@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using IoC;
+using UnityEngine;
 
 namespace Logger
 {
@@ -47,6 +49,12 @@ namespace Logger
         public static void LogError<T>(string message)
         {
             Log<T>(LogSeverity.Error, message, CriticalCategory);
+        }
+
+        [StripFromStackTrace]
+        public static void HandleException(Exception exception, ILogCategory category = null)
+        {
+            Logger.HanldeException(exception, category ?? (Application.isPlaying ? CriticalCategory : EditorCategory));
         }
     }
 }
