@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ActionService.TestDrive
+namespace IoC.Services
 {
     public class SampleAction : IAction
     {

@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace ActionService
+namespace IoC.Services
 {
     public interface IActionService
     {
-        void RegisterAction<T>(T action) where T : class, IAction;
         void Subscribe<T>(Action<T> listener, int priority = ListenerPriority.MEDIUM) where T : class, IAction;
         void Subscribe<T>(Action<T> listener, object instance, int priority = ListenerPriority.MEDIUM) where T : class, IAction;
 

@@ -1,7 +1,13 @@
 using System;
+using IoC.Services;
 
 namespace IoC
 {
+    public interface IActionResolver : ITypedResolver<IAction>
+    {
+        // Empty
+    }
+
     public interface ITypedResolver<in T> : IInjectable
     {
         bool CanResolve(Type type);

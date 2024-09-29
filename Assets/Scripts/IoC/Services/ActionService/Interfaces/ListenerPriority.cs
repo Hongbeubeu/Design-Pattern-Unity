@@ -1,4 +1,4 @@
-namespace ActionService
+namespace IoC.Services
 {
     public abstract class ListenerPriority
     {

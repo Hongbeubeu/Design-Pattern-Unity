@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ActionService
+namespace IoC.Services
 {
-    public class ActionService : IActionService
+    public class ActionService : BaseService, IActionService
     {
         protected class NullObject
         {
@@ -22,28 +22,20 @@ namespace ActionService
         protected static readonly NullObject GLOBAL_OBJECT = new();
         protected readonly ListenerPriorityComparer comparer = new();
         protected readonly Dictionary<Type, Dictionary<object, SortedList<int, Delegate>>> delegates = new();
-        protected readonly Dictionary<Type, IAction> actions = new();
+
+        private IActionResolver _resolver;
+
+        public override void Inject(IResolver initResolver)
+        {
+            base.Inject(initResolver);
+            _resolver = initResolver.Resolve<IActionResolver>();
+        }
 
         public virtual T Get<T>() where T : class, IAction
         {
-            if (actions.TryGetValue(typeof(T), out var action))
-            {
-                return action as T;
-            }
-
-            Debug.LogWarning($"Action {typeof(T)} not found. Returning null.");
-            return null;
-        }
-
-        public void RegisterAction<T>(T action) where T : class, IAction
-        {
-            var actionType = typeof(T);
-            if (actions.ContainsKey(actionType))
-            {
-                Debug.LogWarning($"Action {actionType} already registered. Overwriting the action.");
-            }
-
-            actions[actionType] = action;
+            var action = _resolver.Resolve<T>();
+            action.ResetAction();
+            return action;
         }
 
         public virtual void Subscribe<T>(Action<T> listener, int priority = ListenerPriority.MEDIUM) where T : class, IAction
@@ -219,5 +211,15 @@ namespace ActionService
         }
 
         #endregion
+
+        protected override void InitializeService()
+        {
+            // Empty
+        }
+
+        protected override void CleanupService()
+        {
+            delegates.Clear();
+        }
     }
 }

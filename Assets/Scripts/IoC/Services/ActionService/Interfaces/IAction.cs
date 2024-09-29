@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ActionService
+namespace IoC.Services
 {
     public interface IAction
     {

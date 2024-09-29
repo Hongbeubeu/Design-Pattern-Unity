@@ -2,6 +2,6 @@ namespace IoC
 {
     public interface IInjectable
     {
-        void Inject(IResolver resolver);
+        void Inject(IResolver initResolver);
     }
 }
