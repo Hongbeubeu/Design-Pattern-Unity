@@ -1,15 +1,17 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using PlayerPrefs.Editor;
 
 public class PlayerPrefsEditorWindow : EditorWindow
 {
-    private int currentPage = 1;
-    private const int itemsPerPage = 10;
-    private Vector2 scrollPosition;
-    private string newKey = "";
-    private string newValue = "";
-    private string searchQuery = "";
+    private int _currentPage = 1;
+    private const int ITEMS_PER_PAGE = 10;
+    private Vector2 _scrollPosition;
+    private string _newKey = "";
+    private string _newValue = "";
+    private string _searchQuery = "";
 
     // Enum for sorting options
     private enum SortOption
@@ -20,196 +22,394 @@ public class PlayerPrefsEditorWindow : EditorWindow
         Modified
     }
 
-    private SortOption currentSortOption = SortOption.Key; // Default sort option
-    private bool isAscending = true; // Default sorting order
+    private SortOption _currentSortOption = SortOption.Key; // Default sort option
+    private bool _isAscending = true; // Default sorting order
 
     // Dictionary to hold editable values for each key
-    private Dictionary<string, string> editableValues = new Dictionary<string, string>();
+    private readonly Dictionary<string, string> _editableValues = new();
 
     [MenuItem("Tools/PlayerPrefs Editor")]
     public static void ShowWindow()
     {
-        GetWindow<PlayerPrefsEditorWindow>("PlayerPrefs Editor");
+        var window = GetWindow<PlayerPrefsEditorWindow>("PlayerPrefs Editor");
+        window.minSize = new Vector2(780, 750);
+        window.maxSize = new Vector2(780, 750);
+        window.Show();
     }
+
+    private bool _showAddNewPlayerPref = true;
+    private readonly Color _btnColor = Color.green;
 
     private void OnGUI()
     {
-        GUILayout.Label("PlayerPrefs Manager", EditorStyles.boldLabel);
+        DrawTitle();
+        DrawAddNewPlayerPref();
+        DrawSearchBar();
+        DrawClearAll();
+        DrawPlayerPrefDatas();
+    }
 
-        // Add new PlayerPref
-        GUILayout.BeginHorizontal();
-        newKey = EditorGUILayout.TextField("Key", newKey);
-        newValue = EditorGUILayout.TextField("Value", newValue);
+    private static void DrawTitle()
+    {
+        GUILayout.Space(10);
+        GUILayout.Label("PlayerPrefs Manager", new GUIStyle(EditorStyles.boldLabel)
+                                               {
+                                                   fontSize = 30,
+                                                   alignment = TextAnchor.MiddleCenter,
+                                                   normal =
+                                                   {
+                                                       textColor = Color.green
+                                                   },
+                                                   hover =
+                                                   {
+                                                       textColor = Color.green
+                                                   }
+                                               });
+        GUILayout.Space(10);
+    }
 
-        if (GUILayout.Button("Save PlayerPref", GUILayout.Width(120)))
+    private void DrawAddNewPlayerPref()
+    {
+        using (new VerticalHelpBox())
         {
-            if (!string.IsNullOrEmpty(newKey))
+            // Add new PlayerPref
+            _showAddNewPlayerPref = EditorGUILayout.Foldout(_showAddNewPlayerPref, "Add New PlayerPrefs", new GUIStyle(EditorStyles.foldout)
+                                                                                                          {
+                                                                                                              fontSize = 14,
+                                                                                                              fontStyle = FontStyle.Bold,
+                                                                                                              normal =
+                                                                                                              {
+                                                                                                                  textColor = Color.green
+                                                                                                              },
+                                                                                                              onNormal =
+                                                                                                              {
+                                                                                                                  textColor = Color.green
+                                                                                                              }
+                                                                                                          });
+            if (!_showAddNewPlayerPref) return;
+            using (new HorizontalHelpBox())
             {
-                PlayerPrefsManager.SetString(newKey, newValue);
-                Debug.Log($"PlayerPref '{newKey}' saved with value '{newValue}'");
+                using (new VerticalLayout())
+                {
+                    using (new HorizontalLayout())
+                    {
+                        GUILayout.Label("Key ", new GUIStyle(EditorStyles.boldLabel)
+                                                {
+                                                    alignment = TextAnchor.MiddleCenter
+                                                }, GUILayout.Width(80));
+                        _newKey = EditorGUILayout.TextField(_newKey);
+                    }
+
+                    using (new HorizontalLayout())
+                    {
+                        GUILayout.Label("Value ", new GUIStyle(EditorStyles.boldLabel)
+                                                  {
+                                                      alignment = TextAnchor.MiddleCenter
+                                                  }, GUILayout.Width(80));
+                        _newValue = EditorGUILayout.TextField(_newValue);
+                    }
+                }
+
+                using (new VerticalLayout(false, GUILayout.Width(200)))
+                {
+                    using (new BackgroundColorScope(_btnColor))
+                    {
+                        if (GUILayout.Button(
+                                "Save PlayerPref",
+                                new GUIStyle(GUI.skin.button)
+                                {
+                                    fontSize = 15,
+                                    alignment = TextAnchor.MiddleCenter
+                                },
+                                GUILayout.Height(EditorGUIUtility.singleLineHeight * 2 + 2),
+                                GUILayout.Width(200)
+                            )
+                        )
+                        {
+                            if (!string.IsNullOrEmpty(_newKey))
+                            {
+                                var oldValue = PlayerPrefsManager.GetString(_newKey);
+                                if (oldValue != _newValue)
+                                {
+                                    PlayerPrefsManager.SetString(_newKey, _newValue);
+                                    Debug.Log($"PlayerPref '{_newKey}' saved with value '{_newValue}'");
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-        GUILayout.EndHorizontal();
+    }
 
-        GUILayout.Space(10);
-
+    private void DrawSearchBar()
+    {
         // Search bar
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Search:", GUILayout.Width(50));
-        searchQuery = EditorGUILayout.TextField(searchQuery, GUILayout.Width(300));
-
-        if (GUILayout.Button("Clear Search", GUILayout.Width(100)))
+        using (new VerticalHelpBox())
         {
-            searchQuery = "";
-        }
-        GUILayout.EndHorizontal();
+            using (new HorizontalHelpBox())
+            {
+                using (new HorizontalLayout(false, GUILayout.Width(80)))
+                {
+                    GUILayout.Label("Search", new GUIStyle(EditorStyles.boldLabel)
+                                              {
+                                                  alignment = TextAnchor.MiddleCenter,
+                                                  fontSize = 15
+                                              }, GUILayout.Width(70), GUILayout.Height(30));
+                }
 
+                _searchQuery = EditorGUILayout.TextField(_searchQuery, new GUIStyle(EditorStyles.textField)
+                                                                       {
+                                                                           alignment = TextAnchor.MiddleLeft
+                                                                       }, GUILayout.Height(30));
+
+                using (new BackgroundColorScope(Color.yellow))
+                {
+                    if (GUILayout.Button("Clear Search", new GUIStyle(GUI.skin.button)
+                                                         {
+                                                             fontSize = 15
+                                                         }, GUILayout.Width(200), GUILayout.Height(30)))
+                    {
+                        _searchQuery = "";
+                    }
+                }
+            }
+        }
+    }
+
+    private void DrawClearAll()
+    {
         GUILayout.Space(10);
 
         // Clear All PlayerPrefs Button
-        if (GUILayout.Button("Clear All PlayerPrefs", GUILayout.Width(200)))
+        using (new HorizontalHelpBox())
         {
-            if (EditorUtility.DisplayDialog("Clear All PlayerPrefs",
-                "Are you sure you want to delete all PlayerPrefs? This action cannot be undone.", "Yes", "No"))
+            using (new BackgroundColorScope(Color.red))
             {
-                PlayerPrefsManager.ClearAll();
-                Debug.Log("All PlayerPrefs have been cleared.");
+                if (GUILayout.Button("Clear All PlayerPrefs", new GUIStyle(GUI.skin.button)
+                                                              {
+                                                                  fontSize = 15
+                                                              }, GUILayout.Height(30)))
+                {
+                    if (EditorUtility.DisplayDialog("Clear All PlayerPrefs",
+                        "Are you sure you want to delete all PlayerPrefs? This action cannot be undone.", "Yes", "No"))
+                    {
+                        PlayerPrefsManager.ClearAll();
+                        Debug.Log("All PlayerPrefs have been cleared.");
+                    }
+                }
             }
         }
 
+
         GUILayout.Space(10);
+    }
 
-        // Display table header with sorting buttons
-        GUILayout.Label("PlayerPrefs Data", EditorStyles.boldLabel);
-        DisplayTableHeader();
-
+    private void DrawPlayerPrefDatas()
+    {
         // Pagination Controls
-        List<string> filteredKeys = PlayerPrefsManager.SearchPlayerPrefs(searchQuery);
-        List<PlayerPrefData> prefDataList = GetPlayerPrefData(filteredKeys);
-
-        // Sort the list based on selected sorting option
-        SortPlayerPrefs(prefDataList);
-
-        int totalItems = prefDataList.Count;
-        int totalPages = Mathf.CeilToInt((float)totalItems / itemsPerPage);
-
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        GUILayout.Label($"Page {currentPage} of {totalPages}");
-
-        if (GUILayout.Button("Previous Page") && currentPage > 1)
+        var filteredKeys = PlayerPrefsManager.SearchPlayerPrefs(_searchQuery);
+        var prefDataList = GetPlayerPrefData(filteredKeys);
+        using (new VerticalHelpBox())
         {
-            currentPage--;
+            GUILayout.Space(10);
+            GUILayout.Label("PlayerPrefs Data", new GUIStyle(EditorStyles.boldLabel)
+                                                {
+                                                    alignment = TextAnchor.MiddleCenter,
+                                                    fontSize = 20,
+                                                    normal =
+                                                    {
+                                                        textColor = Color.yellow
+                                                    },
+                                                    hover =
+                                                    {
+                                                        textColor = Color.yellow
+                                                    }
+                                                });
+            GUILayout.Space(10);
+
+            // Display table header with sorting buttons
+            DisplayTableHeader();
+
+            // Sort the list based on selected sorting option
+            SortPlayerPrefs(prefDataList);
+
+            // Display PlayerPrefs Data
+            DisplayPlayerPrefs(prefDataList);
         }
 
-        if (GUILayout.Button("Next Page") && currentPage < totalPages)
+        using (new HorizontalHelpBox(true))
         {
-            currentPage++;
+            var totalItems = prefDataList.Count;
+            var totalPages = Mathf.CeilToInt((float)totalItems / ITEMS_PER_PAGE);
+            GUILayout.Label($"Page {_currentPage} of {totalPages}");
+
+            if (GUILayout.Button("Previous Page") && _currentPage > 1)
+            {
+                _currentPage--;
+            }
+
+            if (GUILayout.Button("Next Page") && _currentPage < totalPages)
+            {
+                _currentPage++;
+            }
         }
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
-
-        GUILayout.Space(10);
-
-        // Display PlayerPrefs Data
-        DisplayPlayerPrefs(prefDataList);
     }
 
     private void DisplayTableHeader()
     {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Index", EditorStyles.boldLabel, GUILayout.Width(50));
-
-        // Key column button
-        if (GUILayout.Button("Key " + (currentSortOption == SortOption.Key && isAscending ? "▲" : "▼"), GUILayout.Width(150)))
+        using (new HorizontalLayout())
         {
-            currentSortOption = SortOption.Key;
-            isAscending = !isAscending;
-        }
+            GUILayout.Space(3);
 
-        // Value column button
-        if (GUILayout.Button("Value " + (currentSortOption == SortOption.Value && isAscending ? "▲" : "▼"), GUILayout.Width(150)))
-        {
-            currentSortOption = SortOption.Value;
-            isAscending = !isAscending;
-        }
+            using (new HorizontalHelpBox(false, GUILayout.Width(750)))
+            {
+                using (new HorizontalHelpBox(false, GUILayout.Width(50)))
+                {
+                    GUILayout.Button("Index", new GUIStyle(GUI.skin.button)
+                                              {
+                                                  alignment = TextAnchor.MiddleCenter
+                                              });
+                }
 
-        // Created column button
-        if (GUILayout.Button("Created " + (currentSortOption == SortOption.Created && isAscending ? "▲" : "▼"), GUILayout.Width(150)))
-        {
-            currentSortOption = SortOption.Created;
-            isAscending = !isAscending;
-        }
+                // Key column button
+                using (new HorizontalHelpBox(false, GUILayout.Width(100)))
+                {
+                    if (GUILayout.Button("Key " + (_currentSortOption == SortOption.Key && _isAscending ? "▲" : "▼")))
+                    {
+                        _currentSortOption = SortOption.Key;
+                        _isAscending = !_isAscending;
+                    }
+                }
 
-        // Modified column button
-        if (GUILayout.Button("Modified " + (currentSortOption == SortOption.Modified && isAscending ? "▲" : "▼"), GUILayout.Width(150)))
-        {
-            currentSortOption = SortOption.Modified;
-            isAscending = !isAscending;
-        }
+                // Value column button
+                using (new HorizontalHelpBox(false, GUILayout.Width(250)))
+                {
+                    if (GUILayout.Button("Value " + (_currentSortOption == SortOption.Value && _isAscending ? "▲" : "▼")))
+                    {
+                        _currentSortOption = SortOption.Value;
+                        _isAscending = !_isAscending;
+                    }
+                }
 
-        GUILayout.Label("Actions", EditorStyles.boldLabel, GUILayout.Width(100));
-        GUILayout.EndHorizontal();
+                // Created column button
+                using (new HorizontalHelpBox(false, GUILayout.Width(150)))
+                {
+                    if (GUILayout.Button("Created " + (_currentSortOption == SortOption.Created && _isAscending ? "▲" : "▼")))
+                    {
+                        _currentSortOption = SortOption.Created;
+                        _isAscending = !_isAscending;
+                    }
+                }
+
+                // Modified column button
+                using (new HorizontalHelpBox(false, GUILayout.Width(150)))
+                {
+                    if (GUILayout.Button("Modified " + (_currentSortOption == SortOption.Modified && _isAscending ? "▲" : "▼")))
+                    {
+                        _currentSortOption = SortOption.Modified;
+                        _isAscending = !_isAscending;
+                    }
+                }
+
+                using (new HorizontalHelpBox(false, GUILayout.Width(20)))
+                {
+                    GUILayout.Button("✘", GUI.skin.button);
+                }
+            }
+        }
     }
 
     private void DisplayPlayerPrefs(List<PlayerPrefData> prefDataList)
     {
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-
-        int start = (currentPage - 1) * itemsPerPage;
-        int end = Mathf.Min(start + itemsPerPage, prefDataList.Count);
-
-        for (int i = start; i < end; i++)
+        using (new BeginScrollView(ref _scrollPosition))
         {
-            PlayerPrefData data = prefDataList[i];
+            var start = (_currentPage - 1) * ITEMS_PER_PAGE;
+            var end = Mathf.Min(start + ITEMS_PER_PAGE, prefDataList.Count);
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label((i + 1).ToString(), GUILayout.Width(50)); // Index
-            GUILayout.Label(data.Key, GUILayout.Width(150));          // Key
-
-            // Editable Value field
-            if (!editableValues.ContainsKey(data.Key)) // Initialize editable value if not present
+            for (var i = start; i < end; i++)
             {
-                editableValues[data.Key] = data.Value;
-            }
-            string editedValue = EditorGUILayout.TextField(editableValues[data.Key], GUILayout.Width(150));
+                var data = prefDataList[i];
 
-            // Save button for edited value
-            if (GUILayout.Button("Save", GUILayout.Width(50))) 
-            {
-                if (data.Value != editedValue) // Only save if the value has changed
+                using (new HorizontalHelpBox(false, GUILayout.Width(750)))
                 {
-                    PlayerPrefsManager.SetString(data.Key, editedValue);
-                    editableValues[data.Key] = editedValue; // Update the editable value
-                    Debug.Log($"PlayerPref '{data.Key}' updated to '{editedValue}'");
+                    // Index
+                    using (new HorizontalHelpBox(false, GUILayout.Width(50), GUILayout.Height(25)))
+                    {
+                        GUILayout.Label($"{i + 1}.");
+                    }
+
+                    // Key
+                    using (new HorizontalHelpBox(false, GUILayout.Width(100), GUILayout.Height(25)))
+                    {
+                        GUILayout.Label(data.Key);
+                    }
+
+
+                    // Editable Value field
+                    using (new HorizontalHelpBox(false, GUILayout.Width(250), GUILayout.Height(25)))
+                    {
+                        if (!_editableValues.ContainsKey(data.Key)) // Initialize editable value if not present
+                        {
+                            _editableValues[data.Key] = data.Value;
+                        }
+
+                        _editableValues[data.Key] = EditorGUILayout.TextField(_editableValues[data.Key]);
+
+                        // Save button for edited value
+                        using (new BackgroundColorScope(Color.green))
+                        {
+                            if (GUILayout.Button("✔", GUILayout.Width(30)))
+                            {
+                                if (data.Value != _editableValues[data.Key]) // Only save if the value has changed
+                                {
+                                    PlayerPrefsManager.SetString(data.Key, _editableValues[data.Key]);
+                                    Debug.Log($"PlayerPref '{data.Key}' updated to '{_editableValues[data.Key]}'");
+                                }
+                            }
+                        }
+                    }
+
+                    // Created Time
+                    using (new HorizontalHelpBox(false, GUILayout.Width(150), GUILayout.Height(25)))
+                    {
+                        GUILayout.Label(data.CreatedTime);
+                    }
+
+                    // Modified Time
+                    using (new HorizontalHelpBox(false, GUILayout.Width(150), GUILayout.Height(25)))
+                    {
+                        GUILayout.Label(data.ModifiedTime);
+                    }
+
+                    // Remove player pref button
+                    using (new HorizontalHelpBox(false, GUILayout.Width(20), GUILayout.Height(25)))
+                    {
+                        using (new BackgroundColorScope(Color.red))
+                        {
+                            if (GUILayout.Button("✘"))
+                            {
+                                PlayerPrefsManager.DeleteKey(data.Key);
+                                _editableValues.Remove(data.Key);
+                                Debug.Log($"PlayerPref '{data.Key}' deleted.");
+                            }
+                        }
+                    }
                 }
             }
-
-            GUILayout.Label(data.CreatedTime, GUILayout.Width(150));  // Created Time
-            GUILayout.Label(data.ModifiedTime, GUILayout.Width(150)); // Modified Time
-
-            if (GUILayout.Button("Delete", GUILayout.Width(50)))
-            {
-                PlayerPrefsManager.DeleteKey(data.Key);
-                editableValues.Remove(data.Key); // Remove the editable value
-                Debug.Log($"PlayerPref '{data.Key}' deleted.");
-            }
-            GUILayout.EndHorizontal();
         }
-
-        GUILayout.EndScrollView();
     }
 
     // Get player pref data including timestamps
     private List<PlayerPrefData> GetPlayerPrefData(List<string> keys)
     {
-        List<PlayerPrefData> prefDataList = new List<PlayerPrefData>();
+        var prefDataList = new List<PlayerPrefData>();
 
         foreach (var key in keys)
         {
-            string value = PlayerPrefsManager.GetString(key);
-            string createdTime = PlayerPrefsManager.GetCreatedTime(key);
-            string modifiedTime = PlayerPrefsManager.GetModifiedTime(key);
+            var value = PlayerPrefsManager.GetString(key);
+            var createdTime = PlayerPrefsManager.GetCreatedTime(key);
+            var modifiedTime = PlayerPrefsManager.GetModifiedTime(key);
             prefDataList.Add(new PlayerPrefData(key, value, createdTime, modifiedTime));
         }
 
@@ -219,27 +419,27 @@ public class PlayerPrefsEditorWindow : EditorWindow
     // Sort PlayerPref data based on the current sort option
     private void SortPlayerPrefs(List<PlayerPrefData> prefDataList)
     {
-        switch (currentSortOption)
+        switch (_currentSortOption)
         {
             case SortOption.Key:
-                prefDataList.Sort((x, y) => isAscending 
-                    ? string.Compare(x.Key, y.Key) 
-                    : string.Compare(y.Key, x.Key));
+                prefDataList.Sort((x, y) => _isAscending
+                                                ? string.CompareOrdinal(x.Key, y.Key)
+                                                : string.CompareOrdinal(y.Key, x.Key));
                 break;
             case SortOption.Value:
-                prefDataList.Sort((x, y) => isAscending 
-                    ? string.Compare(x.Value, y.Value) 
-                    : string.Compare(y.Value, x.Value));
+                prefDataList.Sort((x, y) => _isAscending
+                                                ? string.CompareOrdinal(x.Value, y.Value)
+                                                : string.CompareOrdinal(y.Value, x.Value));
                 break;
             case SortOption.Created:
-                prefDataList.Sort((x, y) => isAscending 
-                    ? string.Compare(x.CreatedTime, y.CreatedTime) 
-                    : string.Compare(y.CreatedTime, x.CreatedTime));
+                prefDataList.Sort((x, y) => _isAscending
+                                                ? string.CompareOrdinal(x.CreatedTime, y.CreatedTime)
+                                                : string.CompareOrdinal(y.CreatedTime, x.CreatedTime));
                 break;
             case SortOption.Modified:
-                prefDataList.Sort((x, y) => isAscending 
-                    ? string.Compare(x.ModifiedTime, y.ModifiedTime) 
-                    : string.Compare(y.ModifiedTime, x.ModifiedTime));
+                prefDataList.Sort((x, y) => _isAscending
+                                                ? string.CompareOrdinal(x.ModifiedTime, y.ModifiedTime)
+                                                : string.CompareOrdinal(y.ModifiedTime, x.ModifiedTime));
                 break;
         }
     }

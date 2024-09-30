@@ -1,6 +1,7 @@
 // Class to hold PlayerPref data
 
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class PlayerPrefData
@@ -22,7 +23,7 @@ public class PlayerPrefData
 // Custom PlayerPrefsManager class with additional methods for key management, search functionality, and timestamps
 public static class PlayerPrefsManager
 {
-    private const string PlayerPrefsKeys = "PlayerPrefs_Keys"; // Key to store the list of PlayerPrefs keys
+    private const string PLAYER_PREFS_KEYS = "PlayerPrefs_Keys"; // Key to store the list of PlayerPrefs keys
 
     public static void SetString(string key, string value)
     {
@@ -39,8 +40,8 @@ public static class PlayerPrefsManager
 
     public static List<string> GetAllKeys()
     {
-        string keysString = PlayerPrefs.GetString(PlayerPrefsKeys, string.Empty);
-        List<string> keys = new List<string>(keysString.Split(';'));
+        var keysString = PlayerPrefs.GetString(PLAYER_PREFS_KEYS, string.Empty);
+        var keys = new List<string>(keysString.Split(';'));
 
         // Remove any empty keys
         keys.RemoveAll(k => string.IsNullOrEmpty(k));
@@ -58,21 +59,22 @@ public static class PlayerPrefsManager
 
     public static void ClearAll()
     {
-        List<string> keys = GetAllKeys();
+        var keys = GetAllKeys();
         foreach (var key in keys)
         {
             PlayerPrefs.DeleteKey(key);
             PlayerPrefs.DeleteKey($"Created_{key}");
             PlayerPrefs.DeleteKey($"Modified_{key}");
         }
-        PlayerPrefs.DeleteKey(PlayerPrefsKeys);
+
+        PlayerPrefs.DeleteKey(PLAYER_PREFS_KEYS);
         PlayerPrefs.Save();
     }
 
     public static List<string> SearchPlayerPrefs(string query)
     {
-        List<string> allKeys = GetAllKeys();
-        List<string> filteredKeys = new List<string>();
+        var allKeys = GetAllKeys();
+        var filteredKeys = new List<string>();
 
         foreach (var key in allKeys)
         {
@@ -90,9 +92,10 @@ public static class PlayerPrefsManager
     {
         if (!PlayerPrefs.HasKey($"Created_{key}"))
         {
-            PlayerPrefs.SetString($"Created_{key}", System.DateTime.Now.ToString());
+            PlayerPrefs.SetString($"Created_{key}", System.DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
-        PlayerPrefs.SetString($"Modified_{key}", System.DateTime.Now.ToString());
+
+        PlayerPrefs.SetString($"Modified_{key}", System.DateTime.Now.ToString(CultureInfo.InvariantCulture));
     }
 
     public static string GetCreatedTime(string key)
@@ -107,18 +110,16 @@ public static class PlayerPrefsManager
 
     private static void AddKeyToList(string key)
     {
-        List<string> keys = GetAllKeys();
-        if (!keys.Contains(key))
-        {
-            keys.Add(key);
-            PlayerPrefs.SetString(PlayerPrefsKeys, string.Join(";", keys));
-        }
+        var keys = GetAllKeys();
+        if (keys.Contains(key)) return;
+        keys.Add(key);
+        PlayerPrefs.SetString(PLAYER_PREFS_KEYS, string.Join(";", keys));
     }
 
     private static void RemoveKeyFromList(string key)
     {
-        List<string> keys = GetAllKeys();
+        var keys = GetAllKeys();
         keys.Remove(key);
-        PlayerPrefs.SetString(PlayerPrefsKeys, string.Join(";", keys));
+        PlayerPrefs.SetString(PLAYER_PREFS_KEYS, string.Join(";", keys));
     }
 }
