@@ -278,18 +278,12 @@ public class PlayerPrefsEditorWindow : EditorWindow
 
             using (new HorizontalHelpBox(false, GUILayout.Width(750)))
             {
-                using (new HorizontalHelpBox(false, GUILayout.Width(50)))
-                {
-                    GUILayout.Button("Index", new GUIStyle(GUI.skin.button)
-                                              {
-                                                  alignment = TextAnchor.MiddleCenter
-                                              });
-                }
+                GUILayout.Space(53);
 
                 // Key column button
                 using (new HorizontalHelpBox(false, GUILayout.Width(100)))
                 {
-                    if (GUILayout.Button("Key " + (_currentSortOption == SortOption.Key && _isAscending ? "▲" : "▼")))
+                    if (GUILayout.Button("Key " + (_currentSortOption == SortOption.Key && _isAscending ? "▼" : "▲")))
                     {
                         _currentSortOption = SortOption.Key;
                         _isAscending = !_isAscending;
@@ -299,7 +293,7 @@ public class PlayerPrefsEditorWindow : EditorWindow
                 // Value column button
                 using (new HorizontalHelpBox(false, GUILayout.Width(250)))
                 {
-                    if (GUILayout.Button("Value " + (_currentSortOption == SortOption.Value && _isAscending ? "▲" : "▼")))
+                    if (GUILayout.Button("Value " + (_currentSortOption == SortOption.Value && _isAscending ? "▼" : "▲")))
                     {
                         _currentSortOption = SortOption.Value;
                         _isAscending = !_isAscending;
@@ -309,7 +303,7 @@ public class PlayerPrefsEditorWindow : EditorWindow
                 // Created column button
                 using (new HorizontalHelpBox(false, GUILayout.Width(150)))
                 {
-                    if (GUILayout.Button("Created " + (_currentSortOption == SortOption.Created && _isAscending ? "▲" : "▼")))
+                    if (GUILayout.Button("Created " + (_currentSortOption == SortOption.Created && _isAscending ? "▼" : "▲")))
                     {
                         _currentSortOption = SortOption.Created;
                         _isAscending = !_isAscending;
@@ -319,17 +313,14 @@ public class PlayerPrefsEditorWindow : EditorWindow
                 // Modified column button
                 using (new HorizontalHelpBox(false, GUILayout.Width(150)))
                 {
-                    if (GUILayout.Button("Modified " + (_currentSortOption == SortOption.Modified && _isAscending ? "▲" : "▼")))
+                    if (GUILayout.Button("Modified " + (_currentSortOption == SortOption.Modified && _isAscending ? "▼" : "▲")))
                     {
                         _currentSortOption = SortOption.Modified;
                         _isAscending = !_isAscending;
                     }
                 }
 
-                using (new HorizontalHelpBox(false, GUILayout.Width(20)))
-                {
-                    GUILayout.Button("✘", GUI.skin.button);
-                }
+                GUILayout.Space(35);
             }
         }
     }
