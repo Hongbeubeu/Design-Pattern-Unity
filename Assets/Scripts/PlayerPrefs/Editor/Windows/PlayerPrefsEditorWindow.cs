@@ -1,7 +1,7 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Globalization;
 using PlayerPrefs.Editor;
 
 public class PlayerPrefsEditorWindow : EditorWindow
@@ -11,6 +11,7 @@ public class PlayerPrefsEditorWindow : EditorWindow
     private Vector2 _scrollPosition;
     private string _newKey = "";
     private string _newValue = "";
+    private PlayerPrefsManager.PlayerPrefType _newType = PlayerPrefsManager.PlayerPrefType.String;
     private string _searchQuery = "";
 
     // Enum for sorting options
@@ -32,8 +33,8 @@ public class PlayerPrefsEditorWindow : EditorWindow
     public static void ShowWindow()
     {
         var window = GetWindow<PlayerPrefsEditorWindow>("PlayerPrefs Editor");
-        window.minSize = new Vector2(780, 750);
-        window.maxSize = new Vector2(780, 750);
+        window.minSize = new Vector2(780, 700);
+        window.maxSize = new Vector2(780, 700);
         window.Show();
     }
 
@@ -106,7 +107,21 @@ public class PlayerPrefsEditorWindow : EditorWindow
                                                   {
                                                       alignment = TextAnchor.MiddleCenter
                                                   }, GUILayout.Width(80));
-                        _newValue = EditorGUILayout.TextField(_newValue);
+                        _newType = (PlayerPrefsManager.PlayerPrefType)EditorGUILayout.EnumPopup(_newType, GUILayout.Width(60));
+                        switch (_newType)
+                        {
+                            case PlayerPrefsManager.PlayerPrefType.String:
+                                _newValue = EditorGUILayout.TextField(_newValue);
+                                break;
+                            case PlayerPrefsManager.PlayerPrefType.Int:
+                                _newValue = int.TryParse(_newValue, out var intValue) ? intValue.ToString() : "0";
+                                _newValue = EditorGUILayout.IntField(int.Parse(_newValue)).ToString();
+                                break;
+                            case PlayerPrefsManager.PlayerPrefType.Float:
+                                _newValue = float.TryParse(_newValue, out var floatValue) ? floatValue.ToString(CultureInfo.InvariantCulture) : "0";
+                                _newValue = EditorGUILayout.FloatField(float.Parse(_newValue)).ToString(CultureInfo.InvariantCulture);
+                                break;
+                        }
                     }
                 }
 
@@ -128,11 +143,10 @@ public class PlayerPrefsEditorWindow : EditorWindow
                         {
                             if (!string.IsNullOrEmpty(_newKey))
                             {
-                                var oldValue = PlayerPrefsManager.GetString(_newKey);
-                                if (oldValue != _newValue)
+                                var oldValue = PlayerPrefsManager.GetValue(_newKey);
+                                if (oldValue.ToString() != _newValue)
                                 {
-                                    PlayerPrefsManager.SetString(_newKey, _newValue);
-                                    Debug.Log($"PlayerPref '{_newKey}' saved with value '{_newValue}'");
+                                    PlayerPrefsManager.SetValue(_newKey, _newValue, _newType);
                                 }
                             }
                         }
@@ -349,12 +363,25 @@ public class PlayerPrefsEditorWindow : EditorWindow
                     // Editable Value field
                     using (new HorizontalHelpBox(false, GUILayout.Width(250), GUILayout.Height(25)))
                     {
-                        if (!_editableValues.ContainsKey(data.Key)) // Initialize editable value if not present
+                        _editableValues[data.Key] = data.Value;
+
+                        var dataType = PlayerPrefsManager.GetKeyType(data.Key);
+                        switch (dataType)
                         {
-                            _editableValues[data.Key] = data.Value;
+                            case PlayerPrefsManager.PlayerPrefType.String:
+                                _editableValues[data.Key] = EditorGUILayout.TextField(_editableValues[data.Key]);
+                                break;
+                            case PlayerPrefsManager.PlayerPrefType.Int:
+                                _editableValues[data.Key] = int.TryParse(_editableValues[data.Key], out var intValue) ? intValue.ToString() : "0";
+                                _editableValues[data.Key] = EditorGUILayout.IntField(int.Parse(_editableValues[data.Key])).ToString();
+                                break;
+                            case PlayerPrefsManager.PlayerPrefType.Float:
+                                _editableValues[data.Key] = float.TryParse(_editableValues[data.Key], out var floatValue) ? floatValue.ToString(CultureInfo.InvariantCulture) : "0";
+                                _editableValues[data.Key] = EditorGUILayout.FloatField(float.Parse(_editableValues[data.Key])).ToString(CultureInfo.InvariantCulture);
+                                break;
                         }
 
-                        _editableValues[data.Key] = EditorGUILayout.TextField(_editableValues[data.Key]);
+                        EditorGUILayout.LabelField(PlayerPrefsManager.GetKeyType(data.Key).ToString(), GUILayout.Width(40));
 
                         // Save button for edited value
                         using (new BackgroundColorScope(Color.green))
@@ -363,8 +390,8 @@ public class PlayerPrefsEditorWindow : EditorWindow
                             {
                                 if (data.Value != _editableValues[data.Key]) // Only save if the value has changed
                                 {
-                                    PlayerPrefsManager.SetString(data.Key, _editableValues[data.Key]);
-                                    Debug.Log($"PlayerPref '{data.Key}' updated to '{_editableValues[data.Key]}'");
+                                    PlayerPrefsManager.SetValue(data.Key, _editableValues[data.Key], PlayerPrefsManager.GetKeyType(data.Key));
+                                    Debug.Log($"PlayerPref <b>'{data.Key}'</b> updated to <b>'{_editableValues[data.Key]}'</b>");
                                 }
                             }
                         }
@@ -407,10 +434,10 @@ public class PlayerPrefsEditorWindow : EditorWindow
 
         foreach (var key in keys)
         {
-            var value = PlayerPrefsManager.GetString(key);
+            var value = PlayerPrefsManager.GetValue(key);
             var createdTime = PlayerPrefsManager.GetCreatedTime(key);
             var modifiedTime = PlayerPrefsManager.GetModifiedTime(key);
-            prefDataList.Add(new PlayerPrefData(key, value, createdTime, modifiedTime));
+            prefDataList.Add(new PlayerPrefData(key, value.ToString(), createdTime, modifiedTime));
         }
 
         return prefDataList;
