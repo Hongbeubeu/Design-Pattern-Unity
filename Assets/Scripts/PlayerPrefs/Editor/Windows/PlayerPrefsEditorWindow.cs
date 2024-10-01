@@ -41,6 +41,11 @@ public class PlayerPrefsEditorWindow : EditorWindow
     private bool _showAddNewPlayerPref = true;
     private readonly Color _btnColor = Color.green;
 
+    private void OnEnable()
+    {
+        OnUpdateData();
+    }
+
     private void OnGUI()
     {
         DrawTitle();
@@ -147,6 +152,8 @@ public class PlayerPrefsEditorWindow : EditorWindow
                                 if (oldValue.ToString() != _newValue)
                                 {
                                     PlayerPrefsManager.SetValue(_newKey, _newValue, _newType);
+                                    _editableValues.Clear();
+                                    OnUpdateData();
                                 }
                             }
                         }
@@ -155,6 +162,8 @@ public class PlayerPrefsEditorWindow : EditorWindow
             }
         }
     }
+
+    private string _prevSearchQuery = "";
 
     private void DrawSearchBar()
     {
@@ -177,6 +186,18 @@ public class PlayerPrefsEditorWindow : EditorWindow
                                                                            alignment = TextAnchor.MiddleLeft
                                                                        }, GUILayout.Height(30));
 
+                var currentEvent = Event.current;
+                if (currentEvent.isKey)
+                {
+                    if (_searchQuery != _prevSearchQuery)
+                    {
+                        Debug.Log("Key pressed: " + Event.current.keyCode);
+                        _prevSearchQuery = _searchQuery;
+                        currentEvent.Use();
+                        OnUpdateData();
+                    }
+                }
+
                 using (new BackgroundColorScope(Color.yellow))
                 {
                     if (GUILayout.Button("Clear Search", new GUIStyle(GUI.skin.button)
@@ -185,10 +206,18 @@ public class PlayerPrefsEditorWindow : EditorWindow
                                                          }, GUILayout.Width(200), GUILayout.Height(30)))
                     {
                         _searchQuery = "";
+                        OnUpdateData();
                     }
                 }
             }
         }
+    }
+
+    private void OnUpdateData()
+    {
+        _filteredKeys = PlayerPrefsManager.SearchPlayerPrefs(_searchQuery);
+        _prefDataList = GetPlayerPrefsData(_filteredKeys);
+        Repaint();
     }
 
     private void DrawClearAll()
@@ -219,11 +248,12 @@ public class PlayerPrefsEditorWindow : EditorWindow
         GUILayout.Space(10);
     }
 
+    private List<string> _filteredKeys = new();
+    private List<PlayerPrefData> _prefDataList = new();
+
     private void DrawPlayerPrefDatas()
     {
         // Pagination Controls
-        var filteredKeys = PlayerPrefsManager.SearchPlayerPrefs(_searchQuery);
-        var prefDataList = GetPlayerPrefData(filteredKeys);
         using (new VerticalHelpBox())
         {
             GUILayout.Space(10);
@@ -246,15 +276,15 @@ public class PlayerPrefsEditorWindow : EditorWindow
             DisplayTableHeader();
 
             // Sort the list based on selected sorting option
-            SortPlayerPrefs(prefDataList);
+            SortPlayerPrefs(_prefDataList);
 
             // Display PlayerPrefs Data
-            DisplayPlayerPrefs(prefDataList);
+            DisplayPlayerPrefs(_prefDataList);
         }
 
         using (new HorizontalHelpBox(true))
         {
-            var totalItems = prefDataList.Count;
+            var totalItems = _prefDataList.Count;
             var totalPages = Mathf.CeilToInt((float)totalItems / ITEMS_PER_PAGE);
             GUILayout.Label($"Page {_currentPage} of {totalPages}");
 
@@ -354,7 +384,8 @@ public class PlayerPrefsEditorWindow : EditorWindow
                     // Editable Value field
                     using (new HorizontalHelpBox(false, GUILayout.Width(250), GUILayout.Height(25)))
                     {
-                        _editableValues[data.Key] = data.Value;
+                        if (!_editableValues.ContainsKey(data.Key))
+                            _editableValues[data.Key] = data.Value;
 
                         var dataType = PlayerPrefsManager.GetKeyType(data.Key);
                         switch (dataType)
@@ -375,16 +406,24 @@ public class PlayerPrefsEditorWindow : EditorWindow
                         EditorGUILayout.LabelField(PlayerPrefsManager.GetKeyType(data.Key).ToString(), GUILayout.Width(40));
 
                         // Save button for edited value
-                        using (new BackgroundColorScope(Color.green))
+                        using (new DisabledGUI(data.Value == _editableValues[data.Key]))
                         {
-                            if (GUILayout.Button("✔", GUILayout.Width(30)))
+                            using (new BackgroundColorScope(Color.green))
                             {
-                                if (data.Value != _editableValues[data.Key]) // Only save if the value has changed
+                                if (GUILayout.Button("✔", GUILayout.Width(30)))
                                 {
-                                    PlayerPrefsManager.SetValue(data.Key, _editableValues[data.Key], PlayerPrefsManager.GetKeyType(data.Key));
-                                    Debug.Log($"PlayerPref <b>'{data.Key}'</b> updated to <b>'{_editableValues[data.Key]}'</b>");
+                                    if (data.Value != _editableValues[data.Key]) // Only save if the value has changed
+                                    {
+                                        PlayerPrefsManager.SetValue(data.Key, _editableValues[data.Key], PlayerPrefsManager.GetKeyType(data.Key));
+                                        Debug.Log($"PlayerPref <b>'{data.Key}'</b> updated to <b>'{_editableValues[data.Key]}'</b>");
+                                    }
                                 }
                             }
+                        }
+
+                        if (GUILayout.Button("...", GUILayout.Width(20)))
+                        {
+                            DataViewWindow.Init(data.Key, data.Value);
                         }
                     }
 
@@ -419,7 +458,7 @@ public class PlayerPrefsEditorWindow : EditorWindow
     }
 
     // Get player pref data including timestamps
-    private List<PlayerPrefData> GetPlayerPrefData(List<string> keys)
+    private List<PlayerPrefData> GetPlayerPrefsData(List<string> keys)
     {
         var prefDataList = new List<PlayerPrefData>();
 
