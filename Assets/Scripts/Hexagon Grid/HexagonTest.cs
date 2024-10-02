@@ -71,6 +71,7 @@ public class HexagonTest : MonoBehaviour
                     Gizmos.DrawSphere(pos, 0.1f);
                 }
 
+#if UNITY_EDITOR
                 Handles.Label(pos, $"q: {_listHexes[i].q}, r: {_listHexes[i].r}, s: {_listHexes[i].s}",
                     new GUIStyle
                     {
@@ -78,6 +79,7 @@ public class HexagonTest : MonoBehaviour
                         alignment = TextAnchor.MiddleCenter,
                         fontSize = 15
                     });
+#endif
             }
         }
     }

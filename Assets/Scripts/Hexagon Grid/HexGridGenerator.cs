@@ -39,7 +39,10 @@ public class HexGridGenerator : MonoBehaviour
                 // Instantiate the hex prefab at this position
                 var hex = Instantiate(hexPrefab, hexPosition, hexPrefab.transform.rotation);
                 hex.transform.parent = transform;
+#if UNITY_EDITOR
                 hex.GetComponent<HexagonGizmo>().Setup(q, r);
+
+#endif
                 yield return new WaitForSeconds(1f);
             }
         }

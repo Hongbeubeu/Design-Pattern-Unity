@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ public class HexagonGizmo : MonoBehaviour
                 radius * Mathf.Sin(angleRad),
                 0
             );
-            
+
             vertices[i] = center + transform.rotation * vertex;
         }
 
@@ -56,3 +57,4 @@ public class HexagonGizmo : MonoBehaviour
         }
     }
 }
+#endif

@@ -1,8 +1,10 @@
-﻿using PlayerPrefs.Editor;
+﻿#if UNITY_EDITOR
+using PlayerPrefs.Editor;
 using Unity.Plastic.Newtonsoft.Json;
 using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
+
 
 public class DataViewWindow : EditorWindow
 {
@@ -60,3 +62,4 @@ public class DataViewWindow : EditorWindow
         }
     }
 }
+#endif
