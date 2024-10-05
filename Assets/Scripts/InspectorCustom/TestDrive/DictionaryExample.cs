@@ -1,20 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace InspectorCustom.TestDrive
 {
     public class DictionaryExample : MonoBehaviour
     {
-        [Dictionary] public SerializableDictionary<ListString, int> testDictionary = new();
-        [SerializeField] public List<(string, string)> testList = new();
+        [Dictionary] public SerializableDictionary<string, ListString> testSerializableDictionary = new();
 
         [Serializable]
-        public class ListString : List<SerializableDictionary<int, int>>
+        public class ListString : List<string>
         {
-            [SerializeField] private List<SerializableDictionary<int, int>> strings = new();
+            [SerializeField] private List<string> strings = new();
 
-            public List<SerializableDictionary<int, int>> Strings => strings;
+            public List<string> Strings => strings;
+        }
+
+        public enum MyEnum
+        {
+            TypeA,
+            TypeB,
+            TypeC,
+            TypeD,
+            TypeE
         }
     }
 }
