@@ -33,8 +33,11 @@ namespace InspectorCustom
         private const float BUTTON_WIDTH = 30;
         private const float DRAG_HANDLE_WIDTH = 20;
         private const float DELETE_BUTTON_WIDTH = 25;
+        private const float ARRAY_SIZE_WIDTH = 50;
+
 
         private static readonly BorderItem Border = new(left: 4, right: 4, top: 4, bottom: 4);
+
 
         private static readonly Color ErrorColor = new(1, 0, 0, 0.1f);
         private static readonly Color EvenColor = new(0.4f, 0.4f, 0.4f, 0.5f);
@@ -51,6 +54,7 @@ namespace InspectorCustom
         private static GUIStyle _boldLabelStyleRed;
         private static GUIStyle _buttonStyle;
         private static GUIStyle _buttonStyleRed;
+        private static GUIStyle _buttonStyle14;
 
         private readonly Dictionary<object, List<int>> _keyDuplicates = new();
         private static readonly NullObject NullObjectValue = new();
@@ -58,6 +62,8 @@ namespace InspectorCustom
         private bool _isInitialized;
         private int _currentSelectedIndex = -1;
         private float _currentWidth;
+        private int _currentPageNumber = 1;
+        private int _itemsPerPage = 10;
 
         private class NullObject
         {
@@ -65,6 +71,9 @@ namespace InspectorCustom
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            _currentWidth = position.width;
+
+            // Draw property field
             using (new EditorGUIProperty(position, property, label))
             {
                 var keys = property.FindPropertyRelative("keys");
@@ -86,7 +95,8 @@ namespace InspectorCustom
                     RemoveDuplicates(keys, values);
                 }
 
-                var foldoutPropertyRect = new Rect(position.x, position.y, position.width, LineHeight);
+
+                var foldoutPropertyRect = new Rect(position.x, position.y, _currentWidth - ARRAY_SIZE_WIDTH, LineHeight);
                 label = property.isExpanded ? new GUIContent($"▼ {label.text}") : new GUIContent($"► {label.text}");
                 EditorGUI.DrawRect(foldoutPropertyRect, foldoutPropertyRect.Contains(Event.current.mousePosition) ? EvenColor : OddColor);
 
@@ -107,12 +117,11 @@ namespace InspectorCustom
                     Event.current.Use();
                 }
 
-                keys.arraySize = EditorGUI.IntField(new Rect(position.x + position.width - 50, position.y, 50, LineHeight), keys.arraySize);
+                keys.arraySize = EditorGUI.IntField(new Rect(position.x + _currentWidth - ARRAY_SIZE_WIDTH, position.y, ARRAY_SIZE_WIDTH, LineHeight), keys.arraySize);
                 values.arraySize = keys.arraySize;
 
                 if (property.isExpanded)
                 {
-                    _currentWidth = position.width;
                     DrawProperty(position, property, keys, values);
                 }
                 else
@@ -131,6 +140,8 @@ namespace InspectorCustom
 
             using (new DisposableAction(() => { position.y += ITEM_SPACING; }, () => { position.y -= ITEM_SPACING; }))
             {
+                var (from, to) = GetPageRange(_currentPageNumber, _itemsPerPage, keys.arraySize);
+                var arraySize = to - from;
                 // Notifying user if dictionary is empty
                 if (keys.arraySize == 0)
                 {
@@ -141,8 +152,9 @@ namespace InspectorCustom
                 else
                 {
                     // Draw key-value pairs
-                    for (var i = 0; i < keys.arraySize; i++)
+                    for (var i = from; i < to; i++)
                     {
+                        var currentIndexInPage = i - from;
                         var keyHeight = EditorGUI.GetPropertyHeight(keys.GetArrayElementAtIndex(i), GUIContent.none);
                         var valueHeight = EditorGUI.GetPropertyHeight(values.GetArrayElementAtIndex(i), GUIContent.none);
 
@@ -160,7 +172,7 @@ namespace InspectorCustom
                         }))
                         {
                             // Draw background color for each key-value pair
-                            var boundRect = new Rect(position.x, position.y + (2 * i + 1) * LineHeight, _currentWidth, keyHeight + valueHeight + KEY_VALUE_SPACING + Border.Bottom);
+                            var boundRect = new Rect(position.x, position.y + (2 * currentIndexInPage + 1) * LineHeight, _currentWidth, keyHeight + valueHeight + KEY_VALUE_SPACING + Border.Bottom);
 
                             if (Event.current.type == EventType.MouseDown && boundRect.Contains(Event.current.mousePosition))
                             {
@@ -185,13 +197,13 @@ namespace InspectorCustom
 
 
                             // Indicator label
-                            EditorGUI.LabelField(new Rect(position.x + Border.Left, position.y + (2 * i + 1) * LineHeight + Border.Top, DRAG_HANDLE_WIDTH, LineHeight), "═", _boldLabelStyle);
+                            EditorGUI.LabelField(new Rect(position.x + Border.Left, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, DRAG_HANDLE_WIDTH, LineHeight), "═", _boldLabelStyle);
 
-                            var deleteButtonRect = new Rect(position.x + _currentWidth - DELETE_BUTTON_WIDTH - Border.Right, position.y + (2 * i + 1) * LineHeight + Border.Top, DELETE_BUTTON_WIDTH, LineHeight);
+                            var deleteButtonRect = new Rect(position.x + _currentWidth - DELETE_BUTTON_WIDTH - Border.Right, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, DELETE_BUTTON_WIDTH, LineHeight);
 
                             // Key field
-                            var keyTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * i + 1) * LineHeight + Border.Top, TITLE_WIDTH, LineHeight);
-                            var keyRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * i + 1) * LineHeight + Border.Top, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
+                            var keyTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, TITLE_WIDTH, LineHeight);
+                            var keyRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
 
                             var keyRectHeight = EditorGUI.GetPropertyHeight(keys.GetArrayElementAtIndex(i), GUIContent.none);
                             var keyRect1 = keyRect;
@@ -216,8 +228,8 @@ namespace InspectorCustom
                             position.y += KEY_VALUE_SPACING;
 
                             // Value field
-                            var valueTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * i + 2) * LineHeight, TITLE_WIDTH, LineHeight);
-                            var valueRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * i + 2) * LineHeight, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
+                            var valueTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 2) * LineHeight, TITLE_WIDTH, LineHeight);
+                            var valueRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 2) * LineHeight, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
 
                             var valueRectHeight = EditorGUI.GetPropertyHeight(values.GetArrayElementAtIndex(i), GUIContent.none);
                             var valueRect1 = valueRect;
@@ -251,11 +263,45 @@ namespace InspectorCustom
                     }
                 }
 
+                // Pagination
+                if (keys.arraySize > 0)
+                {
+                    var paginationRect = new Rect(position.x + Border.Left, position.y + (2 * arraySize + 1) * LineHeight, _currentWidth - 2 * BUTTON_WIDTH - Border.Left - 2 * Border.Right, LineHeight);
+                    EditorGUI.DrawRect(paginationRect, ItemColor);
+
+                    EditorGUI.LabelField(paginationRect, $"Page {_currentPageNumber} of {Mathf.Ceil(keys.arraySize / (float)_itemsPerPage)}", _boldLabelStyleMiddle);
+                    _itemsPerPage = EditorGUI.IntField(new Rect(position.x + Border.Left + 4 * BUTTON_WIDTH, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight), _itemsPerPage);
+                }
+
+                if (keys.arraySize > _itemsPerPage)
+                {
+                    // Previous button
+                    var previousButtonRect = new Rect(position.x + 6 * BUTTON_WIDTH, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
+                    EditorGUI.DrawRect(previousButtonRect, OddColor);
+                    EditorGUI.LabelField(previousButtonRect, "▲", _buttonStyle14);
+
+                    if (Event.current.type == EventType.MouseDown && previousButtonRect.Contains(Event.current.mousePosition))
+                    {
+                        _currentPageNumber = Mathf.Max(1, _currentPageNumber - 1);
+                        Event.current.Use();
+                    }
+
+                    // Next button
+                    var nextButtonRect = new Rect(position.x + 7 * BUTTON_WIDTH + ITEM_SPACING, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
+                    EditorGUI.DrawRect(nextButtonRect, OddColor);
+                    EditorGUI.LabelField(nextButtonRect, "▼", _buttonStyle14);
+
+                    if (Event.current.type == EventType.MouseDown && nextButtonRect.Contains(Event.current.mousePosition))
+                    {
+                        _currentPageNumber = Mathf.Min(Mathf.CeilToInt(keys.arraySize / (float)_itemsPerPage), _currentPageNumber + 1);
+                        Event.current.Use();
+                    }
+                }
 
                 // Add button
-                var addButtonRect = new Rect(position.x + _currentWidth - 2 * BUTTON_WIDTH - Border.Right, position.y + (2 * keys.arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
+                var addButtonRect = new Rect(position.x + _currentWidth - 2 * BUTTON_WIDTH - Border.Right, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
                 EditorGUI.DrawRect(addButtonRect, ItemColor);
-                EditorGUI.LabelField(addButtonRect, "+", _buttonStyle);
+                EditorGUI.LabelField(addButtonRect, "＋", _buttonStyle);
 
                 if (Event.current.type == EventType.MouseDown && addButtonRect.Contains(Event.current.mousePosition))
                 {
@@ -265,9 +311,9 @@ namespace InspectorCustom
                 }
 
                 // Remove button
-                var removeButtonRect = new Rect(position.x + _currentWidth - BUTTON_WIDTH - Border.Right, position.y + (2 * keys.arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
+                var removeButtonRect = new Rect(position.x + _currentWidth - BUTTON_WIDTH - Border.Right, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
                 EditorGUI.DrawRect(removeButtonRect, ItemColor);
-                EditorGUI.LabelField(removeButtonRect, "-", _buttonStyle);
+                EditorGUI.LabelField(removeButtonRect, "－", _buttonStyle);
 
                 if (Event.current.type == EventType.MouseDown && removeButtonRect.Contains(Event.current.mousePosition))
                 {
@@ -288,6 +334,27 @@ namespace InspectorCustom
             }
         }
 
+        private float DrawProperty(Rect position, SerializedProperty property)
+        {
+            if (property.hasVisibleChildren)
+            {
+                if (property.type.Contains("SerializableDictionary"))
+                {
+                    EditorGUI.PropertyField(position, property, new GUIContent($"{property.type}<{property.FindPropertyRelative("keys")?.arrayElementType},{property.FindPropertyRelative("values")?.arrayElementType}>"), true);
+                }
+                else
+                {
+                    EditorGUI.PropertyField(position, property, new GUIContent($"{property.type}"), true);
+                }
+            }
+            else
+            {
+                EditorGUI.PropertyField(position, property, GUIContent.none);
+            }
+
+            return GetPropertyHeight(property, GUIContent.none);
+        }
+
         private void InitializeStyle()
         {
             _isInitialized = true;
@@ -295,6 +362,15 @@ namespace InspectorCustom
                               {
                                   fontStyle = FontStyle.Bold
                               };
+            _boldLabelStyleMiddle = new GUIStyle(GUI.skin.label)
+                                    {
+                                        fontStyle = FontStyle.Bold,
+                                        fontSize = 15,
+                                        normal =
+                                        {
+                                            textColor = MiddleColor
+                                        }
+                                    };
             _boldLabelStyle = new GUIStyle(GUI.skin.label)
                               {
                                   fontStyle = FontStyle.Bold,
@@ -328,6 +404,11 @@ namespace InspectorCustom
                                fontSize = 20,
                                alignment = TextAnchor.MiddleCenter
                            };
+            _buttonStyle14 = new GUIStyle(GUI.skin.label)
+                             {
+                                 fontSize = 14,
+                                 alignment = TextAnchor.MiddleCenter
+                             };
 
             _buttonStyleRed = new GUIStyle(GUI.skin.button)
                               {
@@ -340,27 +421,6 @@ namespace InspectorCustom
                               };
         }
 
-        private float DrawProperty(Rect position, SerializedProperty property)
-        {
-            if (property.hasVisibleChildren)
-            {
-                if (property.type.Contains("SerializableDictionary"))
-                {
-                    EditorGUI.PropertyField(position, property, new GUIContent($"{property.type}<{property.FindPropertyRelative("keys")?.arrayElementType},{property.FindPropertyRelative("values")?.arrayElementType}>"), true);
-                }
-                else
-                {
-                    EditorGUI.PropertyField(position, property, new GUIContent($"{property.type}"), true);
-                }
-            }
-            else
-            {
-                EditorGUI.PropertyField(position, property, GUIContent.none);
-            }
-
-            return GetPropertyHeight(property, GUIContent.none);
-        }
-
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var height = LineHeight;
@@ -369,12 +429,13 @@ namespace InspectorCustom
             if (property.type.Contains("SerializableDictionary"))
             {
                 var keys = property.FindPropertyRelative("keys");
-                var arraySize = keys?.arraySize ?? 0;
+                var (from, to) = GetPageRange(_currentPageNumber, _itemsPerPage, keys.arraySize);
+                var arraySize = to - from;
                 height = (2 * arraySize + 2) * LineHeight + (arraySize + 1) * ITEM_SPACING + arraySize * KEY_VALUE_SPACING;
 
                 if (keys is { hasVisibleChildren: true })
                 {
-                    for (var i = 0; i < keys.arraySize; i++)
+                    for (var i = from; i < to; i++)
                     {
                         height += EditorGUI.GetPropertyHeight(keys.GetArrayElementAtIndex(i), GUIContent.none) - LineHeight;
                     }
@@ -383,7 +444,7 @@ namespace InspectorCustom
                 var values = property.FindPropertyRelative("values");
                 if (values is { hasVisibleChildren: true })
                 {
-                    for (var i = 0; i < values.arraySize; i++)
+                    for (var i = from; i < to; i++)
                     {
                         height += EditorGUI.GetPropertyHeight(values.GetArrayElementAtIndex(i), GUIContent.none) - LineHeight;
                     }
@@ -396,6 +457,25 @@ namespace InspectorCustom
 
             return height;
         }
+
+        #region Pagination
+
+        private static (int from, int to) GetPageRange(int currentPage, int itemsPerPage, int totalItems)
+        {
+            var from = (currentPage - 1) * itemsPerPage;
+            var to = Mathf.Min(currentPage * itemsPerPage, totalItems);
+            return (from, to);
+        }
+
+        private static int CountItemsAtCurrentPage(int currentPage, int itemsPerPage, int totalItems)
+        {
+            var (from, to) = GetPageRange(currentPage, itemsPerPage, totalItems);
+            return to - from;
+        }
+
+        #endregion
+
+        #region Validation
 
         private void CheckForDuplicates(SerializedProperty keys)
         {
@@ -474,7 +554,6 @@ namespace InspectorCustom
             return false;
         }
 
-
         private void RemoveDuplicates(SerializedProperty keys, SerializedProperty values)
         {
             List<int> invalidIndexes = new();
@@ -506,6 +585,8 @@ namespace InspectorCustom
                 values.DeleteArrayElementAtIndex(duplicateIndex);
             }
         }
+
+        #endregion
 
         #region CopyPaste
 
