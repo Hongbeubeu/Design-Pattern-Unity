@@ -7,7 +7,7 @@ namespace InspectorCustom.TestDrive
 {
     public class DictionaryExample : MonoBehaviour
     {
-        [Dictionary] public SerializableDictionary<string, ListString> testSerializableDictionary = new();
+        [DictionarySerializeField] public SerializableDictionary<string, ListString> testSerializableDictionary = new();
 
         [Serializable]
         public class ListString : List<string>

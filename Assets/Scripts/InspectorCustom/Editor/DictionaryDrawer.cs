@@ -34,10 +34,8 @@ namespace InspectorCustom
         private const float DRAG_HANDLE_WIDTH = 20;
         private const float DELETE_BUTTON_WIDTH = 25;
         private const float ARRAY_SIZE_WIDTH = 50;
-
-
+        
         private static readonly BorderItem Border = new(left: 4, right: 4, top: 4, bottom: 4);
-
 
         private static readonly Color ErrorColor = new(1, 0, 0, 0.1f);
         private static readonly Color EvenColor = new(0.4f, 0.4f, 0.4f, 0.5f);
