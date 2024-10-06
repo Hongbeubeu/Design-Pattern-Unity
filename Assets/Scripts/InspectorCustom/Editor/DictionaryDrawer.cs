@@ -34,6 +34,7 @@ namespace InspectorCustom
         private const float DRAG_HANDLE_WIDTH = 20;
         private const float DELETE_BUTTON_WIDTH = 25;
         private const float ARRAY_SIZE_WIDTH = 50;
+        private const float MOVE_BUTTON_WIDTH = 30;
 
         private static readonly BorderItem Border = new(left: 4, right: 4, top: 4, bottom: 4);
 
@@ -201,11 +202,42 @@ namespace InspectorCustom
                             var indicatorRect = new Rect(position.x + Border.Left, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, DRAG_HANDLE_WIDTH, LineHeight);
                             EditorGUI.LabelField(indicatorRect, "═", _boldLabelStyle);
 
+                            var moveUpButtonRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, MOVE_BUTTON_WIDTH, LineHeight);
+                            var moveDownButtonRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 2) * LineHeight + Border.Top, MOVE_BUTTON_WIDTH, LineHeight);
+
+                            // Move up button
+                            using (new DisposableDisabledGUI(i == 0))
+                            {
+                                EditorGUI.DrawRect(moveUpButtonRect, EvenColor);
+                                EditorGUI.LabelField(moveUpButtonRect, "▲", _buttonStyle10);
+
+                                if (GUI.Button(moveUpButtonRect, "▲", _buttonStyle10))
+                                {
+                                    keys.MoveArrayElement(i, i - 1);
+                                    values.MoveArrayElement(i, i - 1);
+                                    _currentSelectedIndex = i - 1;
+                                }
+                            }
+
+                            // Move down button
+                            using (new DisposableDisabledGUI(i == keys.arraySize - 1))
+                            {
+                                EditorGUI.DrawRect(moveDownButtonRect, EvenColor);
+                                EditorGUI.LabelField(moveDownButtonRect, "▼", _buttonStyle10);
+
+                                if (GUI.Button(moveDownButtonRect, "▼", _buttonStyle10))
+                                {
+                                    keys.MoveArrayElement(i, i + 1);
+                                    values.MoveArrayElement(i, i + 1);
+                                    _currentSelectedIndex = i + 1;
+                                }
+                            }
+
                             var deleteButtonRect = new Rect(position.x + _currentWidth - DELETE_BUTTON_WIDTH - Border.Right, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, DELETE_BUTTON_WIDTH, LineHeight);
 
                             // Key field
-                            var keyTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, TITLE_WIDTH, LineHeight);
-                            var keyRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
+                            var keyTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2 + MOVE_BUTTON_WIDTH, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, TITLE_WIDTH, LineHeight);
+                            var keyRect = new Rect(position.x + DRAG_HANDLE_WIDTH + MOVE_BUTTON_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, _currentWidth - DRAG_HANDLE_WIDTH - MOVE_BUTTON_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
 
                             var keyBoundRect = keyRect;
                             keyBoundRect.height = keyRectHeight;
@@ -217,8 +249,8 @@ namespace InspectorCustom
                             position.y += keyRectHeight - LineHeight + KEY_VALUE_SPACING;
 
                             // Value field
-                            var valueTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 2) * LineHeight, TITLE_WIDTH, LineHeight);
-                            var valueRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 2) * LineHeight, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
+                            var valueTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2 + MOVE_BUTTON_WIDTH, position.y + (2 * currentIndexInPage + 2) * LineHeight, TITLE_WIDTH, LineHeight);
+                            var valueRect = new Rect(position.x + DRAG_HANDLE_WIDTH + MOVE_BUTTON_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 2) * LineHeight, _currentWidth - DRAG_HANDLE_WIDTH - MOVE_BUTTON_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
 
                             var valueBoundRect = valueRect;
                             valueBoundRect.height = valueRectHeight;
@@ -273,7 +305,7 @@ namespace InspectorCustom
 
 
                         EditorGUI.LabelField(previousButtonRect, "◀", _buttonStyle10);
-                        if(GUI.Button(previousButtonRect, "◀", _buttonStyle10))
+                        if (GUI.Button(previousButtonRect, "◀", _buttonStyle10))
                         {
                             _currentPageNumber = Mathf.Max(1, _currentPageNumber - 1);
                         }
@@ -286,7 +318,7 @@ namespace InspectorCustom
                         EditorGUI.DrawRect(nextButtonRect, OddColor);
                         EditorGUI.LabelField(nextButtonRect, "▶", _buttonStyle12);
 
-                        if(GUI.Button(nextButtonRect, "▶", _buttonStyle12))
+                        if (GUI.Button(nextButtonRect, "▶", _buttonStyle12))
                         {
                             _currentPageNumber = Mathf.Min(Mathf.CeilToInt(keys.arraySize / (float)_itemsPerPage), _currentPageNumber + 1);
                         }
