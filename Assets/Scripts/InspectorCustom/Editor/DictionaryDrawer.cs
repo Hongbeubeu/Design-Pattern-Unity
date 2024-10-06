@@ -34,7 +34,7 @@ namespace InspectorCustom
         private const float DRAG_HANDLE_WIDTH = 20;
         private const float DELETE_BUTTON_WIDTH = 25;
         private const float ARRAY_SIZE_WIDTH = 50;
-        
+
         private static readonly BorderItem Border = new(left: 4, right: 4, top: 4, bottom: 4);
 
         private static readonly Color ErrorColor = new(1, 0, 0, 0.1f);
@@ -52,7 +52,8 @@ namespace InspectorCustom
         private static GUIStyle _boldLabelStyleRed;
         private static GUIStyle _buttonStyle;
         private static GUIStyle _buttonStyleRed;
-        private static GUIStyle _buttonStyle14;
+        private static GUIStyle _buttonStyle10;
+        private static GUIStyle _buttonStyle12;
 
         private readonly Dictionary<object, List<int>> _keyDuplicates = new();
         private static readonly NullObject NullObjectValue = new();
@@ -153,8 +154,11 @@ namespace InspectorCustom
                     for (var i = from; i < to; i++)
                     {
                         var currentIndexInPage = i - from;
-                        var keyHeight = EditorGUI.GetPropertyHeight(keys.GetArrayElementAtIndex(i), GUIContent.none);
-                        var valueHeight = EditorGUI.GetPropertyHeight(values.GetArrayElementAtIndex(i), GUIContent.none);
+                        var currentKeyProperty = keys.GetArrayElementAtIndex(i);
+                        var currentValueProperty = values.GetArrayElementAtIndex(i);
+
+                        var keyRectHeight = EditorGUI.GetPropertyHeight(currentKeyProperty, GUIContent.none);
+                        var valueRectHeight = EditorGUI.GetPropertyHeight(currentValueProperty, GUIContent.none);
 
                         // Background
                         using (new DisposableAction(() =>
@@ -170,9 +174,9 @@ namespace InspectorCustom
                         }))
                         {
                             // Draw background color for each key-value pair
-                            var boundRect = new Rect(position.x, position.y + (2 * currentIndexInPage + 1) * LineHeight, _currentWidth, keyHeight + valueHeight + KEY_VALUE_SPACING + Border.Bottom);
+                            var boundColorRect = new Rect(position.x, position.y + (2 * currentIndexInPage + 1) * LineHeight, _currentWidth, keyRectHeight + valueRectHeight + KEY_VALUE_SPACING + Border.Bottom);
 
-                            if (Event.current.type == EventType.MouseDown && boundRect.Contains(Event.current.mousePosition))
+                            if (Event.current.type == EventType.MouseDown && boundColorRect.Contains(Event.current.mousePosition))
                             {
                                 if (_currentSelectedIndex != i)
                                 {
@@ -183,19 +187,19 @@ namespace InspectorCustom
 
                             if (_currentSelectedIndex == i)
                             {
-                                EditorGUI.DrawRect(boundRect, SelectedColor);
+                                EditorGUI.DrawRect(boundColorRect, SelectedColor);
                             }
                             else
                             {
                                 if (!IsValidKeyAt(i))
-                                    EditorGUI.DrawRect(boundRect, ErrorColor);
+                                    EditorGUI.DrawRect(boundColorRect, ErrorColor);
                                 else
-                                    EditorGUI.DrawRect(boundRect, i % 2 == 0 ? EvenColor : OddColor);
+                                    EditorGUI.DrawRect(boundColorRect, i % 2 == 0 ? EvenColor : OddColor);
                             }
 
-
                             // Indicator label
-                            EditorGUI.LabelField(new Rect(position.x + Border.Left, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, DRAG_HANDLE_WIDTH, LineHeight), "═", _boldLabelStyle);
+                            var indicatorRect = new Rect(position.x + Border.Left, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, DRAG_HANDLE_WIDTH, LineHeight);
+                            EditorGUI.LabelField(indicatorRect, "═", _boldLabelStyle);
 
                             var deleteButtonRect = new Rect(position.x + _currentWidth - DELETE_BUTTON_WIDTH - Border.Right, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, DELETE_BUTTON_WIDTH, LineHeight);
 
@@ -203,13 +207,25 @@ namespace InspectorCustom
                             var keyTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, TITLE_WIDTH, LineHeight);
                             var keyRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 1) * LineHeight + Border.Top, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
 
-                            var keyRectHeight = EditorGUI.GetPropertyHeight(keys.GetArrayElementAtIndex(i), GUIContent.none);
-                            var keyRect1 = keyRect;
-                            keyRect1.height = keyRectHeight;
+                            var keyBoundRect = keyRect;
+                            keyBoundRect.height = keyRectHeight;
 
-                            EditorGUI.DrawRect(keyRect1, ItemColor);
+                            EditorGUI.DrawRect(keyBoundRect, ItemColor);
                             EditorGUI.LabelField(keyTitleRect, "Key");
-                            var keyOffset = DrawProperty(keyRect, keys.GetArrayElementAtIndex(i));
+                            DrawProperty(keyRect, currentKeyProperty);
+
+                            position.y += keyRectHeight - LineHeight + KEY_VALUE_SPACING;
+
+                            // Value field
+                            var valueTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 2) * LineHeight, TITLE_WIDTH, LineHeight);
+                            var valueRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 2) * LineHeight, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
+
+                            var valueBoundRect = valueRect;
+                            valueBoundRect.height = valueRectHeight;
+
+                            EditorGUI.DrawRect(valueBoundRect, ItemColor);
+                            EditorGUI.LabelField(valueTitleRect, "Value");
+                            DrawProperty(valueRect, currentValueProperty);
 
                             // Context menu copy/paste for key
                             if (Event.current.type == EventType.ContextClick && keyTitleRect.Contains(Event.current.mousePosition))
@@ -222,34 +238,7 @@ namespace InspectorCustom
                                 Event.current.Use(); // Mark event as used
                             }
 
-                            position.y += keyOffset - LineHeight;
-                            position.y += KEY_VALUE_SPACING;
-
-                            // Value field
-                            var valueTitleRect = new Rect(position.x + DRAG_HANDLE_WIDTH + 2, position.y + (2 * currentIndexInPage + 2) * LineHeight, TITLE_WIDTH, LineHeight);
-                            var valueRect = new Rect(position.x + DRAG_HANDLE_WIDTH + TITLE_WIDTH, position.y + (2 * currentIndexInPage + 2) * LineHeight, _currentWidth - DRAG_HANDLE_WIDTH - TITLE_WIDTH - DELETE_BUTTON_WIDTH - 2 * Border.Right, LineHeight);
-
-                            var valueRectHeight = EditorGUI.GetPropertyHeight(values.GetArrayElementAtIndex(i), GUIContent.none);
-                            var valueRect1 = valueRect;
-                            valueRect1.height = valueRectHeight;
-
-                            EditorGUI.DrawRect(valueRect1, ItemColor);
-                            EditorGUI.LabelField(valueTitleRect, "Value");
-                            var valueOffset = DrawProperty(valueRect, values.GetArrayElementAtIndex(i));
-
-                            // Context menu copy/paste for value
-                            if (Event.current.type == EventType.ContextClick && valueTitleRect.Contains(Event.current.mousePosition))
-                            {
-                                var menu = new GenericMenu();
-                                var currentIndex = i;
-                                menu.AddItem(new GUIContent("Copy Value"), false, () => CopyProperty(values.GetArrayElementAtIndex(currentIndex)));
-                                menu.AddItem(new GUIContent("Paste Value"), false, () => PasteProperty(values.GetArrayElementAtIndex(currentIndex)));
-                                menu.ShowAsContext();
-                                Event.current.Use(); // Mark event as used
-                            }
-
-                            position.y += valueOffset - LineHeight;
-                            position.y += ITEM_SPACING;
+                            position.y += valueRectHeight - LineHeight + ITEM_SPACING;
 
                             // Delete button
                             if (GUI.Button(deleteButtonRect, "☓", _buttonStyleRed))
@@ -257,6 +246,8 @@ namespace InspectorCustom
                                 keys.DeleteArrayElementAtIndex(i);
                                 values.DeleteArrayElementAtIndex(i);
                             }
+
+                            DoContextMenu(keys, values, valueTitleRect, i, boundColorRect);
                         }
                     }
                 }
@@ -269,30 +260,36 @@ namespace InspectorCustom
 
                     EditorGUI.LabelField(paginationRect, $"Page {_currentPageNumber} of {Mathf.Ceil(keys.arraySize / (float)_itemsPerPage)}", _boldLabelStyleMiddle);
                     _itemsPerPage = EditorGUI.IntField(new Rect(position.x + Border.Left + 4 * BUTTON_WIDTH, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight), _itemsPerPage);
+                    _itemsPerPage = _itemsPerPage == 0 ? 1 : _itemsPerPage; // Prevent division by zero
                 }
 
                 if (keys.arraySize > _itemsPerPage)
                 {
                     // Previous button
-                    var previousButtonRect = new Rect(position.x + 6 * BUTTON_WIDTH, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
-                    EditorGUI.DrawRect(previousButtonRect, OddColor);
-                    EditorGUI.LabelField(previousButtonRect, "▲", _buttonStyle14);
-
-                    if (Event.current.type == EventType.MouseDown && previousButtonRect.Contains(Event.current.mousePosition))
+                    using (new DisposableDisabledGUI(_currentPageNumber == 1))
                     {
-                        _currentPageNumber = Mathf.Max(1, _currentPageNumber - 1);
-                        Event.current.Use();
+                        var previousButtonRect = new Rect(position.x + 6 * BUTTON_WIDTH, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
+                        EditorGUI.DrawRect(previousButtonRect, OddColor);
+
+
+                        EditorGUI.LabelField(previousButtonRect, "◀", _buttonStyle10);
+                        if(GUI.Button(previousButtonRect, "◀", _buttonStyle10))
+                        {
+                            _currentPageNumber = Mathf.Max(1, _currentPageNumber - 1);
+                        }
                     }
 
                     // Next button
-                    var nextButtonRect = new Rect(position.x + 7 * BUTTON_WIDTH + ITEM_SPACING, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
-                    EditorGUI.DrawRect(nextButtonRect, OddColor);
-                    EditorGUI.LabelField(nextButtonRect, "▼", _buttonStyle14);
-
-                    if (Event.current.type == EventType.MouseDown && nextButtonRect.Contains(Event.current.mousePosition))
+                    using (new DisposableDisabledGUI(_currentPageNumber == Mathf.CeilToInt(keys.arraySize / (float)_itemsPerPage)))
                     {
-                        _currentPageNumber = Mathf.Min(Mathf.CeilToInt(keys.arraySize / (float)_itemsPerPage), _currentPageNumber + 1);
-                        Event.current.Use();
+                        var nextButtonRect = new Rect(position.x + 7 * BUTTON_WIDTH + ITEM_SPACING, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
+                        EditorGUI.DrawRect(nextButtonRect, OddColor);
+                        EditorGUI.LabelField(nextButtonRect, "▶", _buttonStyle12);
+
+                        if(GUI.Button(nextButtonRect, "▶", _buttonStyle12))
+                        {
+                            _currentPageNumber = Mathf.Min(Mathf.CeilToInt(keys.arraySize / (float)_itemsPerPage), _currentPageNumber + 1);
+                        }
                     }
                 }
 
@@ -309,30 +306,74 @@ namespace InspectorCustom
                 }
 
                 // Remove button
-                var removeButtonRect = new Rect(position.x + _currentWidth - BUTTON_WIDTH - Border.Right, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
-                EditorGUI.DrawRect(removeButtonRect, ItemColor);
-                EditorGUI.LabelField(removeButtonRect, "－", _buttonStyle);
-
-                if (Event.current.type == EventType.MouseDown && removeButtonRect.Contains(Event.current.mousePosition))
+                using (new DisposableDisabledGUI(arraySize == 0))
                 {
-                    if (_currentSelectedIndex >= 0)
-                    {
-                        keys.DeleteArrayElementAtIndex(_currentSelectedIndex);
-                        values.DeleteArrayElementAtIndex(_currentSelectedIndex);
-                        _currentSelectedIndex = -1;
-                    }
-                    else
-                    {
-                        keys.arraySize--;
-                        values.arraySize--;
-                    }
+                    var removeButtonRect = new Rect(position.x + _currentWidth - BUTTON_WIDTH - Border.Right, position.y + (2 * arraySize + 1) * LineHeight, BUTTON_WIDTH, LineHeight);
+                    EditorGUI.DrawRect(removeButtonRect, ItemColor);
+                    EditorGUI.LabelField(removeButtonRect, "－", _buttonStyle);
 
-                    Event.current.Use();
+                    if (Event.current.type == EventType.MouseDown && removeButtonRect.Contains(Event.current.mousePosition))
+                    {
+                        if (_currentSelectedIndex >= 0)
+                        {
+                            keys.DeleteArrayElementAtIndex(_currentSelectedIndex);
+                            values.DeleteArrayElementAtIndex(_currentSelectedIndex);
+                            _currentSelectedIndex = -1;
+                        }
+                        else
+                        {
+                            keys.arraySize--;
+                            values.arraySize--;
+                        }
+
+                        Event.current.Use();
+                    }
                 }
             }
         }
 
-        private float DrawProperty(Rect position, SerializedProperty property)
+        private static void DoContextMenu(SerializedProperty keys, SerializedProperty values, Rect valueTitleRect, int index, Rect boundColorRect)
+        {
+            // Context menu copy/paste for value
+            if (Event.current.type == EventType.ContextClick && valueTitleRect.Contains(Event.current.mousePosition))
+            {
+                var menu = new GenericMenu();
+                var currentIndex = index;
+                menu.AddItem(new GUIContent("Copy Value"), false, () => CopyProperty(values.GetArrayElementAtIndex(currentIndex)));
+                menu.AddItem(new GUIContent("Paste Value"), false, () => PasteProperty(values.GetArrayElementAtIndex(currentIndex)));
+                menu.ShowAsContext();
+                Event.current.Use(); // Mark event as used
+            }
+
+            // Context menu copy/paste for key-value
+            if (Event.current.type == EventType.ContextClick && boundColorRect.Contains(Event.current.mousePosition))
+            {
+                var menu = new GenericMenu();
+                var currentIndex = index;
+                menu.AddItem(new GUIContent("Copy Key-Value"), false, () =>
+                {
+                    CopyProperty(keys.GetArrayElementAtIndex(currentIndex));
+                    CopyProperty(values.GetArrayElementAtIndex(currentIndex));
+                });
+                if (CopiedProperties.Count > 0)
+                {
+                    menu.AddItem(new GUIContent("Paste Key-Value"), false, () =>
+                    {
+                        PasteProperty(keys.GetArrayElementAtIndex(currentIndex), 1);
+                        PasteProperty(values.GetArrayElementAtIndex(currentIndex));
+                    });
+                }
+                else
+                {
+                    menu.AddDisabledItem(new GUIContent("Paste Key-Value"));
+                }
+
+                menu.ShowAsContext();
+                Event.current.Use(); // Mark event as used
+            }
+        }
+
+        private static void DrawProperty(Rect position, SerializedProperty property)
         {
             if (property.hasVisibleChildren)
             {
@@ -349,8 +390,6 @@ namespace InspectorCustom
             {
                 EditorGUI.PropertyField(position, property, GUIContent.none);
             }
-
-            return GetPropertyHeight(property, GUIContent.none);
         }
 
         private void InitializeStyle()
@@ -402,10 +441,13 @@ namespace InspectorCustom
                                fontSize = 20,
                                alignment = TextAnchor.MiddleCenter
                            };
-            _buttonStyle14 = new GUIStyle(GUI.skin.label)
+            _buttonStyle10 = new GUIStyle(GUI.skin.button)
                              {
-                                 fontSize = 14,
-                                 alignment = TextAnchor.MiddleCenter
+                                 fontSize = 10
+                             };
+            _buttonStyle12 = new GUIStyle(GUI.skin.button)
+                             {
+                                 fontSize = 12
                              };
 
             _buttonStyleRed = new GUIStyle(GUI.skin.button)
@@ -588,39 +630,42 @@ namespace InspectorCustom
 
         #region CopyPaste
 
+        private static readonly List<string> CopiedProperties = new(); // Store multiple copied properties
+
         private static void CopyProperty(SerializedProperty property)
         {
+            var copiedProperty = string.Empty;
             switch (property.propertyType)
             {
                 case SerializedPropertyType.Integer:
-                    EditorGUIUtility.systemCopyBuffer = property.intValue.ToString();
+                    copiedProperty = property.intValue.ToString();
                     break;
 
                 case SerializedPropertyType.Float:
-                    EditorGUIUtility.systemCopyBuffer = property.floatValue.ToString(CultureInfo.InvariantCulture);
+                    copiedProperty = property.floatValue.ToString(CultureInfo.InvariantCulture);
                     break;
 
                 case SerializedPropertyType.String:
-                    EditorGUIUtility.systemCopyBuffer = property.stringValue;
+                    copiedProperty = property.stringValue;
                     break;
 
                 case SerializedPropertyType.Boolean:
-                    EditorGUIUtility.systemCopyBuffer = property.boolValue.ToString();
+                    copiedProperty = property.boolValue.ToString();
                     break;
 
                 case SerializedPropertyType.Enum:
-                    EditorGUIUtility.systemCopyBuffer = property.enumValueIndex.ToString();
+                    copiedProperty = property.enumValueIndex.ToString();
                     break;
 
                 case SerializedPropertyType.Color:
                     var color = property.colorValue;
-                    EditorGUIUtility.systemCopyBuffer = $"#{ColorUtility.ToHtmlStringRGBA(color)}";
+                    copiedProperty = $"#{ColorUtility.ToHtmlStringRGBA(color)}";
                     break;
 
                 case SerializedPropertyType.ObjectReference:
                     if (property.objectReferenceValue != null)
                     {
-                        EditorGUIUtility.systemCopyBuffer = $"ObjectReference: {property.objectReferenceInstanceIDValue}";
+                        copiedProperty = $"ObjectReference: {property.objectReferenceInstanceIDValue}";
                     }
                     else
                     {
@@ -630,40 +675,40 @@ namespace InspectorCustom
                     break;
 
                 case SerializedPropertyType.Vector2:
-                    EditorGUIUtility.systemCopyBuffer = $"{property.vector2Value.x},{property.vector2Value.y}";
+                    copiedProperty = $"{property.vector2Value.x},{property.vector2Value.y}";
                     break;
 
                 case SerializedPropertyType.Vector3:
-                    EditorGUIUtility.systemCopyBuffer = $"{property.vector3Value.x},{property.vector3Value.y},{property.vector3Value.z}";
+                    copiedProperty = $"{property.vector3Value.x},{property.vector3Value.y},{property.vector3Value.z}";
                     break;
 
                 case SerializedPropertyType.Vector4:
-                    EditorGUIUtility.systemCopyBuffer = $"{property.vector4Value.x},{property.vector4Value.y},{property.vector4Value.z},{property.vector4Value.w}";
+                    copiedProperty = $"{property.vector4Value.x},{property.vector4Value.y},{property.vector4Value.z},{property.vector4Value.w}";
                     break;
 
                 case SerializedPropertyType.Rect:
                     var rect = property.rectValue;
-                    EditorGUIUtility.systemCopyBuffer = $"{rect.x},{rect.y},{rect.width},{rect.height}";
+                    copiedProperty = $"{rect.x},{rect.y},{rect.width},{rect.height}";
                     break;
 
                 case SerializedPropertyType.Bounds:
                     var bounds = property.boundsValue;
-                    EditorGUIUtility.systemCopyBuffer = $"{bounds.center.x},{bounds.center.y},{bounds.center.z},{bounds.size.x},{bounds.size.y},{bounds.size.z}";
+                    copiedProperty = $"{bounds.center.x},{bounds.center.y},{bounds.center.z},{bounds.size.x},{bounds.size.y},{bounds.size.z}";
                     break;
 
                 case SerializedPropertyType.AnimationCurve:
                     var curve = property.animationCurveValue;
-                    EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(curve);
+                    copiedProperty = JsonUtility.ToJson(curve);
                     break;
 
                 case SerializedPropertyType.Character:
                     var character = (char)property.intValue;
-                    EditorGUIUtility.systemCopyBuffer = character.ToString();
+                    copiedProperty = character.ToString();
                     break;
 
                 case SerializedPropertyType.Generic:
                     var genericValue = property.boxedValue;
-                    EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(genericValue);
+                    copiedProperty = JsonUtility.ToJson(genericValue);
                     break;
                 case SerializedPropertyType.LayerMask:
                 case SerializedPropertyType.ArraySize:
@@ -681,11 +726,25 @@ namespace InspectorCustom
                     Debug.LogWarning("Unsupported property type for copying.");
                     break;
             }
+
+            CopiedProperties.Insert(0, copiedProperty);
         }
 
-        private static void PasteProperty(SerializedProperty property)
+        private static void PasteProperty(SerializedProperty property, int index = 0)
         {
-            var clipboardContent = EditorGUIUtility.systemCopyBuffer;
+            if (CopiedProperties.Count == 0)
+            {
+                Debug.LogWarning("No copied properties to paste.");
+                return;
+            }
+
+            if (index >= CopiedProperties.Count)
+            {
+                Debug.LogWarning("No copied properties to paste.");
+                return;
+            }
+
+            var clipboardContent = CopiedProperties[index];
 
             switch (property.propertyType)
             {
