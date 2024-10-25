@@ -8,19 +8,20 @@ namespace SimpleParticleSystem
     public class SimpleParticleSystem : MonoBehaviour
     {
         private static readonly int ColorId = Shader.PropertyToID("_Color");
-        private static readonly int Scale = Shader.PropertyToID("_Scale");
 
-        public int particleCount = 100;
-        public float emissionRate = 5f;
-        public float particleLifeTime = 3f;
+        public int maxParticles = 100;
+        public float emissionRate = 5f; // Particles per second
+        public float duration = 3f;
         public Color particleColor = Color.white;
-        public bool pause;
+        public bool isPaused;
 
         private readonly List<SimpleParticle> _particles = new();
         private Mesh _particleMesh;
-        [SerializeField] private Material _particleMaterial;
         private MaterialPropertyBlock _propertyBlock;
+        [SerializeField] private Material particleMaterial;
 
+        private float _timeSinceLastEmission;
+        private float _emissionInterval;
 
         private void Start()
         {
@@ -29,7 +30,7 @@ namespace SimpleParticleSystem
 
         private void Update()
         {
-            if (_particleMesh == null || _propertyBlock == null)
+            if (particleMaterial == null || _particleMesh == null || _propertyBlock == null)
             {
                 Init();
             }
@@ -42,8 +43,16 @@ namespace SimpleParticleSystem
         private void Init()
         {
             Application.targetFrameRate = 60;
+            if (particleMaterial == null)
+            {
+                Debug.LogError("Particle material is not assigned. Disabling the script.");
+                enabled = false;
+                return;
+            }
+
             _particleMesh = CreateQuadMesh();
             _propertyBlock = new MaterialPropertyBlock();
+            _emissionInterval = 1f / emissionRate;
         }
 
         private static Mesh CreateQuadMesh()
@@ -71,30 +80,45 @@ namespace SimpleParticleSystem
 
         private void EmitParticles()
         {
-            if (_particles.Count > 0) return;
-            for (var i = 0; i < emissionRate; i++)
+            if (isPaused) return;
+            if (_particles.Count > maxParticles)
             {
-                var position = transform.position;
-                var velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
-                _particles.Add(new SimpleParticle(position, velocity, Quaternion.identity, Vector3.zero, particleLifeTime, particleColor));
+                _particles.RemoveRange(0, _particles.Count - maxParticles);
+                return;
             }
+
+            if (_timeSinceLastEmission < _emissionInterval)
+            {
+                _timeSinceLastEmission += Time.deltaTime;
+                return;
+            }
+
+            //TODO: Implement particle pooling
+            //TODO: Implement shape emission
+            var position = transform.position;
+            var velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
+            _particles.Add(new SimpleParticle(position, velocity, Quaternion.identity, Vector3.zero, duration, particleColor));
+            _timeSinceLastEmission = 0;
         }
 
         private void UpdateParticles()
         {
-            if (pause) return;
+            if (isPaused) return;
 
             for (var i = _particles.Count - 1; i >= 0; i--)
             {
                 var particle = _particles[i];
-                particle.lifeTime -= Time.deltaTime;
+                particle.Lifetime -= Time.deltaTime;
                 if (particle.IsAlive)
                 {
-                    particle.position += particle.velocity * Time.deltaTime;
-                    var currentRotation = particle.rotation.eulerAngles;
+                    particle.Position += particle.Velocity * Time.deltaTime;
+                    var currentRotation = particle.Rotation.eulerAngles;
                     currentRotation.z += 360 * Time.deltaTime;
-                    particle.rotation = Quaternion.Euler(currentRotation);
-                    particle.scale = Vector3.one * (1 - particle.lifeTime / particle.maxLifeTime);
+                    particle.Rotation = Quaternion.Euler(currentRotation);
+                    particle.Scale = Vector3.one * (1 - particle.LifetimeNormalized);
+                    var color = particle.Color;
+                    color.a = particle.LifetimeNormalized;
+                    particle.Color = color;
                 }
                 else
                 {
@@ -103,44 +127,48 @@ namespace SimpleParticleSystem
             }
         }
 
+        private readonly List<Matrix4x4> _matrices = new();
+        private readonly List<Vector4> _colors = new();
+
         private void RenderParticles()
         {
-            _particleMesh = CreateQuadMesh();
+            const int batchSize = 511;
+            _matrices.Clear();
+            _colors.Clear();
             _propertyBlock.Clear();
-            const int batchSize = 1023;
-            var matrices = new List<Matrix4x4>();
-            var colors = new List<Vector4>();
-            var scales = new List<float>();
 
             for (var i = 0; i < _particles.Count; i++)
             {
                 var particle = _particles[i];
 
                 // Tạo matrix cho từng particle
-                var matrix = Matrix4x4.TRS(particle.position, particle.rotation, particle.scale);
-                matrices.Add(matrix);
+                var matrix = Matrix4x4.TRS(particle.Position, particle.Rotation, particle.Scale);
+                _matrices.Add(matrix);
 
-                // Tạo màu sắc dựa trên thời gian sống của particle
-                var currentColor = (Vector4)(particle.color * (particle.lifeTime / particle.maxLifeTime));
-                currentColor.w = particle.lifeTime / particle.maxLifeTime;
-                colors.Add(currentColor);
+                // Thêm màu của particle vào danh sách
+                var currentColor = (Vector4)particle.Color;
+                _colors.Add(currentColor);
 
-                // Thêm scale của từng particle vào danh sách scales
-                scales.Add(0.5f); // Sử dụng scale của particle, có thể điều chỉnh tùy ý
-
-                // Khi đủ batchSize hoặc là particle cuối cùng, ta render và reset danh sách
-                if (matrices.Count == batchSize || i == _particles.Count - 1)
+                // Vẽ particles theo batch size
+                if (_matrices.Count == batchSize || i == _particles.Count - 1)
                 {
-                    _propertyBlock.SetVectorArray(ColorId, colors);
-                    _propertyBlock.SetFloatArray(Scale, scales); // Thiết lập _Scale như một mảng
+                    // Gán danh sách màu vào MaterialPropertyBlock
+                    _propertyBlock.SetVectorArray(ColorId, _colors);
 
-                    Graphics.DrawMeshInstanced(_particleMesh, 0, _particleMaterial, matrices, _propertyBlock);
+                    // Render batch hiện tại
+                    Graphics.RenderMeshInstanced(
+                        new RenderParams(particleMaterial) { matProps = _propertyBlock },
+                        _particleMesh,
+                        0,
+                        _matrices
+                    );
 
-                    matrices.Clear();
-                    colors.Clear();
-                    scales.Clear();
+                    // Xóa matrices và colors sau mỗi batch
+                    _matrices.Clear();
+                    _colors.Clear();
                 }
             }
         }
+
     }
 }

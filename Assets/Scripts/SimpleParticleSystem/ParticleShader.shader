@@ -1,17 +1,18 @@
-﻿Shader "Simple/Particle"
+﻿Shader "Custom/InstancedParticleColorWithAlpha"
 {
     Properties
     {
-        _Color("Color", Color) = (1, 1, 1, 1)
-        _Scale("Scale", Float) = 1
-        _MainTex("Particle Texture", 2D) = "white" {}
+        _MainTex("Texture", 2D) = "white" {}
+        _Color ("Color", Color) = (1,1,1,1)
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
+        Tags
+        {
+            "Queue" = "Transparent" "RenderType" = "Transparent"
+        }
         LOD 100
-
-        Blend SrcAlpha OneMinusSrcAlpha // Thêm blend mode để hỗ trợ alpha
+        Blend SrcAlpha OneMinusSrcAlpha // Blend mode
 
         Pass
         {
@@ -19,8 +20,8 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+
             #include "UnityCG.cginc"
-            #include "UnityInstancing.cginc"
 
             struct appdata
             {
@@ -32,33 +33,34 @@
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
+                float4 pos : SV_POSITION;
+                float4 color : COLOR;
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _Color) // Màu sắc riêng cho mỗi instance
-                UNITY_DEFINE_INSTANCED_PROP(float, _Scale)  // Kích thước riêng cho mỗi instance
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color) // 
             UNITY_INSTANCING_BUFFER_END(Props)
 
             sampler2D _MainTex;
 
             v2f vert(appdata v)
             {
-                UNITY_SETUP_INSTANCE_ID(v);
-
                 v2f o;
-                float scale = UNITY_ACCESS_INSTANCED_PROP(Props, _Scale);
-                o.vertex = UnityObjectToClipPos(v.vertex * scale);
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 o.uv = v.uv;
                 return o;
             }
 
             fixed4 frag(v2f i) : SV_Target
             {
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float4 texColor = tex2D(_MainTex, i.uv);
+                float4 tex_color = tex2D(_MainTex, i.uv);
 
-                return texColor * color; // Sử dụng alpha từ texture để hỗ trợ vùng trong suốt
+                return tex_color * i.color; // Sử dụng alpha từ texture để hỗ trợ vùng trong suốt
             }
             ENDCG
         }
