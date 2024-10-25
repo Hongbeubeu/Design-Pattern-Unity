@@ -7,8 +7,8 @@ namespace SimpleParticleSystem
 {
     public class SimpleParticleSystem : MonoBehaviour
     {
-        private static readonly int ColorId = Shader.PropertyToID("_Color");
-
+        public bool playOnAwake;
+        public bool loop;
         public int maxParticles = 100;
         public float emissionRate = 5f; // Particles per second
         public float duration = 3f;
@@ -21,28 +21,104 @@ namespace SimpleParticleSystem
         [SerializeField] private Material particleMaterial;
 
         private float _timeSinceLastEmission;
-        private float _emissionInterval;
+        private float _lifetime;
+        private bool _isInitialized;
+        private float EmissionInterval => 1 / emissionRate;
 
-        private void Start()
+        private static readonly int ColorId = Shader.PropertyToID("_Color");
+
+        private void OnGUI()
         {
-            Init();
+            if (GUILayout.Button("Play", new GUIStyle(GUI.skin.button)
+                                         {
+                                             fontSize = 20,
+                                             fixedWidth = 150,
+                                             fixedHeight = 50
+                                         }))
+            {
+                Play();
+            }
+
+            if (GUILayout.Button("Stop", new GUIStyle(GUI.skin.button)
+                                         {
+                                             fontSize = 20,
+                                             fixedWidth = 150,
+                                             fixedHeight = 50
+                                         }))
+            {
+                Stop();
+            }
+
+            if (GUILayout.Button("Force Stop", new GUIStyle(GUI.skin.button)
+                                               {
+                                                   fontSize = 20,
+                                                   fixedWidth = 150,
+                                                   fixedHeight = 50
+                                               }))
+            {
+                Stop(true);
+            }
+
+            var title = isPaused ? "Resume" : "Pause";
+            if (GUILayout.Button(title, new GUIStyle(GUI.skin.button)
+                                        {
+                                            fontSize = 20,
+                                            fixedWidth = 150,
+                                            fixedHeight = 50
+                                        }))
+            {
+                isPaused = !isPaused;
+            }
+        }
+
+        private void Awake()
+        {
+            Application.targetFrameRate = 60;
+            Preload();
+            if (playOnAwake)
+            {
+                Init();
+            }
         }
 
         private void Update()
         {
-            if (particleMaterial == null || _particleMesh == null || _propertyBlock == null)
-            {
-                Init();
-            }
+            if (!_isInitialized) return;
 
             EmitParticles();
             UpdateParticles();
             RenderParticles();
         }
 
+        private void Preload()
+        {
+            _particleMesh = CreateQuadMesh();
+            _propertyBlock = new MaterialPropertyBlock();
+        }
+
+        public void Play()
+        {
+            if (_isInitialized)
+            {
+                Stop(true);
+            }
+
+            Init();
+        }
+
+        public void Stop(bool clearParticles = false)
+        {
+            if (clearParticles)
+            {
+                _particles.Clear();
+                _isInitialized = false;
+            }
+
+            _lifetime = 0;
+        }
+
         private void Init()
         {
-            Application.targetFrameRate = 60;
             if (particleMaterial == null)
             {
                 Debug.LogError("Particle material is not assigned. Disabling the script.");
@@ -50,46 +126,39 @@ namespace SimpleParticleSystem
                 return;
             }
 
-            _particleMesh = CreateQuadMesh();
-            _propertyBlock = new MaterialPropertyBlock();
-            _emissionInterval = 1f / emissionRate;
-        }
-
-        private static Mesh CreateQuadMesh()
-        {
-            var mesh = new Mesh
-                       {
-                           vertices = new[]
-                                      {
-                                          new Vector3(-0.5f, -0.5f, 0),
-                                          new Vector3(0.5f, -0.5f, 0),
-                                          new Vector3(-0.5f, 0.5f, 0),
-                                          new Vector3(0.5f, 0.5f, 0)
-                                      },
-                           uv = new[]
-                                {
-                                    new Vector2(0, 0),
-                                    new Vector2(1, 0),
-                                    new Vector2(0, 1),
-                                    new Vector2(1, 1)
-                                },
-                           triangles = new[] { 0, 2, 1, 2, 3, 1 }
-                       };
-            return mesh;
+            _lifetime = duration;
+            _matrices.Clear();
+            _colors.Clear();
+            _isInitialized = true;
         }
 
         private void EmitParticles()
         {
             if (isPaused) return;
+
+            // Increase lifetime if not looping
+            if (!loop)
+            {
+                _lifetime -= Time.deltaTime;
+            }
+
+            // Limit the number of particles
             if (_particles.Count > maxParticles)
             {
                 _particles.RemoveRange(0, _particles.Count - maxParticles);
                 return;
             }
 
-            if (_timeSinceLastEmission < _emissionInterval)
+            // Check if enough time has passed to emit a new particle
+            if (_timeSinceLastEmission < EmissionInterval)
             {
                 _timeSinceLastEmission += Time.deltaTime;
+                return;
+            }
+
+            // Stop emitting particles if the lifetime is greater than the duration
+            if (_lifetime <= 0)
+            {
                 return;
             }
 
@@ -128,6 +197,7 @@ namespace SimpleParticleSystem
         }
 
         private readonly List<Matrix4x4> _matrices = new();
+
         private readonly List<Vector4> _colors = new();
 
         private void RenderParticles()
@@ -170,5 +240,27 @@ namespace SimpleParticleSystem
             }
         }
 
+        private static Mesh CreateQuadMesh()
+        {
+            var mesh = new Mesh
+                       {
+                           vertices = new[]
+                                      {
+                                          new Vector3(-0.5f, -0.5f, 0),
+                                          new Vector3(0.5f, -0.5f, 0),
+                                          new Vector3(-0.5f, 0.5f, 0),
+                                          new Vector3(0.5f, 0.5f, 0)
+                                      },
+                           uv = new[]
+                                {
+                                    new Vector2(0, 0),
+                                    new Vector2(1, 0),
+                                    new Vector2(0, 1),
+                                    new Vector2(1, 1)
+                                },
+                           triangles = new[] { 0, 2, 1, 2, 3, 1 }
+                       };
+            return mesh;
+        }
     }
 }

@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f5e4070ea434efc9801e757c9d5f3fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleCount: 100
-  emissionRate: 5
-  particleLifeTime: 2
-  particleColor: {r: 0.8396226, g: 0.48713955, b: 0.48713955, a: 1}
-  pause: 0
-  _particleMaterial: {fileID: 2100000, guid: 84f14f34053558343b08b0cc682aa4bc, type: 2}
+  maxParticles: 100
+  emissionRate: 100
+  duration: 3
+  particleColor: {r: 1, g: 1, b: 1, a: 1}
+  isPaused: 0
+  particleMaterial: {fileID: 2100000, guid: 84f14f34053558343b08b0cc682aa4bc, type: 2}
