@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace SimpleParticleSystem
 {
@@ -6,6 +7,8 @@ namespace SimpleParticleSystem
     {
         private void OnGUI()
         {
+            if (Selection.activeGameObject != gameObject)
+                return;
             if (GUILayout.Button("Play", new GUIStyle(GUI.skin.button)
                                          {
                                              fontSize = 20,
