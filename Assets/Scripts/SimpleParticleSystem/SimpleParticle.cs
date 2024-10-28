@@ -55,8 +55,7 @@ namespace SimpleParticleSystem
                     _duration = value;
             }
         }
-
-        public SimpleParticle(Vector3 startPosition, Vector3 startVelocity, Quaternion startRotation, Vector3 startScale, float duration, Color particleColor)
+        public void Initialize(Vector3 startPosition, Vector3 startVelocity, Quaternion startRotation, Vector3 startScale, float duration, Color particleColor)
         {
             Position = startPosition;
             Velocity = startVelocity;

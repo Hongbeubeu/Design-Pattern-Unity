@@ -2,10 +2,9 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-
 namespace SimpleParticleSystem
 {
-    public class SimpleParticleSystem : MonoBehaviour
+    public partial class SimpleParticleSystem : MonoBehaviour
     {
         public bool playOnAwake;
         public bool loop;
@@ -16,8 +15,8 @@ namespace SimpleParticleSystem
         public bool isPaused;
 
         private readonly List<SimpleParticle> _particles = new();
-        private Mesh _particleMesh;
         private MaterialPropertyBlock _propertyBlock;
+        [SerializeField] private Mesh particleMesh;
         [SerializeField] private Material particleMaterial;
 
         private float _timeSinceLastEmission;
@@ -26,50 +25,6 @@ namespace SimpleParticleSystem
         private float EmissionInterval => 1 / emissionRate;
 
         private static readonly int ColorId = Shader.PropertyToID("_Color");
-
-        private void OnGUI()
-        {
-            if (GUILayout.Button("Play", new GUIStyle(GUI.skin.button)
-                                         {
-                                             fontSize = 20,
-                                             fixedWidth = 150,
-                                             fixedHeight = 50
-                                         }))
-            {
-                Play();
-            }
-
-            if (GUILayout.Button("Stop", new GUIStyle(GUI.skin.button)
-                                         {
-                                             fontSize = 20,
-                                             fixedWidth = 150,
-                                             fixedHeight = 50
-                                         }))
-            {
-                Stop();
-            }
-
-            if (GUILayout.Button("Force Stop", new GUIStyle(GUI.skin.button)
-                                               {
-                                                   fontSize = 20,
-                                                   fixedWidth = 150,
-                                                   fixedHeight = 50
-                                               }))
-            {
-                Stop(true);
-            }
-
-            var title = isPaused ? "Resume" : "Pause";
-            if (GUILayout.Button(title, new GUIStyle(GUI.skin.button)
-                                        {
-                                            fontSize = 20,
-                                            fixedWidth = 150,
-                                            fixedHeight = 50
-                                        }))
-            {
-                isPaused = !isPaused;
-            }
-        }
 
         private void Awake()
         {
@@ -92,7 +47,8 @@ namespace SimpleParticleSystem
 
         private void Preload()
         {
-            _particleMesh = CreateQuadMesh();
+            if (particleMesh == null)
+                particleMesh = CreateQuadMesh();
             _propertyBlock = new MaterialPropertyBlock();
         }
 
@@ -162,11 +118,12 @@ namespace SimpleParticleSystem
                 return;
             }
 
-            //TODO: Implement particle pooling
             //TODO: Implement shape emission
             var position = transform.position;
             var velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
-            _particles.Add(new SimpleParticle(position, velocity, Quaternion.identity, Vector3.zero, duration, particleColor));
+            var particle = SimpleParticlePooler.GetParticle();
+            particle.Initialize(position, velocity, Quaternion.identity, Vector3.one, duration, particleColor);
+            _particles.Add(particle);
             _timeSinceLastEmission = 0;
         }
 
@@ -191,6 +148,7 @@ namespace SimpleParticleSystem
                 }
                 else
                 {
+                    SimpleParticlePooler.ReturnParticle(particle);
                     _particles.RemoveAt(i);
                 }
             }
@@ -228,7 +186,7 @@ namespace SimpleParticleSystem
                     // Render batch hiện tại
                     Graphics.RenderMeshInstanced(
                         new RenderParams(particleMaterial) { matProps = _propertyBlock },
-                        _particleMesh,
+                        particleMesh,
                         0,
                         _matrices
                     );
