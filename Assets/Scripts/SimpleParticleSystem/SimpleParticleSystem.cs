@@ -6,11 +6,16 @@ namespace SimpleParticleSystem
 {
     public partial class SimpleParticleSystem : MonoBehaviour
     {
-        public bool playOnAwake;
-        public bool loop;
+        public float duration = 3f;
+        public bool looping;
+
+        public RandomNumberFloat startDelay = new();
+        public RandomNumberFloat startLifetime = new();
+        public RandomNumberFloat startSpeed = new();
+
+        [Header("Emission")] public bool playOnAwake;
         public int maxParticles = 100;
         public float emissionRate = 5f; // Particles per second
-        public float duration = 3f;
         public Color particleColor = Color.white;
         public bool isPaused;
 
@@ -22,6 +27,7 @@ namespace SimpleParticleSystem
         private float _timeSinceLastEmission;
         private float _lifetime;
         private bool _isInitialized;
+        private float _delayCounter;
         private float EmissionInterval => 1 / emissionRate;
 
         private static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -39,6 +45,13 @@ namespace SimpleParticleSystem
         private void Update()
         {
             if (!_isInitialized) return;
+
+            if (_delayCounter > 0)
+            {
+                _delayCounter -= Time.deltaTime;
+                return;
+            }
+
 
             EmitParticles();
             UpdateParticles();
@@ -82,6 +95,7 @@ namespace SimpleParticleSystem
                 return;
             }
 
+            _delayCounter = startDelay.GetValue();
             _lifetime = duration;
             _matrices.Clear();
             _colors.Clear();
@@ -93,7 +107,7 @@ namespace SimpleParticleSystem
             if (isPaused) return;
 
             // Increase lifetime if not looping
-            if (!loop)
+            if (!looping)
             {
                 _lifetime -= Time.deltaTime;
             }
@@ -122,7 +136,7 @@ namespace SimpleParticleSystem
             var position = transform.position;
             var velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
             var particle = SimpleParticlePooler.GetParticle();
-            particle.Initialize(position, velocity, Quaternion.identity, Vector3.one, duration, particleColor);
+            particle.Initialize(position, velocity * startSpeed.GetValue(), Quaternion.identity, Vector3.one, startLifetime.GetValue(), particleColor);
             _particles.Add(particle);
             _timeSinceLastEmission = 0;
         }
