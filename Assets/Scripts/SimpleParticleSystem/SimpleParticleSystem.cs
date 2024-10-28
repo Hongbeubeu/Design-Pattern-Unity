@@ -66,7 +66,7 @@ namespace SimpleParticleSystem
         {
             if (clearParticles)
             {
-                _particles.Clear();
+                RemoveAllParticles();
                 _isInitialized = false;
             }
 
@@ -101,7 +101,7 @@ namespace SimpleParticleSystem
             // Limit the number of particles
             if (_particles.Count > maxParticles)
             {
-                _particles.RemoveRange(0, _particles.Count - maxParticles);
+                RemoveParticles(0, _particles.Count - maxParticles);
                 return;
             }
 
@@ -148,10 +148,36 @@ namespace SimpleParticleSystem
                 }
                 else
                 {
-                    SimpleParticlePooler.ReturnParticle(particle);
-                    _particles.RemoveAt(i);
+                    RemoveParticle(particle);
                 }
             }
+        }
+
+        private void RemoveParticles(int fromIndex, int toIndex)
+        {
+            for (var i = fromIndex; i < toIndex; i++)
+            {
+                SimpleParticlePooler.ReturnParticle(_particles[i]);
+            }
+
+            _particles.RemoveRange(fromIndex, toIndex - fromIndex);
+        }
+
+        private void RemoveParticle(int index)
+        {
+            SimpleParticlePooler.ReturnParticle(_particles[index]);
+            _particles.RemoveAt(index);
+        }
+
+        private void RemoveParticle(SimpleParticle particle)
+        {
+            SimpleParticlePooler.ReturnParticle(particle);
+            _particles.Remove(particle);
+        }
+
+        private void RemoveAllParticles()
+        {
+            RemoveParticles(0, _particles.Count);
         }
 
         private readonly List<Matrix4x4> _matrices = new();
