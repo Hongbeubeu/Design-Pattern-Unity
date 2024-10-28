@@ -13,6 +13,8 @@
         }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha // Blend mode
+        ZWrite Off
+        ZTest LEqual
 
         Pass
         {

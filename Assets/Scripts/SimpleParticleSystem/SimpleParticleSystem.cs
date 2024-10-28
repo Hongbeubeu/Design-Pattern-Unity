@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace SimpleParticleSystem
 {
@@ -12,11 +11,18 @@ namespace SimpleParticleSystem
         public RandomNumberFloat startDelay = new();
         public RandomNumberFloat startLifetime = new();
         public RandomNumberFloat startSpeed = new();
+        public RandomNumberFloat startSize = new();
+        public RandomNumberFloat startRotation = new();
+        public bool overrideDirection = true;
+        public RandomVector3 startDirection = new();
+        public Gradient colorOverLifetime;
+        public AnimationCurve sizeOverLifetime;
+        public ShapeEmission shapeEmission;
+        public float rotateSpeed;
 
         [Header("Emission")] public bool playOnAwake;
         public int maxParticles = 100;
         public float emissionRate = 5f; // Particles per second
-        public Color particleColor = Color.white;
         public bool isPaused;
 
         private readonly List<SimpleParticle> _particles = new();
@@ -132,11 +138,10 @@ namespace SimpleParticleSystem
                 return;
             }
 
-            //TODO: Implement shape emission
-            var position = transform.position;
-            var velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
+            var position = transform.position + shapeEmission.GetRandomPosition();
+            var velocity = overrideDirection ? startDirection.GetValue() : shapeEmission.GetRandomDirection();
             var particle = SimpleParticlePooler.GetParticle();
-            particle.Initialize(position, velocity * startSpeed.GetValue(), Quaternion.identity, Vector3.one, startLifetime.GetValue(), particleColor);
+            particle.Initialize(position, velocity * startSpeed.GetValue(), Quaternion.Euler(0, 0, startRotation.GetValue()), Vector3.one * sizeOverLifetime.Evaluate(0), startLifetime.GetValue(), colorOverLifetime.Evaluate(0));
             _particles.Add(particle);
             _timeSinceLastEmission = 0;
         }
@@ -153,11 +158,10 @@ namespace SimpleParticleSystem
                 {
                     particle.Position += particle.Velocity * Time.deltaTime;
                     var currentRotation = particle.Rotation.eulerAngles;
-                    currentRotation.z += 360 * Time.deltaTime;
+                    currentRotation.z += rotateSpeed * Time.deltaTime;
                     particle.Rotation = Quaternion.Euler(currentRotation);
-                    particle.Scale = Vector3.one * (1 - particle.LifetimeNormalized);
-                    var color = particle.Color;
-                    color.a = particle.LifetimeNormalized;
+                    particle.Scale = Vector3.one * (sizeOverLifetime.Evaluate(1 - particle.LifetimeNormalized) * startSize.GetValue());
+                    var color = colorOverLifetime.Evaluate(1 - particle.LifetimeNormalized);
                     particle.Color = color;
                 }
                 else

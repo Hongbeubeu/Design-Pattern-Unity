@@ -15,7 +15,7 @@ namespace SimpleParticleSystem
 
 
         private System.Random _random = new();
-
+        
         public T GetValue()
         {
             switch (type)
