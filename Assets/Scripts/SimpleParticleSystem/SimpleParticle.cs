@@ -4,15 +4,12 @@ namespace SimpleParticleSystem
 {
     public class SimpleParticle
     {
+        private float _lifetime; // Remaining lifetime
         private float _duration; // Total lifetime
         public Vector3 Position { get; set; }
-
         public Vector3 Velocity { get; private set; }
-
         public Quaternion Rotation { get; set; }
-
         public Vector3 Scale { get; set; }
-
         public Color Color { get; set; }
         public bool IsAlive => Lifetime > 0;
 
@@ -24,7 +21,7 @@ namespace SimpleParticleSystem
         {
             get
             {
-                var result = Lifetime / _duration;
+                var result = Lifetime / Duration;
                 return result switch
                        {
                            < 0 => 0,
@@ -36,10 +33,12 @@ namespace SimpleParticleSystem
 
         public float Lifetime
         {
-            get;
-            set;
-            // if (value < 0) _lifetime = 0;
-            // else _lifetime = value;
+            get => _lifetime;
+            set
+            {
+                if (value < 0) _lifetime = 0;
+                else _lifetime = value;
+            }
         }
 
         public float Duration
