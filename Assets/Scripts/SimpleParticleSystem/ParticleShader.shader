@@ -18,6 +18,7 @@
 
         Pass
         {
+            Offset 1, 1
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -52,7 +53,13 @@
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.pos = UnityObjectToClipPos(v.vertex);
+                // Tạo một phần bù nhỏ dựa trên ID của particle
+                float zOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _Color).a * 0.0001f;
+                // điều chỉnh hệ số nhân cho phù hợp
+                float4 adjustedPos = v.vertex;
+                adjustedPos.z += zOffset; // thêm phần bù cho Z
+
+                o.pos = UnityObjectToClipPos(adjustedPos);
                 o.color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 o.uv = v.uv;
                 return o;
