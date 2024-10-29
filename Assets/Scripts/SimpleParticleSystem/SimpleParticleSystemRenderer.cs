@@ -5,7 +5,7 @@ namespace SimpleParticleSystem
 {
     public static class SimpleParticleSystemRenderer
     {
-        private static readonly Dictionary<Mesh, List<SimpleParticleSystem>> ParticleSystemDictionary = new();
+        private static readonly Dictionary<(Mesh, Material), List<SimpleParticleSystem>> ParticleSystemDictionary = new();
         private static readonly List<Matrix4x4> Matrices = new();
         private static readonly List<Vector4> Colors = new();
         private static MaterialPropertyBlock _propertyBlock;
@@ -25,17 +25,19 @@ namespace SimpleParticleSystem
                 particleSystem.particleMesh = _defaultMesh;
             }
 
-            if (!ParticleSystemDictionary.ContainsKey(particleSystem.particleMesh))
+            var key = (particleSystem.particleMesh, particleSystem.particleMaterial);
+            if (!ParticleSystemDictionary.ContainsKey(key))
             {
-                ParticleSystemDictionary.Add(particleSystem.particleMesh, new List<SimpleParticleSystem>());
+                ParticleSystemDictionary.Add(key, new List<SimpleParticleSystem>());
             }
 
-            ParticleSystemDictionary[particleSystem.particleMesh].Add(particleSystem);
+            ParticleSystemDictionary[key].Add(particleSystem);
         }
 
         public static void RemoveParticleSystem(SimpleParticleSystem particleSystem)
         {
-            if (ParticleSystemDictionary.TryGetValue(particleSystem.particleMesh, out var particleSystems))
+            var key = (particleSystem.particleMesh, particleSystem.particleMaterial);
+            if (ParticleSystemDictionary.TryGetValue(key, out var particleSystems))
             {
                 particleSystems.Remove(particleSystem);
             }
@@ -62,10 +64,9 @@ namespace SimpleParticleSystem
             _propertyBlock ??= new MaterialPropertyBlock();
             _propertyBlock.Clear();
 
-            foreach (var (mesh, particleSystems) in ParticleSystemDictionary)
+            foreach (var ((mesh, material), particleSystems) in ParticleSystemDictionary)
             {
                 var particles = new List<SimpleParticle>();
-                var material = particleSystems[0].particleMaterial;
                 foreach (var particleSystem in particleSystems)
                 {
                     particles.AddRange(particleSystem.Particles);
