@@ -98,7 +98,7 @@ namespace SimpleParticleSystem
             }
 
             GUILayout.Label($"Particles In pool: {SimpleParticlePooler.Count}");
-            GUILayout.Label($"Particles In scene: {_particles.Count}");
+            GUILayout.Label($"Particles In scene: {Particles.Count}");
         }
     }
 }

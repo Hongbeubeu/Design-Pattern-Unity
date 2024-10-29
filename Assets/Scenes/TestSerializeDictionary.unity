@@ -350,6 +350,14 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSize.max
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSize.min
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startDelay.max
       value: 2
       objectReference: {fileID: 0}
@@ -358,16 +366,44 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSize.type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSpeed.max
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSpeed.min
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startDelay.type
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSpeed.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: randomNumber.type
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startLifetime.max
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startLifetime.min
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startRotation.max
       value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startLifetime.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startRotation.type
@@ -399,15 +435,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.atime1
-      value: 15613
+      value: 10794
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.atime2
-      value: 42791
+      value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.atime3
-      value: 65535
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.a
@@ -415,11 +451,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.b
-      value: 0.4669811
+      value: 0.15566039
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.g
-      value: 0.4669811
+      value: 0.15566039
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.r
@@ -431,7 +467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key1.g
-      value: 0.8061115
+      value: 0.70854634
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key1.r
@@ -439,7 +475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key2.a
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: shapeEmission.position.x
@@ -475,11 +511,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: shapeEmission.shapeEmissionType
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.m_NumAlphaKeys
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: sizeOverLifetime.m_Curve.Array.size
@@ -5886,6 +5922,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556941374}
   m_CullTransparentMesh: 1
+--- !u!1 &1640733158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1640733160}
+  - component: {fileID: 1640733159}
+  m_Layer: 0
+  m_Name: ParticleRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1640733159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640733158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5223cb96904287a229bdf0300e0b3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1640733160
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640733158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1920007305
 GameObject:
   m_ObjectHideFlags: 0
@@ -5991,6 +6071,14 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSize.max
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSize.min
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startDelay.max
       value: 2
       objectReference: {fileID: 0}
@@ -5999,16 +6087,44 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSize.type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSpeed.max
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSpeed.min
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startDelay.type
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startSpeed.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: randomNumber.type
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startLifetime.max
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startLifetime.min
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startRotation.max
       value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
+      propertyPath: startLifetime.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: startRotation.type
@@ -6040,15 +6156,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.atime1
-      value: 15613
+      value: 10794
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.atime2
-      value: 42791
+      value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.atime3
-      value: 65535
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.a
@@ -6056,11 +6172,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.b
-      value: 0.4669811
+      value: 0.15566039
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.g
-      value: 0.4669811
+      value: 0.15566039
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key0.r
@@ -6072,7 +6188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key1.g
-      value: 0.8061115
+      value: 0.70854634
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key1.r
@@ -6080,7 +6196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.key2.a
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: shapeEmission.position.x
@@ -6116,11 +6232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: shapeEmission.shapeEmissionType
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: colorOverLifetime.m_NumAlphaKeys
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 120524331561366245, guid: f82641384c2d2694e91c85f01ee8d7e7, type: 3}
       propertyPath: sizeOverLifetime.m_Curve.Array.size

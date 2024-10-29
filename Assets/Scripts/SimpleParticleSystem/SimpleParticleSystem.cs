@@ -25,10 +25,8 @@ namespace SimpleParticleSystem
         public float emissionRate = 5f; // Particles per second
         public bool isPaused;
 
-        private readonly List<SimpleParticle> _particles = new();
-        private MaterialPropertyBlock _propertyBlock;
-        [SerializeField] private Mesh particleMesh;
-        [SerializeField] private Material particleMaterial;
+        [SerializeField] public Mesh particleMesh;
+        [SerializeField] public Material particleMaterial;
 
         private float _timeSinceLastEmission;
         private float _lifetime;
@@ -36,19 +34,20 @@ namespace SimpleParticleSystem
         private float _delayCounter;
         private float EmissionInterval => 1 / emissionRate;
 
-        private static readonly int ColorId = Shader.PropertyToID("_Color");
+        public List<SimpleParticle> Particles { get; } = new();
 
         private void Awake()
         {
             Application.targetFrameRate = 60;
-            Preload();
             if (playOnAwake)
             {
                 Init();
             }
+
+            SimpleParticleSystemRenderer.AddParticleSystem(this);
         }
 
-        private void Update()
+        public void DoUpdate()
         {
             if (!_isInitialized) return;
 
@@ -61,14 +60,12 @@ namespace SimpleParticleSystem
 
             EmitParticles();
             UpdateParticles();
-            RenderParticles();
         }
 
-        private void Preload()
+        private void OnDestroy()
         {
-            if (particleMesh == null)
-                particleMesh = CreateQuadMesh();
-            _propertyBlock = new MaterialPropertyBlock();
+            RemoveAllParticles();
+            SimpleParticleSystemRenderer.RemoveParticleSystem(this);
         }
 
         public void Play()
@@ -103,8 +100,6 @@ namespace SimpleParticleSystem
 
             _delayCounter = startDelay.GetValue();
             _lifetime = duration;
-            _matrices.Clear();
-            _colors.Clear();
             _isInitialized = true;
         }
 
@@ -119,9 +114,9 @@ namespace SimpleParticleSystem
             }
 
             // Limit the number of particles
-            if (_particles.Count > maxParticles)
+            if (Particles.Count > maxParticles)
             {
-                RemoveParticles(0, _particles.Count - maxParticles);
+                RemoveParticles(0, Particles.Count - maxParticles);
                 return;
             }
 
@@ -142,7 +137,7 @@ namespace SimpleParticleSystem
             var velocity = overrideDirection ? startDirection.GetValue() : shapeEmission.GetRandomDirection();
             var particle = SimpleParticlePooler.GetParticle();
             particle.Initialize(position, velocity * startSpeed.GetValue(), Quaternion.Euler(0, 0, startRotation.GetValue()), Vector3.one * sizeOverLifetime.Evaluate(0), startLifetime.GetValue(), colorOverLifetime.Evaluate(0));
-            _particles.Add(particle);
+            Particles.Add(particle);
             _timeSinceLastEmission = 0;
         }
 
@@ -150,9 +145,9 @@ namespace SimpleParticleSystem
         {
             if (isPaused) return;
 
-            for (var i = _particles.Count - 1; i >= 0; i--)
+            for (var i = Particles.Count - 1; i >= 0; i--)
             {
-                var particle = _particles[i];
+                var particle = Particles[i];
                 particle.Lifetime -= Time.deltaTime;
                 if (particle.IsAlive)
                 {
@@ -175,94 +170,29 @@ namespace SimpleParticleSystem
         {
             for (var i = fromIndex; i < toIndex; i++)
             {
-                SimpleParticlePooler.ReturnParticle(_particles[i]);
+                SimpleParticlePooler.ReturnParticle(Particles[i]);
             }
 
-            _particles.RemoveRange(fromIndex, toIndex - fromIndex);
+            Particles.RemoveRange(fromIndex, toIndex - fromIndex);
         }
 
         private void RemoveParticle(int index)
         {
-            SimpleParticlePooler.ReturnParticle(_particles[index]);
-            _particles.RemoveAt(index);
+            SimpleParticlePooler.ReturnParticle(Particles[index]);
+            Particles.RemoveAt(index);
         }
 
         private void RemoveParticle(SimpleParticle particle)
         {
             SimpleParticlePooler.ReturnParticle(particle);
-            _particles.Remove(particle);
+            Particles.Remove(particle);
         }
 
         private void RemoveAllParticles()
         {
-            RemoveParticles(0, _particles.Count);
+            RemoveParticles(0, Particles.Count);
         }
 
-        private readonly List<Matrix4x4> _matrices = new();
-
-        private readonly List<Vector4> _colors = new();
-
-        private void RenderParticles()
-        {
-            const int batchSize = 511;
-            _matrices.Clear();
-            _colors.Clear();
-            _propertyBlock.Clear();
-
-            for (var i = 0; i < _particles.Count; i++)
-            {
-                var particle = _particles[i];
-
-                // Tạo matrix cho từng particle
-                var matrix = Matrix4x4.TRS(particle.Position, particle.Rotation, particle.Scale);
-                _matrices.Add(matrix);
-
-                // Thêm màu của particle vào danh sách
-                var currentColor = (Vector4)particle.Color;
-                _colors.Add(currentColor);
-
-                // Vẽ particles theo batch size
-                if (_matrices.Count == batchSize || i == _particles.Count - 1)
-                {
-                    // Gán danh sách màu vào MaterialPropertyBlock
-                    _propertyBlock.SetVectorArray(ColorId, _colors);
-
-                    // Render batch hiện tại
-                    Graphics.RenderMeshInstanced(
-                        new RenderParams(particleMaterial) { matProps = _propertyBlock },
-                        particleMesh,
-                        0,
-                        _matrices
-                    );
-
-                    // Xóa matrices và colors sau mỗi batch
-                    _matrices.Clear();
-                    _colors.Clear();
-                }
-            }
-        }
-
-        private static Mesh CreateQuadMesh()
-        {
-            var mesh = new Mesh
-                       {
-                           vertices = new[]
-                                      {
-                                          new Vector3(-0.5f, -0.5f, 0),
-                                          new Vector3(0.5f, -0.5f, 0),
-                                          new Vector3(-0.5f, 0.5f, 0),
-                                          new Vector3(0.5f, 0.5f, 0)
-                                      },
-                           uv = new[]
-                                {
-                                    new Vector2(0, 0),
-                                    new Vector2(1, 0),
-                                    new Vector2(0, 1),
-                                    new Vector2(1, 1)
-                                },
-                           triangles = new[] { 0, 2, 1, 2, 3, 1 }
-                       };
-            return mesh;
-        }
+        
     }
 }
