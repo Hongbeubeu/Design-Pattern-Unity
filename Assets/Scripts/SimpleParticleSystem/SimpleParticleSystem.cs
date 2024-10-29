@@ -36,9 +36,8 @@ namespace SimpleParticleSystem
 
         public List<SimpleParticle> Particles { get; } = new();
 
-        private void Awake()
+        private void Start()
         {
-            Application.targetFrameRate = 60;
             if (playOnAwake)
             {
                 Init();
