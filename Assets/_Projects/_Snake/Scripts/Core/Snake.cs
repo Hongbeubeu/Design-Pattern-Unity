@@ -89,6 +89,7 @@ public class Snake : MonoBehaviour
 
             _boardController.RemoveCake(cake);
             cake.Eat();
+            _speed += 0.5f;
             if (_boardController.HasAvailablePosition())
             {
                 _boardController.SpawnRandomCake();
