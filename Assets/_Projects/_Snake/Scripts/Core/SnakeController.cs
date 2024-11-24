@@ -3,12 +3,13 @@ using UnityEngine;
 public class SnakeController : MonoBehaviour
 {
     [SerializeField] private Snake _snake;
-    [SerializeField] private Board _board;
+    [SerializeField] private BoardController _boardController;
 
     private void Start()
     {
-        _board.GenerateBoard();
-        _snake.Initialize(_board);
+        _snake.Initialize(_boardController);
+        _boardController.Initialize(_snake);
+        _boardController.GenerateBoard();
     }
 
     private void Update()

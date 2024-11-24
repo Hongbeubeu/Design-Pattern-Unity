@@ -388,8 +388,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnakePlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 5053332948645243389, guid: 3509d9282584e9d4d88169f2928c56af, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5722476416572976079, guid: 3509d9282584e9d4d88169f2928c56af, type: 3}
       propertyPath: _board
+      value: 
+      objectReference: {fileID: 415312626}
+    - target: {fileID: 5722476416572976079, guid: 3509d9282584e9d4d88169f2928c56af, type: 3}
+      propertyPath: _boardController
       value: 
       objectReference: {fileID: 415312626}
     m_RemovedComponents: []
@@ -408,6 +416,34 @@ PrefabInstance:
     - target: {fileID: 3492732523858309568, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
       propertyPath: m_Name
       value: Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860623635634568446, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
+      propertyPath: _pointer
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860623635634568446, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
+      propertyPath: _size.row
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860623635634568446, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
+      propertyPath: _size.column
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860623635634568446, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
+      propertyPath: _size.cellSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860623635634568446, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
+      propertyPath: _currentBoard.rows
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860623635634568446, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
+      propertyPath: _currentBoard.columns
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860623635634568446, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
+      propertyPath: _currentBoard.cellSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6693503050905385599, guid: 5982e15254c631b4cb0b2c3dbe3d7e1e, type: 3}
       propertyPath: m_LocalPosition.x

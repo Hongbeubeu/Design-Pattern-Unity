@@ -9,16 +9,18 @@ public class Snake : MonoBehaviour
 
     private Vector3 _direction = Vector3.forward;
     private Vector3 _nextDirection = Vector3.forward;
-    private Board _board;
+    private BoardController _boardController;
     private float _timer;
     private bool _canMove = true;
     private readonly List<GameObject> _snakeTiles = new();
     private Vector3 _firstPosition;
     private readonly List<Vector3> _appendPositions = new();
 
-    public void Initialize(Board board)
+    public List<Vector3> SnakeTilePositions => _snakeTiles.ConvertAll(tile => tile.transform.position);
+
+    public void Initialize(BoardController boardController)
     {
-        _board = board;
+        _boardController = boardController;
         var tile = Instantiate(_snakeTile, _startPosition, Quaternion.identity, transform);
         _snakeTiles.Add(tile);
         _firstPosition = _startPosition;
@@ -81,19 +83,41 @@ public class Snake : MonoBehaviour
 
     private bool Check(Vector3 nextPosition)
     {
-        if (_board.IsInsideBoard(nextPosition))
+        if (!IsEatSelf(nextPosition) && _boardController.IsMovablePosition(nextPosition))
         {
-            if (!_board.IsCake(nextPosition, out var cake)) return true;
+            if (!_boardController.IsCake(nextPosition, out var cake)) return true;
 
-            _board.RemoveCake(cake);
+            _boardController.RemoveCake(cake);
             cake.Eat();
-            _board.SpawnRandomCake();
+            if (_boardController.HasAvailablePosition())
+            {
+                _boardController.SpawnRandomCake();
+            }
+            else
+            {
+                Debug.Log("Win");
+                _canMove = false;
+            }
+
             _appendPositions.Add(nextPosition);
             return true;
         }
 
         Debug.Log("Lose");
         _canMove = false;
+        return false;
+    }
+
+    private bool IsEatSelf(Vector3 nextPosition)
+    {
+        foreach (var position in SnakeTilePositions)
+        {
+            if (position == nextPosition)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 }

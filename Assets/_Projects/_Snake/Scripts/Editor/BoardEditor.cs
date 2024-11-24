@@ -3,14 +3,14 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 
-[CustomEditor(typeof(Board))]
+[CustomEditor(typeof(BoardController))]
 public class BoardEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        var board = (Board)target;
+        var board = (BoardController)target;
 
         if (GUILayout.Button("Generate Board"))
         {
