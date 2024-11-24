@@ -369,6 +369,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3707337054959824408, guid: 3509d9282584e9d4d88169f2928c56af, type: 3}
+      propertyPath: _speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707337054959824408, guid: 3509d9282584e9d4d88169f2928c56af, type: 3}
       propertyPath: _snakeTile
       value: 
       objectReference: {fileID: 418900169152363113, guid: 8339a852f18808d4faca5f501d8870d4, type: 3}
