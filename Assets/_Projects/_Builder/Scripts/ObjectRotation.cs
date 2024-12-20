@@ -8,7 +8,7 @@ public class ObjectRotation : MonoBehaviour
     [SerializeField] private float _scrollSpeed = 2f; // Scroll speed
     [SerializeField] private float _dampingSpeed = 5f; // Speed of damping
 
-    private float _rotationVelocityY; // Vận tốc xoay trục Y
+    private float _rotationVelocityY; // Rotation velocity on Y axis
 
     private void Update()
     {
