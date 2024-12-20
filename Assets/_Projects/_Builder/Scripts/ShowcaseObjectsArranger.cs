@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectsArrangement : MonoBehaviour
+public class ShowcaseObjectsArranger : MonoBehaviour
 {
+    [SerializeField] private int _objectPerRow = 5;
+    [SerializeField] private Vector3 _space = Vector3.one;
     [SerializeField] private List<Transform> _objects = new();
 
     [Button("GetObjects")]
@@ -13,10 +15,16 @@ public class ObjectsArrangement : MonoBehaviour
         for (var i = 0; i < count; i++)
         {
             var child = transform.GetChild(i);
-            if (child.TryGetMeshFilter(out _))
+            if (!child.TryGetMeshFilter(out _)) continue;
+            if (!child.TryGetComponent(typeof(PivotMono), out var p))
             {
-                _objects.Add(child);
+                var pivot = child.gameObject.AddComponent<PivotMono>();
+                pivot.Init();
             }
+
+            (p as PivotMono)?.Init();
+
+            _objects.Add(child);
         }
     }
 
@@ -35,10 +43,23 @@ public class ObjectsArrangement : MonoBehaviour
         for (var i = 0; i < count; i++)
         {
             var obj = _objects[i];
+            if (i > 0 && i % _objectPerRow == 0)
+            {
+                previousPart = 0;
+                position.x = 0;
+                position.z += _space.z;
+            }
+
             var currentPart = obj.localPosition.x - obj.GetMin().x;
-            position.x += previousPart + currentPart;
+            var space = i % _objectPerRow == 0 ? 0 : _space.x;
+            position.x += previousPart + space + currentPart;
             obj.localPosition = position;
             previousPart = obj.GetMax().x - obj.localPosition.x;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        GetObjects();
     }
 }
