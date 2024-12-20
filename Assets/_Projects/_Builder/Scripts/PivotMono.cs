@@ -28,11 +28,7 @@ public class PivotMono : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_min, 0.1f);
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(_max, 0.1f);
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(_center, 0.1f);
+        Gizmos.DrawWireCube(_bounds.center + _center, _bounds.size);
     }
 }
