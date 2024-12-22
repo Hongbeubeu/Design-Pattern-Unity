@@ -11,25 +11,26 @@ public class ButtonAttributeEditor : Editor
         DrawDefaultInspector();
 
         // Get the target MonoBehaviour
-        MonoBehaviour monoBehaviour = (MonoBehaviour)target;
+        var monoBehaviour = (MonoBehaviour)target;
 
         // Get all methods in the target class
-        MethodInfo[] methods = monoBehaviour.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        var methods = monoBehaviour.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-        foreach (MethodInfo method in methods)
+        foreach (var method in methods)
         {
             // Check if the method has the Button attribute
-            ButtonAttribute buttonAttribute = method.GetCustomAttribute<ButtonAttribute>();
-            if (buttonAttribute != null)
-            {
-                string buttonLabel = buttonAttribute.ButtonName ?? method.Name;
+            var buttonAttribute = method.GetCustomAttribute<ButtonAttribute>();
+            if (buttonAttribute == null) continue;
+            var buttonLabel = buttonAttribute.ButtonName ?? method.Name;
+            var buttonHeight = buttonAttribute.ButtonHeight;
 
-                // Draw a button in the Inspector
-                if (GUILayout.Button(buttonLabel))
-                {
-                    // Invoke the method when the button is clicked
-                    method.Invoke(monoBehaviour, null);
-                }
+            var height = EditorGUIUtility.singleLineHeight * ((int)buttonHeight + 1) + EditorGUIUtility.standardVerticalSpacing;
+
+            // Draw a button in the Inspector
+            if (GUILayout.Button(buttonLabel, GUILayout.Height(height)))
+            {
+                // Invoke the method when the button is clicked
+                method.Invoke(monoBehaviour, null);
             }
         }
     }
