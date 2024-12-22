@@ -3,43 +3,43 @@ using System.Collections;
 using UnityEngine;
 
 [Serializable]
-public struct SequentialPopupGroup
+public struct SequentialElementGroup
 {
-    public ParallelPopupGroup parallelPopupGroupGroup;
+    public ParallelElementGroup parallelElementGroup;
     public float openDelay;
     public float closeDelay;
 }
 
 [Serializable]
-public struct ParallelPopupGroup
+public struct ParallelElementGroup
 {
-    public Popup[] parallelPopups;
+    public UIElement[] parallelElements;
 }
 
-public sealed class CompositePopup : MonoBehaviour, IPopup
+public sealed class CompositeUIElement : MonoBehaviour, IUIElement
 {
     [SerializeField]
-    private SequentialPopupGroup[] _sequentialPopupGroups;
+    private SequentialElementGroup[] _sequentialPopupGroups;
 
     private bool _isAnimating;
     private bool _isOpen;
 
 
-    public void OpenPopup()
+    public void Show()
     {
         StartCoroutine(DoOpen());
     }
 
-    public void ClosePopup()
+    public void Close()
     {
         StartCoroutine(DoClose());
     }
 
-    public void PrepareOpenPopup()
+    private void PrepareOpenPopup()
     {
         foreach (var sequentialPopupGroup in _sequentialPopupGroups)
         {
-            var parallelPopups = sequentialPopupGroup.parallelPopupGroupGroup.parallelPopups;
+            var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
             foreach (var popup in parallelPopups)
             {
                 popup.PrepareOpenPopup();
@@ -55,10 +55,10 @@ public sealed class CompositePopup : MonoBehaviour, IPopup
             // Wait for the delay before opening the parallel popups
             yield return new WaitForSeconds(sequentialPopupGroup.openDelay);
 
-            var parallelPopups = sequentialPopupGroup.parallelPopupGroupGroup.parallelPopups;
+            var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
             foreach (var popup in parallelPopups)
             {
-                popup.OpenPopup();
+                popup.Show();
             }
         }
 
@@ -72,10 +72,10 @@ public sealed class CompositePopup : MonoBehaviour, IPopup
             // Wait for the delay before closing the parallel popups
             yield return new WaitForSeconds(sequentialPopupGroup.closeDelay);
 
-            var parallelPopups = sequentialPopupGroup.parallelPopupGroupGroup.parallelPopups;
+            var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
             foreach (var popup in parallelPopups)
             {
-                popup.ClosePopup();
+                popup.Close();
             }
         }
 
@@ -83,17 +83,17 @@ public sealed class CompositePopup : MonoBehaviour, IPopup
     }
 
     [Button("Toggle Popups")]
-    public void TogglePopup()
+    public void Toggle()
     {
         StopAllCoroutines();
 
         if (_isOpen)
         {
-            ClosePopup();
+            Close();
         }
         else
         {
-            OpenPopup();
+            Show();
         }
     }
 }

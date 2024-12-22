@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(RectTransform), typeof(CanvasGroup))]
-public class Popup : MonoBehaviour, IPopup
+public class UIElement : MonoBehaviour, IUIElement
 {
     [SerializeField]
     protected GameObject _popupCanvas;
@@ -45,7 +45,7 @@ public class Popup : MonoBehaviour, IPopup
         _popupAnimationTarget.Group.interactable = false;
     }
 
-    public virtual void OpenPopup()
+    public virtual void Show()
     {
         _openStrategy.DoAnimations(
             _popupAnimationTarget,
@@ -54,7 +54,7 @@ public class Popup : MonoBehaviour, IPopup
             () => _popupAnimationTarget.Group.interactable = true);
     }
 
-    public virtual void ClosePopup()
+    public virtual void Close()
     {
         _closeStrategies.DoAnimations(
             _popupAnimationTarget,
@@ -86,15 +86,15 @@ public class Popup : MonoBehaviour, IPopup
     }
 
     [Button("Toggle Popup")]
-    public virtual void TogglePopup()
+    public virtual void Toggle()
     {
         if (_popupCanvas.activeSelf)
         {
-            ClosePopup();
+            Close();
         }
         else
         {
-            OpenPopup();
+            Show();
         }
     }
 }

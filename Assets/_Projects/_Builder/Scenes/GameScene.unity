@@ -373,7 +373,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 10401578}
         m_TargetAssemblyTypeName: CompositePopup, Builder
-        m_MethodName: ClosePopup
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -691,7 +691,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 10401578}
         m_TargetAssemblyTypeName: CompositePopup, Builder
-        m_MethodName: ClosePopup
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -798,32 +798,32 @@ MonoBehaviour:
     _canvasGroup: {fileID: 566950391}
   _openPopupConfigs:
   - _animationType: 4
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 500, y: 0, z: 0}
       _alpha: 1
   - _animationType: 8
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 0, y: 0, z: 0}
       _alpha: 1
   - _animationType: 2
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 2, y: 2, z: 2}
       _alpha: 1
   _closePopupConfigs:
   - _animationType: 8
-    _duration: 1
+    _duration: 0.5
     _ease: 26
     _animateTo:
       _value: {x: 0, y: 1000, z: 0}
       _alpha: 0
   - _animationType: 2
-    _duration: 1
+    _duration: 0.5
     _ease: 26
     _animateTo:
       _value: {x: 0, y: 0, z: 0}
@@ -966,7 +966,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 10401578}
         m_TargetAssemblyTypeName: CompositePopup, Builder
-        m_MethodName: OpenPopup
+        m_MethodName: Show
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1156,7 +1156,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 10401578}
         m_TargetAssemblyTypeName: CompositePopup, Builder
-        m_MethodName: ClosePopup
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1331,32 +1331,32 @@ MonoBehaviour:
     _canvasGroup: {fileID: 1357586486}
   _openPopupConfigs:
   - _animationType: 4
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: -500, y: 0, z: 0}
       _alpha: 1
   - _animationType: 8
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 0, y: 0, z: 0}
       _alpha: 1
   - _animationType: 2
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 2, y: 2, z: 2}
       _alpha: 1
   _closePopupConfigs:
   - _animationType: 8
-    _duration: 1
+    _duration: 0.5
     _ease: 26
     _animateTo:
       _value: {x: 0, y: 1000, z: 0}
       _alpha: 0
   - _animationType: 2
-    _duration: 1
+    _duration: 0.5
     _ease: 26
     _animateTo:
       _value: {x: 0, y: 0, z: 0}
@@ -1499,7 +1499,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 10401578}
         m_TargetAssemblyTypeName: CompositePopup, Builder
-        m_MethodName: ClosePopup
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1631,7 +1631,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 10401578}
         m_TargetAssemblyTypeName: CompositePopup, Builder
-        m_MethodName: ClosePopup
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1776,32 +1776,32 @@ MonoBehaviour:
     _canvasGroup: {fileID: 1567931272}
   _openPopupConfigs:
   - _animationType: 4
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 0, y: 0, z: 0}
       _alpha: 1
   - _animationType: 8
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 0, y: 0, z: 0}
       _alpha: 1
   - _animationType: 2
-    _duration: 1
+    _duration: 0.5
     _ease: 27
     _animateTo:
       _value: {x: 2, y: 2, z: 2}
       _alpha: 1
   _closePopupConfigs:
   - _animationType: 8
-    _duration: 1
+    _duration: 0.5
     _ease: 26
     _animateTo:
       _value: {x: 0, y: 1000, z: 0}
       _alpha: 0
   - _animationType: 2
-    _duration: 1
+    _duration: 0.5
     _ease: 26
     _animateTo:
       _value: {x: 0, y: 0, z: 0}
@@ -1906,7 +1906,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 10401578}
         m_TargetAssemblyTypeName: CompositePopup, Builder
-        m_MethodName: ClosePopup
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
