@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 
 [Serializable]
-public struct PopupAnimationStrategyConfig
+public struct UIAnimationStrategyConfig
 {
     [SerializeField]
     private AnimationType _animationType;
@@ -23,7 +23,7 @@ public struct PopupAnimationStrategyConfig
     public AnimationStrategyData AnimateTo => _animateTo;
 
     // Constructor
-    public PopupAnimationStrategyConfig(AnimationType animationType, float duration, AnimationStrategyData animateTo, Ease ease)
+    public UIAnimationStrategyConfig(AnimationType animationType, float duration, AnimationStrategyData animateTo, Ease ease)
     {
         _animationType = animationType;
         _duration = duration;

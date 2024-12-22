@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
+[Serializable]
 [RequireComponent(typeof(RectTransform), typeof(CanvasGroup))]
 public class UIElement : MonoBehaviour, IUIElement
 {
@@ -13,10 +15,10 @@ public class UIElement : MonoBehaviour, IUIElement
     [Space]
     [Header("Animation Configs")]
     [SerializeField]
-    protected PopupAnimationStrategyConfig[] _openPopupConfigs;
+    protected UIAnimationStrategyConfig[] _openPopupConfigs;
 
     [SerializeField]
-    protected PopupAnimationStrategyConfig[] _closePopupConfigs;
+    protected UIAnimationStrategyConfig[] _closePopupConfigs;
 
 
     [Space]
@@ -33,13 +35,13 @@ public class UIElement : MonoBehaviour, IUIElement
     [SerializeField]
     private float _initialAlpha;
 
-    private StrategyController _openStrategy;
-    private StrategyController _closeStrategies;
+    private UIAnimationController _openUIAnimation;
+    private UIAnimationController _closeUIAnimations;
 
     public virtual void Start()
     {
-        _openStrategy = new StrategyController(_openPopupConfigs.Select(i => i.AnimationType).ToArray());
-        _closeStrategies = new StrategyController(_closePopupConfigs.Select(i => i.AnimationType).ToArray());
+        _openUIAnimation = new UIAnimationController(_openPopupConfigs.Select(i => i.AnimationType).ToArray());
+        _closeUIAnimations = new UIAnimationController(_closePopupConfigs.Select(i => i.AnimationType).ToArray());
 
         _popupCanvas.SetActive(false);
         _popupAnimationTarget.Group.interactable = false;
@@ -47,7 +49,7 @@ public class UIElement : MonoBehaviour, IUIElement
 
     public virtual void Show()
     {
-        _openStrategy.DoAnimations(
+        _openUIAnimation.DoAnimations(
             _popupAnimationTarget,
             _openPopupConfigs,
             PrepareOpenPopup,
@@ -56,7 +58,7 @@ public class UIElement : MonoBehaviour, IUIElement
 
     public virtual void Close()
     {
-        _closeStrategies.DoAnimations(
+        _closeUIAnimations.DoAnimations(
             _popupAnimationTarget,
             _closePopupConfigs,
             () => _popupAnimationTarget.Group.interactable = false,

@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Linq;
 using DG.Tweening;
-using UnityEngine;
 
-public class StrategyController
+public class UIAnimationController
 {
-    private IPopupAnimationStrategy[] Strategies { get; }
+    private IUIAnimationStrategy[] Strategies { get; }
 
-    public StrategyController(AnimationType[] animationTypes)
+    public UIAnimationController(AnimationType[] animationTypes)
     {
         Strategies = GetStrategies(animationTypes);
     }
 
-    private static IPopupAnimationStrategy[] GetStrategies(AnimationType[] animationTypes)
+    private static IUIAnimationStrategy[] GetStrategies(AnimationType[] animationTypes)
     {
-        var strategies = new IPopupAnimationStrategy[animationTypes.Length];
+        var strategies = new IUIAnimationStrategy[animationTypes.Length];
         for (var i = 0; i < animationTypes.Length; i++)
         {
             strategies[i] = GetStrategy(animationTypes[i]);
@@ -23,20 +22,20 @@ public class StrategyController
         return strategies;
     }
 
-    private static IPopupAnimationStrategy GetStrategy(AnimationType type)
+    private static IUIAnimationStrategy GetStrategy(AnimationType type)
     {
         return type switch
                {
                    AnimationType.None => throw new ArgumentException(),
-                   AnimationType.Move => new MoveAnimationStrategy(),
-                   AnimationType.Scale => new ScaleAnimationStrategy(),
-                   AnimationType.Fade => new FadeAnimationStrategy(),
+                   AnimationType.Move => new UIMoveAnimationStrategy(),
+                   AnimationType.Scale => new UIScaleAnimationStrategy(),
+                   AnimationType.Fade => new UIFadeAnimationStrategy(),
                    AnimationType.Rotate => throw new ArgumentOutOfRangeException(),
                    _ => throw new ArgumentOutOfRangeException()
                };
     }
 
-    public void DoAnimations(UIAnimationTarget target, PopupAnimationStrategyConfig[] configs, Action onBegin = null, Action onComplete = null)
+    public void DoAnimations(UIAnimationTarget target, UIAnimationStrategyConfig[] configs, Action onBegin = null, Action onComplete = null)
     {
         onBegin?.Invoke();
         target.Rect.DOKill();

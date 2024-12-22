@@ -1,8 +1,8 @@
 ﻿using DG.Tweening;
 
-public class MoveAnimationStrategy : IPopupAnimationStrategy
+public class UIMoveAnimationStrategy : IUIAnimationStrategy
 {
-    public void DoAnimation(UIAnimationTarget target, PopupAnimationStrategyConfig config)
+    public void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config)
     {
         var popupRectTransform = target.Rect;
         popupRectTransform.DOLocalMove(config.AnimateTo.Position, config.Duration)

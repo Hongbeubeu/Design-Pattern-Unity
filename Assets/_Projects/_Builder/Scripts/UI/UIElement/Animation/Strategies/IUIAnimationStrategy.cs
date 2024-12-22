@@ -24,7 +24,7 @@ public struct UIAnimationTarget
     }
 }
 
-public interface IPopupAnimationStrategy
+public interface IUIAnimationStrategy
 {
-    void DoAnimation(UIAnimationTarget target, PopupAnimationStrategyConfig config);
+    void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config);
 }

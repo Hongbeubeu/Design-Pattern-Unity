@@ -16,7 +16,8 @@ public struct ParallelElementGroup
     public UIElement[] parallelElements;
 }
 
-public sealed class CompositeUIElement : MonoBehaviour, IUIElement
+[Serializable]
+public class UICompositeElement : MonoBehaviour, IUIElement
 {
     [SerializeField]
     private SequentialElementGroup[] _sequentialPopupGroups;
