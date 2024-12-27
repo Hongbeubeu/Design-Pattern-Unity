@@ -1,4 +1,7 @@
-﻿public interface IConfigProvider
+﻿namespace Builder.Entity
 {
-    void ProvideConfigData(IEntityConfigData configData);
+    public interface IConfigProvider
+    {
+        void ProvideConfigData(IEntityConfigData configData);
+    }
 }

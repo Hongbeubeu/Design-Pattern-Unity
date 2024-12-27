@@ -1,10 +1,13 @@
 ﻿using DG.Tweening;
 
-public class UIFadeAnimationStrategy : IUIAnimationStrategy
+namespace Builder.UI
 {
-    public void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config)
+    public class UIFadeAnimationStrategy : IUIAnimationStrategy
     {
-        DOVirtual.Float(target.Group.alpha, config.AnimateTo.Alpha, config.Duration, value => target.Group.alpha = value)
-                 .SetEase(config.Ease);
+        public void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config)
+        {
+            DOVirtual.Float(target.Group.alpha, config.AnimateTo.Alpha, config.Duration, value => target.Group.alpha = value)
+                     .SetEase(config.Ease);
+        }
     }
 }

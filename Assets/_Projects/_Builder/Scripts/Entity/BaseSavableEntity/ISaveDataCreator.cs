@@ -1,4 +1,7 @@
-﻿public interface ISaveDataCreator
+﻿namespace Builder.Entity
 {
-    ISaveData CreateSaveData();
+    public interface ISaveDataCreator
+    {
+        ISaveData CreateSaveData();
+    }
 }

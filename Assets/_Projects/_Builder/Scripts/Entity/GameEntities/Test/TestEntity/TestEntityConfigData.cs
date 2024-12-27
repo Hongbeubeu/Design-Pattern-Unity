@@ -1,15 +1,18 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Entity/Test", fileName = "TestEntityConfigData", order = 0)]
-public class TestEntityConfigData : BaseEntityConfigData, ITestEntityConfigData
+namespace Builder.Entity
 {
-    [SerializeField]
-    private int _number;
-
-    public int Number => _number;
-
-    public override IEntity CreateEntity()
+    [CreateAssetMenu(menuName = "Entity/Test", fileName = "TestEntityConfigData", order = 0)]
+    public class TestEntityConfigData : BaseEntityConfigData, ITestEntityConfigData
     {
-        return new TestEntity(Id);
+        [SerializeField]
+        private int _number;
+
+        public int Number => _number;
+
+        public override IEntity CreateEntity()
+        {
+            return new TestEntity(Id);
+        }
     }
 }

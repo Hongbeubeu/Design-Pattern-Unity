@@ -1,15 +1,18 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Entity/Test Savable", fileName = "TestSavableEntityConfigData", order = 0)]
-public class TestSavableEntityConfigData : BaseSavableEntityConfigData, ITestSavableEntityConfigData
+namespace Builder.Entity
 {
-    public override IEntity CreateEntity()
+    [CreateAssetMenu(menuName = "Entity/Test Savable", fileName = "TestSavableEntityConfigData", order = 0)]
+    public class TestSavableEntityConfigData : BaseSavableEntityConfigData, ITestSavableEntityConfigData
     {
-        return new TestSavableEntity(Id);
-    }
+        public override IEntity CreateEntity()
+        {
+            return new TestSavableEntity(Id);
+        }
 
-    public override ISaveData CreateSaveData()
-    {
-        return new TestSaveData(Id);
+        public override ISaveData CreateSaveData()
+        {
+            return new TestSaveData(Id);
+        }
     }
 }

@@ -1,6 +1,9 @@
-﻿public interface IUIElement
+﻿namespace Builder.UI
 {
-    void Show();
-    void Close();
-    void Toggle();
+    public interface IUIElement
+    {
+        void Show();
+        void Close();
+        void Toggle();
+    }
 }

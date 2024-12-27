@@ -1,4 +1,9 @@
-﻿public interface IEntity : IEntityLifeCycle, IConfigProvider
+﻿using IoC;
+
+namespace Builder.Entity
 {
-    string Id { get; }
+    public interface IEntity : IEntityLifeCycle, IConfigProvider, IInjectable
+    {
+        string Id { get; }
+    }
 }

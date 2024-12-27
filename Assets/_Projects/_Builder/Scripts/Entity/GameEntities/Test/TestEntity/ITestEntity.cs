@@ -1,4 +1,7 @@
-﻿public interface ITestEntity : IBaseEntity<ITestEntityConfigData>
+﻿namespace Builder.Entity
 {
-    void DoSomething();
+    public interface ITestEntity : IBaseEntity<ITestEntityConfigData>
+    {
+        void DoSomething();
+    }
 }

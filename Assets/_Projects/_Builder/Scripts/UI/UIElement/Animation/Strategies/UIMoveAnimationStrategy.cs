@@ -1,11 +1,14 @@
 ﻿using DG.Tweening;
 
-public class UIMoveAnimationStrategy : IUIAnimationStrategy
+namespace Builder.UI
 {
-    public void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config)
+    public class UIMoveAnimationStrategy : IUIAnimationStrategy
     {
-        var popupRectTransform = target.Rect;
-        popupRectTransform.DOLocalMove(config.AnimateTo.Position, config.Duration)
-                          .SetEase(config.Ease);
+        public void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config)
+        {
+            var popupRectTransform = target.Rect;
+            popupRectTransform.DOLocalMove(config.AnimateTo.Position, config.Duration)
+                              .SetEase(config.Ease);
+        }
     }
 }

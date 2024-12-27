@@ -1,4 +1,7 @@
-public interface ITestEntityConfigData : IEntityConfigData
+namespace Builder.Entity
 {
-    int Number { get; }
+    public interface ITestEntityConfigData : IEntityConfigData
+    {
+        int Number { get; }
+    }
 }

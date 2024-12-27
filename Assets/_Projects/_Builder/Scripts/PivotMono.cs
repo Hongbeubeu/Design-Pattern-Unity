@@ -1,61 +1,65 @@
+using Builder.Editor;
 using UnityEngine;
 
-public class PivotMono : MonoBehaviour
+namespace Builder
 {
-    private Bounds _totalBounds;
-    private bool _isInitialized = false;
-
-    [Button("Init")]
-    public void Init()
+    public class PivotMono : MonoBehaviour
     {
-        // Lấy tất cả các MeshFilter con trong GameObject
-        var meshFilters = GetComponentsInChildren<MeshFilter>();
+        private Bounds _totalBounds;
+        private bool _isInitialized = false;
 
-        if (meshFilters.Length == 0)
+        [Button("Init")]
+        public void Init()
         {
-            Debug.LogWarning("Không tìm thấy MeshFilter trong GameObject hoặc các con!");
-            _isInitialized = false;
-            return;
+            // Lấy tất cả các MeshFilter con trong GameObject
+            var meshFilters = GetComponentsInChildren<MeshFilter>();
+
+            if (meshFilters.Length == 0)
+            {
+                Debug.LogWarning("Không tìm thấy MeshFilter trong GameObject hoặc các con!");
+                _isInitialized = false;
+                return;
+            }
+
+            // Khởi tạo bounds đầu tiên từ mesh đầu tiên
+            _totalBounds = meshFilters[0].sharedMesh.bounds;
+            _totalBounds = TransformBounds(meshFilters[0].transform, _totalBounds);
+
+            // Gộp tất cả bounds của các MeshFilter con lại
+            for (var i = 1; i < meshFilters.Length; i++)
+            {
+                var mesh = meshFilters[i].sharedMesh;
+                if (mesh == null) continue;
+
+                var meshBounds = TransformBounds(meshFilters[i].transform, mesh.bounds);
+                _totalBounds.Encapsulate(meshBounds);
+            }
+
+            _isInitialized = true;
         }
 
-        // Khởi tạo bounds đầu tiên từ mesh đầu tiên
-        _totalBounds = meshFilters[0].sharedMesh.bounds;
-        _totalBounds = TransformBounds(meshFilters[0].transform, _totalBounds);
-
-        // Gộp tất cả bounds của các MeshFilter con lại
-        for (var i = 1; i < meshFilters.Length; i++)
+        private static Bounds TransformBounds(Transform trans, Bounds localBounds)
         {
-            var mesh = meshFilters[i].sharedMesh;
-            if (mesh == null) continue;
+            // Chuyển đổi Bounds từ local space sang world space
+            var worldCenter = trans.TransformPoint(localBounds.center);
+            var worldSize = Vector3.Scale(localBounds.size, trans.lossyScale);
 
-            var meshBounds = TransformBounds(meshFilters[i].transform, mesh.bounds);
-            _totalBounds.Encapsulate(meshBounds);
+            return new Bounds(worldCenter, worldSize);
         }
 
-        _isInitialized = true;
-    }
+        private void OnDrawGizmosSelected()
+        {
+            if (!_isInitialized) Init();
 
-    private static Bounds TransformBounds(Transform trans, Bounds localBounds)
-    {
-        // Chuyển đổi Bounds từ local space sang world space
-        var worldCenter = trans.TransformPoint(localBounds.center);
-        var worldSize = Vector3.Scale(localBounds.size, trans.lossyScale);
+            Gizmos.color = Color.blue;
 
-        return new Bounds(worldCenter, worldSize);
-    }
+            // Vẽ WireCube cho Bounds tổng hợp
+            Gizmos.DrawWireCube(_totalBounds.center, _totalBounds.size);
 
-    private void OnDrawGizmosSelected()
-    {
-        if (!_isInitialized) Init();
+            Gizmos.color = Color.red;
 
-        Gizmos.color = Color.blue;
-
-        // Vẽ WireCube cho Bounds tổng hợp
-        Gizmos.DrawWireCube(_totalBounds.center, _totalBounds.size);
-
-        Gizmos.color = Color.red;
-
-        // Vẽ vị trí pivot của chính object
-        Gizmos.DrawSphere(transform.position, 0.1f);
+            // Vẽ vị trí pivot của chính object
+            Gizmos.DrawSphere(transform.position, 0.1f);
+        }
     }
 }

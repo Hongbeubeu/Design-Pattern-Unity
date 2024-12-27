@@ -1,6 +1,9 @@
-﻿public interface ISavableEntity<out TConfigData, out TSaveData> : IBaseEntity<TConfigData>, ISaveDataProvider
-    where TSaveData : ISaveData
-    where TConfigData : IEntityConfigData
+﻿namespace Builder.Entity
 {
-    TSaveData SaveData { get; }
+    public interface ISavableEntity<out TConfigData, out TSaveData> : IBaseEntity<TConfigData>, ISaveDataProvider
+        where TSaveData : ISaveData
+        where TConfigData : IEntityConfigData
+    {
+        TSaveData SaveData { get; }
+    }
 }

@@ -1,4 +1,7 @@
-﻿public interface IEntityCreator
+﻿namespace Builder.Entity
 {
-    IEntity CreateEntity();
+    public interface IEntityCreator
+    {
+        IEntity CreateEntity();
+    }
 }

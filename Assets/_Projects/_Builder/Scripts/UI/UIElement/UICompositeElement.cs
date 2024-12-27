@@ -1,100 +1,104 @@
 ﻿using System;
 using System.Collections;
+using Builder.Editor;
 using UnityEngine;
 
-[Serializable]
-public struct SequentialElementGroup
+namespace Builder.UI
 {
-    public ParallelElementGroup parallelElementGroup;
-    public float openDelay;
-    public float closeDelay;
-}
-
-[Serializable]
-public struct ParallelElementGroup
-{
-    public UIElement[] parallelElements;
-}
-
-[Serializable]
-public class UICompositeElement : MonoBehaviour, IUIElement
-{
-    [SerializeField]
-    private SequentialElementGroup[] _sequentialPopupGroups;
-
-    private bool _isAnimating;
-    private bool _isOpen;
-
-
-    public void Show()
+    [Serializable]
+    public struct SequentialElementGroup
     {
-        StartCoroutine(DoOpen());
+        public ParallelElementGroup parallelElementGroup;
+        public float openDelay;
+        public float closeDelay;
     }
 
-    public void Close()
+    [Serializable]
+    public struct ParallelElementGroup
     {
-        StartCoroutine(DoClose());
+        public UIElement[] parallelElements;
     }
 
-    private void PrepareOpenPopup()
+    [Serializable]
+    public class UICompositeElement : MonoBehaviour, IUIElement
     {
-        foreach (var sequentialPopupGroup in _sequentialPopupGroups)
+        [SerializeField]
+        private SequentialElementGroup[] _sequentialPopupGroups;
+
+        private bool _isAnimating;
+        private bool _isOpen;
+
+
+        public void Show()
         {
-            var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
-            foreach (var popup in parallelPopups)
-            {
-                popup.PrepareOpenPopup();
-            }
+            StartCoroutine(DoOpen());
         }
-    }
 
-    private IEnumerator DoOpen()
-    {
-        PrepareOpenPopup();
-        foreach (var sequentialPopupGroup in _sequentialPopupGroups)
+        public void Close()
         {
-            // Wait for the delay before opening the parallel popups
-            yield return new WaitForSeconds(sequentialPopupGroup.openDelay);
+            StartCoroutine(DoClose());
+        }
 
-            var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
-            foreach (var popup in parallelPopups)
+        private void PrepareOpenPopup()
+        {
+            foreach (var sequentialPopupGroup in _sequentialPopupGroups)
             {
-                popup.Show();
+                var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
+                foreach (var popup in parallelPopups)
+                {
+                    popup.PrepareOpenPopup();
+                }
             }
         }
 
-        _isOpen = true;
-    }
-
-    private IEnumerator DoClose()
-    {
-        foreach (var sequentialPopupGroup in _sequentialPopupGroups)
+        private IEnumerator DoOpen()
         {
-            // Wait for the delay before closing the parallel popups
-            yield return new WaitForSeconds(sequentialPopupGroup.closeDelay);
-
-            var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
-            foreach (var popup in parallelPopups)
+            PrepareOpenPopup();
+            foreach (var sequentialPopupGroup in _sequentialPopupGroups)
             {
-                popup.Close();
+                // Wait for the delay before opening the parallel popups
+                yield return new WaitForSeconds(sequentialPopupGroup.openDelay);
+
+                var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
+                foreach (var popup in parallelPopups)
+                {
+                    popup.Show();
+                }
             }
+
+            _isOpen = true;
         }
 
-        _isOpen = false;
-    }
-
-    [Button("Toggle Popups")]
-    public void Toggle()
-    {
-        StopAllCoroutines();
-
-        if (_isOpen)
+        private IEnumerator DoClose()
         {
-            Close();
+            foreach (var sequentialPopupGroup in _sequentialPopupGroups)
+            {
+                // Wait for the delay before closing the parallel popups
+                yield return new WaitForSeconds(sequentialPopupGroup.closeDelay);
+
+                var parallelPopups = sequentialPopupGroup.parallelElementGroup.parallelElements;
+                foreach (var popup in parallelPopups)
+                {
+                    popup.Close();
+                }
+            }
+
+            _isOpen = false;
         }
-        else
+
+        [Button("Toggle Popups")]
+        public void Toggle()
         {
-            Show();
+            StopAllCoroutines();
+
+            if (_isOpen)
+            {
+                Close();
+            }
+            else
+            {
+                Show();
+            }
         }
     }
 }

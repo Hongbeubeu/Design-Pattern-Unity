@@ -1,31 +1,18 @@
-﻿public abstract class BaseSavableEntity<TConfigData, TSaveData> : ISavableEntity<TConfigData, TSaveData>
-    where TSaveData : ISaveData
-    where TConfigData : IEntityConfigData
+﻿namespace Builder.Entity
 {
-    public string Id { get; }
-    public TConfigData ConfigData { get; protected set; }
-    public TSaveData SaveData { get; protected set; }
-
-    protected BaseSavableEntity(string id)
+    public abstract class BaseSavableEntity<TConfigData, TSaveData> : BaseEntity<TConfigData>, ISavableEntity<TConfigData, TSaveData>
+        where TSaveData : class, ISaveData
+        where TConfigData : class, IEntityConfigData
     {
-        Id = id;
-    }
+        public TSaveData SaveData { get; private set; }
 
-    public void Setup()
-    {
-    }
+        protected BaseSavableEntity(string id) : base(id)
+        {
+        }
 
-    public void Cleanup()
-    {
-    }
-
-    public virtual void ProvideConfigData(IEntityConfigData configData)
-    {
-        ConfigData = (TConfigData)configData;
-    }
-
-    public virtual void ProvideSaveData(ISaveData saveData)
-    {
-        SaveData = (TSaveData)saveData;
+        public void ProvideSaveData(ISaveData saveData)
+        {
+            SaveData = (TSaveData)saveData;
+        }
     }
 }

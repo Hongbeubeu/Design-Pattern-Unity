@@ -1,6 +1,9 @@
-﻿public abstract class UIBaseAnimationStrategy : IUIAnimationStrategy
+﻿namespace Builder.UI
 {
-    public virtual void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config)
+    public abstract class UIBaseAnimationStrategy : IUIAnimationStrategy
     {
+        public virtual void DoAnimation(UIAnimationTarget target, UIAnimationStrategyConfig config)
+        {
+        }
     }
 }

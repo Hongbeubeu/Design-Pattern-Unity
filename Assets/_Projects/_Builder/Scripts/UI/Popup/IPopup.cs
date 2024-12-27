@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public interface IPopup : IUIElement
+namespace Builder.UI
 {
-    RectTransform Rect { get; }
+    public interface IPopup : IUIElement
+    {
+        RectTransform Rect { get; }
+    }
 }

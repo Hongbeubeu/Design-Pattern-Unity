@@ -4,13 +4,15 @@ namespace IoC
 {
     public class MonoStartup : MonoBehaviour, IStartup
     {
-        [SerializeField] private MonoContext _context;
+        [SerializeField]
+        private MonoContext _context;
+
         private IContext Context => _context;
 
-        // public IResolver Resolver => Context.Container;
+        public IResolver Resolver => Context.Container;
 
 
-        private void Start()
+        public virtual void Start()
         {
             StartGame();
         }

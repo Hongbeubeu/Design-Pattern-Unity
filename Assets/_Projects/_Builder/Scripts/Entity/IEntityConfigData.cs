@@ -1,4 +1,7 @@
-﻿public interface IEntityConfigData
+﻿namespace Builder.Entity
 {
-    string Id { get; }
+    public interface IEntityConfigData
+    {
+        string Id { get; }
+    }
 }

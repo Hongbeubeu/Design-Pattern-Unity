@@ -1,24 +1,44 @@
-﻿public abstract class BaseEntity<TConfigData> : IBaseEntity<TConfigData> where TConfigData : class, IEntityConfigData
+﻿using IoC;
+using IoC.Services;
+
+namespace Builder.Entity
 {
-    public string Id { get; protected set; }
-    public TConfigData ConfigData { get; protected set; }
-
-    protected BaseEntity(string id)
+    public abstract class BaseEntity<TConfigData> : IBaseEntity<TConfigData>
+        where TConfigData : class, IEntityConfigData
     {
-        Id = id;
-    }
+        public string Id { get; protected set; }
+        protected IResolver Resolver { get; private set; }
+        protected IActionService ActionService { get; private set; }
 
-    public virtual void Setup()
-    {
-    }
+        public virtual void Inject(IResolver initResolver)
+        {
+            Resolver = initResolver;
+            ActionService = Resolver.Resolve<IActionService>();
+        }
 
-    public virtual void Cleanup()
-    {
-        ConfigData = null;
-    }
+        public virtual void Initialize()
+        {
+        }
 
-    public void ProvideConfigData(IEntityConfigData configData)
-    {
-        ConfigData = (TConfigData)configData;
+        public TConfigData ConfigData { get; protected set; }
+
+        protected BaseEntity(string id)
+        {
+            Id = id;
+        }
+
+        public virtual void Setup()
+        {
+        }
+
+        public virtual void Cleanup()
+        {
+            ConfigData = null;
+        }
+
+        public void ProvideConfigData(IEntityConfigData configData)
+        {
+            ConfigData = (TConfigData)configData;
+        }
     }
 }

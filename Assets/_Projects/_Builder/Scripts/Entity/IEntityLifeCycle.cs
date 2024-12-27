@@ -1,5 +1,8 @@
-﻿public interface IEntityLifeCycle
+﻿namespace Builder.Entity
 {
-    void Setup();
-    void Cleanup();
+    public interface IEntityLifeCycle
+    {
+        void Initialize();
+        void Cleanup();
+    }
 }

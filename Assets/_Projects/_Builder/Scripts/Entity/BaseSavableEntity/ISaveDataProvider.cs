@@ -1,4 +1,7 @@
-﻿public interface ISaveDataProvider
+﻿namespace Builder.Entity
 {
-    void ProvideSaveData(ISaveData saveData);
+    public interface ISaveDataProvider
+    {
+        void ProvideSaveData(ISaveData saveData);
+    }
 }

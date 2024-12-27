@@ -1,19 +1,15 @@
 ﻿using UnityEngine;
 
-public abstract class BaseSavableEntityConfigData : ScriptableObject, IBaseSavableEntityConfigData
+namespace Builder.Entity
 {
-    [SerializeField]
-    protected string _id;
-
-    public string Id => _id;
-
-    public virtual IEntity CreateEntity()
+    public abstract class BaseSavableEntityConfigData : ScriptableObject, IBaseSavableEntityConfigData
     {
-        return null;
-    }
+        [SerializeField]
+        protected string _id;
 
-    public virtual ISaveData CreateSaveData()
-    {
-        return null;
+        public string Id => _id;
+
+        public abstract IEntity CreateEntity();
+        public abstract ISaveData CreateSaveData();
     }
 }

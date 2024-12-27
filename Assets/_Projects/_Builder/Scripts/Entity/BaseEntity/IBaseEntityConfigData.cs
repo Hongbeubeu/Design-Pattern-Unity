@@ -1,3 +1,6 @@
-public interface IBaseEntityConfigData : IEntityConfigData, IEntityCreator
+namespace Builder.Entity
 {
+    public interface IBaseEntityConfigData : IEntityConfigData, IEntityCreator
+    {
+    }
 }

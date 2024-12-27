@@ -1,3 +1,7 @@
-﻿public class TestingCompositePopup : BaseCompositePopup
+﻿
+namespace Builder.UI
 {
+    public class TestingCompositePopup : BaseCompositePopup
+    {
+    }
 }

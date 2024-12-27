@@ -1,11 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public class BasePopup : UIElement, IPopup
+namespace Builder.UI
 {
-    [SerializeField]
-    private RectTransform _rect;
+    [Serializable]
+    public class BasePopup : UIElement, IPopup
+    {
+        [SerializeField]
+        private RectTransform _rect;
 
-    public RectTransform Rect => _rect;
+        public RectTransform Rect => _rect;
+    }
 }
