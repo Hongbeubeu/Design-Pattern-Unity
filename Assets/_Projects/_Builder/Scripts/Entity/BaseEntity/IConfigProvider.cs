@@ -1,4 +1,4 @@
-﻿public interface IProvideConfig
+﻿public interface IConfigProvider
 {
     void ProvideConfigData(IEntityConfigData configData);
 }

@@ -35,7 +35,7 @@ public class EntityDataLoader : MonoBehaviour
                 var saveData = configData.CreateSaveData();
                 saveData.Deserialize();
                 _baseSaveDatas.Add(saveData);
-                (entity as IProvideSaveData)?.ProvideSaveData(saveData);
+                (entity as ISaveDataProvider)?.ProvideSaveData(saveData);
             }
     }
 

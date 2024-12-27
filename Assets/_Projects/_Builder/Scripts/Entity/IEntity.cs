@@ -1,4 +1,4 @@
-﻿public interface IEntity : IEntityLifeCycle, IProvideConfig
+﻿public interface IEntity : IEntityLifeCycle, IConfigProvider
 {
     string Id { get; }
 }

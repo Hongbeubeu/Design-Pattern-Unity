@@ -1,4 +1,4 @@
-﻿public interface IProvideSaveData
+﻿public interface ISaveDataProvider
 {
     void ProvideSaveData(ISaveData saveData);
 }

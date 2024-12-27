@@ -1,5 +1,4 @@
 ﻿using System;
-using IoC;
 using UnityEngine;
 
 namespace Logger

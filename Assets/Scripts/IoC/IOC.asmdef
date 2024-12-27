@@ -1,0 +1,16 @@
+{
+    "name": "IOC",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c529a775351c7154197b0f128d9a5239"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -9,12 +9,10 @@ namespace IoC
         {
             container.Bind<IActionService>().To<ActionService>().AsSingleton().Conclude();
             container.Bind<IActionResolver>().To<ActionResolver>().AsSingleton().Conclude();
-            container.Bind<SampleAction>().AsSingleton().Conclude();
         }
 
         public virtual void Uninstall(IContainer container)
         {
-            container.Unbind<SampleAction>();
             container.Unbind<IActionResolver>();
             container.Unbind<IActionService>();
         }
