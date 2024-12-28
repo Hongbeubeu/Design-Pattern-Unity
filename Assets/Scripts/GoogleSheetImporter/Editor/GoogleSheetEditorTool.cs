@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -23,6 +24,18 @@ namespace GoogleSheetImporter.Editor
             GetWindow<GoogleSheetEditorTool>("Google Sheets Importer");
         }
 
+        private void OnEnable()
+        {
+            _credentialsPath = EditorPrefs.GetString("GoogleSheetImporter_CredentialsPath", _credentialsPath);
+            _spreadsheetId = EditorPrefs.GetString("GoogleSheetImporter_SpreadsheetId", _spreadsheetId);
+        }
+
+        private void OnDisable()
+        {
+            EditorPrefs.SetString("GoogleSheetImporter_CredentialsPath", _credentialsPath);
+            EditorPrefs.SetString("GoogleSheetImporter_SpreadsheetId", _spreadsheetId);
+        }
+
         private void OnGUI()
         {
             GUILayout.Label("Google Sheets Importer", EditorStyles.boldLabel);
@@ -30,21 +43,17 @@ namespace GoogleSheetImporter.Editor
             // Nút chọn file credentials.json
             GUILayout.BeginHorizontal();
             GUILayout.Label("Credentials Path:", GUILayout.Width(100));
-            _credentialsPath = EditorPrefs.GetString("GoogleSheetImporter_CredentialsPath", _credentialsPath);
             _credentialsPath = GUILayout.TextField(_credentialsPath, GUILayout.Width(position.width - 130 - 4 * EditorGUIUtility.standardVerticalSpacing));
             if (GUILayout.Button("...", GUILayout.Width(25)))
             {
                 _credentialsPath = EditorUtility.OpenFilePanel("Select Credentials File", "", "json");
             }
 
-            EditorPrefs.SetString("GoogleSheetImporter_CredentialsPath", _credentialsPath);
             GUILayout.EndHorizontal();
 
             // Nhập Spreadsheet ID
             GUILayout.Label("Spreadsheet ID:", EditorStyles.label);
-            _spreadsheetId = EditorPrefs.GetString("GoogleSheetImporter_SpreadsheetId", _spreadsheetId);
             _spreadsheetId = EditorGUILayout.TextField(_spreadsheetId);
-            EditorPrefs.SetString("GoogleSheetImporter_SpreadsheetId", _spreadsheetId);
 
             // Nhập phạm vi dữ liệu (Range)
             GUILayout.Label("Range:", EditorStyles.label);
@@ -126,7 +135,7 @@ namespace GoogleSheetImporter.Editor
                 _sheetData = response.Values != null ? new List<IList<object>>(response.Values) : new List<IList<object>>();
                 Debug.Log("Data fetched successfully.");
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogError("Error fetching data: " + ex.Message);
             }
