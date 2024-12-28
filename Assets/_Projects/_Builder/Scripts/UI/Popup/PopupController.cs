@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Builder.Editor;
+using IoC;
 using UnityEngine;
 
 namespace Builder.UI
 {
-    public class PopupController : MonoBehaviour
+    public class PopupController : MonoBehaviour, IInjectable
     {
         [SerializeField]
         private BasePopup[] _basePopups;
@@ -13,10 +14,15 @@ namespace Builder.UI
         private BaseCompositePopup[] _baseCompositePopups;
 
         private readonly List<IPopup> _popups = new();
+        private IResolver _resolver;
 
         private void Start()
         {
             Initialize();
+        }
+
+        public void Inject(IResolver initResolver)
+        {
         }
 
         private void Initialize()
@@ -28,7 +34,7 @@ namespace Builder.UI
                 _popups.AddRange(_baseCompositePopups);
         }
 
-        public void Show<T>()
+        private void Show<T>()
         {
             foreach (var popup in _popups)
             {
@@ -48,6 +54,11 @@ namespace Builder.UI
         public void ShowTestingCompositePopup()
         {
             Show<TestingCompositePopup>();
+        }
+
+        public void ShowChangeLanguagePopup()
+        {
+            Show<ChangeLanguagePopup>();
         }
     }
 }

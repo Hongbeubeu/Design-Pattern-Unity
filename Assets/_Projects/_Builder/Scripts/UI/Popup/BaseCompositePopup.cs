@@ -1,4 +1,5 @@
 ﻿using System;
+using IoC;
 using UnityEngine;
 
 namespace Builder.UI
@@ -10,5 +11,12 @@ namespace Builder.UI
         private RectTransform _rect;
 
         public RectTransform Rect => _rect;
+
+        protected IResolver Resolver { get; private set; }
+
+        public virtual void Inject(IResolver initResolver)
+        {
+            Resolver = initResolver;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Builder.Actions;
+using Builder.Services;
 using IoC;
 
 namespace Builder.Entity
@@ -9,12 +10,14 @@ namespace Builder.Entity
         {
             base.Install(container);
             container.Bind<SerializerService>().AsSingleton().Conclude();
+            container.Bind<LocalizationService>().AsSingleton().Conclude();
             container.Bind<GameUpdateAction>().AsSingleton().Conclude();
         }
 
         public override void Uninstall(IContainer container)
         {
             container.Unbind<GameUpdateAction>();
+            container.Unbind<LocalizationService>();
             container.Unbind<SerializerService>();
             base.Uninstall(container);
         }
