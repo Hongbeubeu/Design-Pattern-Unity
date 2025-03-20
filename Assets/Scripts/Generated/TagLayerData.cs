@@ -30,11 +30,11 @@ public static class TagLayerData
     // Layer Masks
     public static class LayerMasks
     {
-        public const int DEFAULTMask = 1 << 0;
-        public const int TRANSPARENTFXMask = 1 << 1;
-        public const int IGNORE_RAYCASTMask = 1 << 2;
-        public const int WATERMask = 1 << 4;
-        public const int UIMask = 1 << 5;
-        public const int UI3DOBJECTMask = 1 << 6;
+        public const int DEFAULT_MASK = 1 << 0;
+        public const int TRANSPARENTFX_MASK = 1 << 1;
+        public const int IGNORE_RAYCAST_MASK = 1 << 2;
+        public const int WATER_MASK = 1 << 4;
+        public const int UI_MASK = 1 << 5;
+        public const int UI3DOBJECT_MASK = 1 << 6;
     }
 }

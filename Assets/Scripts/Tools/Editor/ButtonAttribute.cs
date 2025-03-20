@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-namespace Builder.Editor
+namespace Tool
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class ButtonAttribute : PropertyAttribute

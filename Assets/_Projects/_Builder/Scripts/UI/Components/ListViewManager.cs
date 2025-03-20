@@ -1,7 +1,7 @@
-﻿using Builder.Editor;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Tool;
 
 namespace Builder.UI.Components
 {

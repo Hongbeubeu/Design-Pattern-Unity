@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Builder.Editor;
 using UnityEngine;
+using Tool;
 
 namespace Builder.Entity
 {

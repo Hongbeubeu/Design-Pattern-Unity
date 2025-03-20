@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using Builder.Editor;
 using UnityEngine;
+using Tool;
 
 namespace Builder.UI
 {
