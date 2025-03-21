@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using Tool;
 using UnityEngine;
@@ -19,27 +20,46 @@ namespace TileStack
 
     public class Tile : MonoBehaviour
     {
-        [SerializeField] private Direction _direction;
-        [SerializeField] private Board _board;
-        [SerializeField] private Transform _indicator;
-        [SerializeField] private Transform _jumpTarget;
-        [SerializeField] private Vector2Int _currentPosition;
-        [SerializeField] private float _duration = 1f;
+        [SerializeField]
+        private Direction _direction;
+
+        [SerializeField]
+        private Board _board;
+
+        [SerializeField]
+        private Transform _indicator;
+
+        [SerializeField]
+        private Transform _cube;
+
+        [SerializeField]
+        private Transform _jumpTarget;
+
+        [SerializeField]
+        private Vector2Int _currentPosition;
+
+        [SerializeField]
+        private float _duration = 1f;
 
         public Vector2Int CurrentPosition => _currentPosition;
-        public Transform JumpTarget => _jumpTarget;
+        private Transform JumpTarget => _jumpTarget;
         private Vector2Int DirectionVector => _direction.GetDirectionVector();
+        private readonly List<Tile> _stackedTiles = new();
+        private Tween _tween;
+
 
         private bool _isMoving;
 
         private void OnValidate()
         {
             UpdateIndicator();
+            UpdatePosition();
         }
 
         private void Start()
         {
             UpdateIndicator();
+            UpdatePosition();
         }
 
         [Button]
@@ -54,7 +74,10 @@ namespace TileStack
                 _indicator.gameObject.SetActive(true);
                 _indicator.forward = new Vector3(DirectionVector.x, 0, DirectionVector.y);
             }
+        }
 
+        private void UpdatePosition()
+        {
             if (_board == null) return;
             transform.position = _board.GetCell(_currentPosition).transform.position;
         }
@@ -92,9 +115,9 @@ namespace TileStack
             var targetCell = _board.GetCell(newPosition);
             var targetPosition = targetCell.transform.position;
             targetPosition.y = transform.position.y;
-            transform.DOMove(targetPosition, duration: _duration)
-                     .SetEase(Ease.Linear)
-                     .OnComplete(() => { OnDoneStep(newPosition, targetCell); });
+            _tween = transform.DOMove(targetPosition, duration: _duration)
+                              .SetEase(Ease.Linear)
+                              .OnComplete(() => { OnDoneStep(newPosition, targetCell); });
         }
 
         private void DoJump(Vector2Int newPosition, Tile targetTile)
@@ -111,9 +134,9 @@ namespace TileStack
             if (targetTile != null)
                 targetPosition = targetTile.JumpTarget.transform.position;
             targetPosition.y = transform.position.y;
-            transform.DOJump(targetPosition, jumpPower: 1f, numJumps: 1, duration: _duration)
-                     .SetEase(Ease.Linear)
-                     .OnComplete(() => { OnDoneStep(newPosition, targetCell, targetTile); });
+            _tween = transform.DOJump(targetPosition, jumpPower: 0.4f, numJumps: 1, duration: _duration)
+                              .SetEase(Ease.Linear)
+                              .OnComplete(() => { OnDoneStep(newPosition, targetCell, targetTile); });
         }
 
         private void OnDoneStep(Vector2Int newPosition, Cell targetCell, Tile targetTile = null)
@@ -127,10 +150,43 @@ namespace TileStack
 
             if (targetTile != null)
             {
-                targetTile.transform.SetParent(transform, true);
-                _board.TileMap.Remove(_currentPosition);
+                StackTile(targetTile);
             }
 
+            Move();
+        }
+
+        private void StackTile(Tile targetTile)
+        {
+            _board.TileMap.Remove(_currentPosition);
+            _stackedTiles.Add(targetTile);
+            var cubePosition = _cube.localPosition;
+            cubePosition.y = GetStackedHeight(0);
+            _cube.localPosition = cubePosition;
+            targetTile.transform.SetParent(transform, true);
+            targetTile.transform.localPosition = Vector3.zero;
+
+            for (var i = 0; i < _stackedTiles.Count; i++)
+            {
+                var height = GetStackedHeight(i + 1);
+                _stackedTiles[i].transform.localPosition = new Vector3(0, height, 0);
+            }
+        }
+
+        private float GetStackedHeight(int index)
+        {
+            return (_stackedTiles.Count - index) * _jumpTarget.localPosition.y;
+        }
+
+        private void OnDisable()
+        {
+            _tween?.Kill();
+        }
+
+        private void OnMouseDown()
+        {
+            if (_isMoving) return;
+            if (_direction == Direction.None) return;
             Move();
         }
     }
