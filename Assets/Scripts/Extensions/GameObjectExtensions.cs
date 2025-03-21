@@ -37,20 +37,22 @@ public static class GameObjectExtensions
 
     public static void DestroyAllChildren(this GameObject gameObject)
     {
-        foreach (Transform child in gameObject.transform)
+        var childCount = gameObject.transform.childCount;
+        for (var i = childCount - 1; i >= 0; i--)
         {
-            Object.Destroy(child.gameObject);
+            Object.Destroy(gameObject.transform.GetChild(i).gameObject);
         }
     }
-    
+
     public static void DestroyAllChildrenImmediate(this GameObject gameObject)
     {
-        foreach (Transform child in gameObject.transform)
+        var childCount = gameObject.transform.childCount;
+        for (var i = childCount - 1; i >= 0; i--)
         {
-            Object.DestroyImmediate(child.gameObject);
+            Object.DestroyImmediate(gameObject.transform.GetChild(i).gameObject);
         }
     }
-    
+
     public static void CopyTransform(this GameObject gameObject, GameObject target)
     {
         gameObject.transform.position = target.transform.position;
@@ -63,7 +65,7 @@ public static class GameObjectExtensions
         component = gameObject.GetComponent<T>();
         return component != null;
     }
-    
+
     public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
     {
         if (gameObject.TryGetComponent(out T component))
@@ -73,7 +75,7 @@ public static class GameObjectExtensions
 
         return gameObject.AddComponent<T>();
     }
-    
+
     public static void DestroyAllComponents<T>(this GameObject gameObject) where T : Component
     {
         foreach (var component in gameObject.GetComponents<T>())

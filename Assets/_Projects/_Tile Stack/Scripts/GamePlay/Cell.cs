@@ -4,19 +4,28 @@ using UnityEngine;
 namespace TileStack
 {
     [Serializable]
-    public class Cell
+    public class Cell : MonoBehaviour
     {
-        private int _x;
-        private int _y;
+        [SerializeField] private Direction _direction;
+        [SerializeField] private Transform _indicator;
+        public Vector2Int Position { get; set; }
+        public Direction Direction => _direction;
 
-        public Vector2Int Position => new(_x, _y);
-        public Transform Transform { get; }
-
-        public Cell(int x, int y, Transform transform)
+        private void OnValidate()
         {
-            _x = x;
-            _y = y;
-            Transform = transform;
+            if (_direction == Direction.None)
+            {
+                _indicator.gameObject.SetActive(false);
+                return;
+            }
+            else
+            {
+                _indicator.gameObject.SetActive(true);
+            }
+
+            if (_indicator == null) return;
+            var directionVector = _direction.GetDirectionVector();
+            _indicator.forward = new Vector3(directionVector.x, 0, directionVector.y);
         }
     }
 }
