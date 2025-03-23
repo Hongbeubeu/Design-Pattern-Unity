@@ -8,10 +8,7 @@ namespace Singleton
 
         // ReSharper disable once StaticMemberInGenericType
         private static readonly object Lock = new();
-
-        // ReSharper disable once StaticMemberInGenericType
-        private static bool _applicationIsQuitting;
-
+        
         // ReSharper disable once StaticMemberInGenericType
         private static bool _isSetDontDestroyOnLoad;
 
@@ -19,7 +16,6 @@ namespace Singleton
         {
             get
             {
-                if (_applicationIsQuitting) return null;
                 lock (Lock)
                 {
                     if (!_instance)
@@ -54,7 +50,6 @@ namespace Singleton
         /// </summary>
         private void OnDestroy()
         {
-            _applicationIsQuitting = true;
             _isSetDontDestroyOnLoad = false;
         }
 
@@ -62,7 +57,6 @@ namespace Singleton
         public static void ResetInstanceForTest()
         {
             _instance = null;
-            _applicationIsQuitting = false;
             _isSetDontDestroyOnLoad = false;
         }
 #endif
