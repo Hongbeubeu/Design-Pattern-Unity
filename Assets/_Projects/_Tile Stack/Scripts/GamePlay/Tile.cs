@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using ObjectPooler;
 using Tool;
+using UnityEditor;
 using UnityEngine;
 
 namespace TileStack
@@ -18,7 +20,7 @@ namespace TileStack
         None
     }
 
-    public class Tile : MonoBehaviour
+    public class Tile : PoolableMonoBehaviourBase
     {
         [SerializeField]
         private Direction _direction;
@@ -39,7 +41,7 @@ namespace TileStack
         private Vector2Int _currentPosition;
 
         [SerializeField]
-        private float _duration = 1f;
+        private float _speed = 1f;
 
         public Vector2Int CurrentPosition => _currentPosition;
         private Transform JumpTarget => _jumpTarget;
@@ -52,8 +54,16 @@ namespace TileStack
 
         private void OnValidate()
         {
-            UpdateIndicator();
-            UpdatePosition();
+#if UNITY_EDITOR
+            EditorApplication.delayCall += () =>
+            {
+                if (this != null) // Kiểm tra object còn tồn tại không
+                {
+                    UpdateIndicator();
+                    UpdatePosition();
+                }
+            };
+#endif
         }
 
         private void Start()
@@ -115,7 +125,9 @@ namespace TileStack
             var targetCell = _board.GetCell(newPosition);
             var targetPosition = targetCell.transform.position;
             targetPosition.y = transform.position.y;
-            _tween = transform.DOMove(targetPosition, duration: _duration)
+
+            var duration = Vector3.Distance(transform.position, targetPosition) / _speed;
+            _tween = transform.DOMove(targetPosition, duration: duration)
                               .SetEase(Ease.Linear)
                               .OnComplete(() => { OnDoneStep(newPosition, targetCell); });
         }
@@ -131,10 +143,12 @@ namespace TileStack
             _isMoving = true;
             var targetCell = _board.GetCell(newPosition);
             var targetPosition = targetCell.transform.position;
+            var duration = Vector3.Distance(transform.position, targetPosition) / _speed;
             if (targetTile != null)
                 targetPosition = targetTile.JumpTarget.transform.position;
             targetPosition.y = transform.position.y;
-            _tween = transform.DOJump(targetPosition, jumpPower: 0.4f, numJumps: 1, duration: _duration)
+
+            _tween = transform.DOJump(targetPosition, jumpPower: 0.4f, numJumps: 1, duration: duration)
                               .SetEase(Ease.Linear)
                               .OnComplete(() => { OnDoneStep(newPosition, targetCell, targetTile); });
         }

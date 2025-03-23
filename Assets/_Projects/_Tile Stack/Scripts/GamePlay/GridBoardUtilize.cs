@@ -25,5 +25,11 @@ namespace TileStack
             var offset = new Vector3((width - 1) / 2f, 0, (height - 1) / 2f);
             return new Vector3(position.x, 0, position.y) - offset;
         }
+        
+        public static Vector2Int WorldToGridPosition(this Vector3 position, int width, int height)
+        {
+            var offset = new Vector3((width - 1) / 2f, 0, (height - 1) / 2f);
+            return new Vector2Int(Mathf.RoundToInt(position.x + offset.x), Mathf.RoundToInt(position.z + offset.z));
+        }
     }
 }

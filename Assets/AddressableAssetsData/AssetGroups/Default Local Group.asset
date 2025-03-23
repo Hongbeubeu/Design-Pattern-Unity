@@ -16,12 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 48e1c2f458c0afc4c92029f15929e9cf
-  m_SerializeEntries:
-  - m_GUID: e17a780adb0d025438e7fb783cbb799b
-    m_Address: Assets/_Projects/_Tile Stack/Materials/Arrow_Mat.mat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: fa797a7c77f1cd54ab4172a4002ada66, type: 2}
   m_SchemaSet:

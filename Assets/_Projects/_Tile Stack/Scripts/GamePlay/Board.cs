@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using ObjectPooler;
 using Tool;
 using UnityEngine;
 
@@ -6,19 +8,57 @@ namespace TileStack
 {
     public class Board : MonoBehaviour
     {
-        [SerializeField] private int _width;
-        [SerializeField] private int _height;
-        [SerializeField] private Cell _cellPrefab;
-        [SerializeField] private List<Cell> _cells = new();
-        [SerializeField] private List<Tile> _tiles = new();
+        [SerializeField]
+        private int _width;
+
+        [SerializeField]
+        private int _height;
+
+        [SerializeField]
+        private Cell _cellPrefab;
+
+        [SerializeField]
+        private GroundCell _groundCellPrefab;
+
+        [SerializeField]
+        private List<Cell> _cells = new();
+
+        [SerializeField]
+        private List<Tile> _tiles = new();
 
         private readonly Dictionary<Vector2Int, Tile> _tileMap = new();
+        private readonly Dictionary<Vector2Int, Cell> _cellMap = new();
 
         public Dictionary<Vector2Int, Tile> TileMap => _tileMap;
+        public Dictionary<Vector2Int, Cell> CellMap => _cellMap;
+
+        private void Awake()
+        {
+            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_cellPrefab, transform), _cellPrefab, 25, 25);
+            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_groundCellPrefab, transform), _groundCellPrefab, 50, 50);
+        }
 
         private void Start()
         {
             MapTiles();
+            MapCells();
+            CreateGround();
+        }
+
+        [Button]
+        private void CreateGround()
+        {
+            for (var x = -_width; x < 2 * _width; x++)
+            {
+                for (var y = -_height; y < 2 * _height; y++)
+                {
+                    var position = new Vector2Int(x, y);
+                    if (_cellMap.ContainsKey(position)) continue;
+                    var groundCell = ObjectPoolManager.Instance.GetObject<GroundCell>(_groundCellPrefab);
+                    groundCell.transform.position = position.GridToWorldPosition(_width, _height);
+                    groundCell.transform.parent = transform;
+                }
+            }
         }
 
         private void MapTiles()
@@ -26,6 +66,14 @@ namespace TileStack
             foreach (var tile in _tiles)
             {
                 _tileMap[tile.CurrentPosition] = tile;
+            }
+        }
+
+        private void MapCells()
+        {
+            foreach (var cell in _cells)
+            {
+                _cellMap[cell.transform.position.WorldToGridPosition(_width, _height)] = cell;
             }
         }
 
