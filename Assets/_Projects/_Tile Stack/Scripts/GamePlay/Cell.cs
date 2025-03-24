@@ -7,32 +7,50 @@ namespace TileStack
     [Serializable]
     public class Cell : PoolableMonoBehaviourBase
     {
-        [SerializeField]
-        private Direction _direction;
+        [SerializeField] private Board _board;
+        [SerializeField] private GameObject _indicator;
+        [SerializeField] private CellData _cellData;
 
-        [SerializeField]
-        private GameObject _indicator;
+        public Board Board
+        {
+            get => _board;
+            set => _board = value;
+        }
 
-        public Direction Direction => _direction;
+        public CellData CellData
+        {
+            get => _cellData;
+            set => _cellData = value;
+        }
+
+        public Direction Direction => _cellData.direction;
 
         private void OnValidate()
         {
 #if UNITY_EDITOR
+            UpdateIndicator();
+#endif
+        }
+
+        public void UpdateIndicator()
+        {
             if (this == null) return;
-            if (_direction == Direction.None)
+
+            if (_board != null)
+            {
+                transform.position = _cellData.position.GridToWorldPosition(_board.Width, _board.Height);
+            }
+
+            if (_indicator == null) return;
+            if (Direction == Direction.None)
             {
                 _indicator.SetActive(false);
                 return;
             }
-            else
-            {
-                _indicator.SetActive(true);
-            }
 
-            if (_indicator == null) return;
-            var directionVector = _direction.GetDirectionVector();
+            _indicator.SetActive(true);
+            var directionVector = Direction.GetDirectionVector();
             _indicator.transform.forward = new Vector3(directionVector.x, 0, directionVector.y);
-#endif
         }
     }
 }

@@ -9,6 +9,7 @@ namespace TileStack
 {
     public enum Direction
     {
+        None,
         Forward,
         Backward,
         Left,
@@ -16,36 +17,30 @@ namespace TileStack
         ForwardLeft,
         ForwardRight,
         BackwardLeft,
-        BackwardRight,
-        None
+        BackwardRight
     }
 
     public class Tile : PoolableMonoBehaviourBase
     {
-        [SerializeField]
-        private Direction _direction;
-
-        [SerializeField]
-        private Board _board;
-
-        [SerializeField]
-        private Transform _indicator;
-
-        [SerializeField]
-        private Transform _cube;
-
-        [SerializeField]
-        private Transform _jumpTarget;
-
-        [SerializeField]
-        private Vector2Int _currentPosition;
-
-        [SerializeField]
-        private float _speed = 1f;
+        [SerializeField] private Board _board;
+        [SerializeField] private Transform _indicator;
+        [SerializeField] private Transform _cube;
+        [SerializeField] private Transform _jumpTarget;
+        [SerializeField] private Collider _collider;
+        [SerializeField] private Vector2Int _currentPosition;
+        [SerializeField] private float _speed = 1f;
+        [SerializeField] private TileData _tileData;
 
         public Vector2Int CurrentPosition => _currentPosition;
         private Transform JumpTarget => _jumpTarget;
-        private Vector2Int DirectionVector => _direction.GetDirectionVector();
+
+        private Direction Direction
+        {
+            get => _tileData.direction;
+            set => _tileData.direction = value;
+        }
+
+        private Vector2Int DirectionVector => _tileData.direction.GetDirectionVector();
         private readonly List<Tile> _stackedTiles = new();
         private Tween _tween;
 
@@ -57,7 +52,7 @@ namespace TileStack
 #if UNITY_EDITOR
             EditorApplication.delayCall += () =>
             {
-                if (this != null) // Kiểm tra object còn tồn tại không
+                if (this != null)
                 {
                     UpdateIndicator();
                     UpdatePosition();
@@ -75,7 +70,7 @@ namespace TileStack
         [Button]
         private void UpdateIndicator()
         {
-            if (_direction == Direction.None)
+            if (Direction == Direction.None)
             {
                 _indicator.gameObject.SetActive(false);
             }
@@ -89,7 +84,9 @@ namespace TileStack
         private void UpdatePosition()
         {
             if (_board == null) return;
-            transform.position = _board.GetCell(_currentPosition).transform.position;
+            var cell = _board.GetCell(_currentPosition);
+            if (cell == null) return;
+            transform.position = cell.transform.position;
         }
 
         [Button]
@@ -117,7 +114,7 @@ namespace TileStack
         {
             if (!_board.IsInsideBoard(newPosition))
             {
-                _isMoving = false;
+                ResetTile();
                 return;
             }
 
@@ -136,7 +133,7 @@ namespace TileStack
         {
             if (!_board.IsInsideBoard(newPosition))
             {
-                _isMoving = false;
+                ResetTile();
                 return;
             }
 
@@ -147,24 +144,45 @@ namespace TileStack
             if (targetTile != null)
                 targetPosition = targetTile.JumpTarget.transform.position;
             targetPosition.y = transform.position.y;
+            var jumpPower = targetPosition.y - transform.position.y + 0.1f;
 
-            _tween = transform.DOJump(targetPosition, jumpPower: 0.4f, numJumps: 1, duration: duration)
+            _tween = transform.DOJump(targetPosition, jumpPower: jumpPower, numJumps: 1, duration: duration)
                               .SetEase(Ease.Linear)
                               .OnComplete(() => { OnDoneStep(newPosition, targetCell, targetTile); });
         }
 
+        private void ResetTile()
+        {
+            _isMoving = false;
+            Direction = Direction.None;
+            UpdateIndicator();
+        }
+
         private void OnDoneStep(Vector2Int newPosition, Cell targetCell, Tile targetTile = null)
         {
+            _board.TileMap.Remove(_currentPosition);
             _currentPosition = newPosition;
             if (targetCell.Direction != Direction.None)
             {
-                _direction = targetCell.Direction;
+                Direction = targetCell.Direction;
                 UpdateIndicator();
             }
 
+            _board.TileMap[_currentPosition] = this;
             if (targetTile != null)
             {
                 StackTile(targetTile);
+                var tileDirection = targetTile.Direction;
+                if (tileDirection != Direction.None)
+                {
+                    _isMoving = false;
+                    Direction = tileDirection;
+                    UpdateIndicator();
+                    targetTile.Direction = Direction.None;
+                    targetTile.UpdateIndicator();
+                    targetTile._collider.enabled = false;
+                    return;
+                }
             }
 
             Move();
@@ -200,7 +218,7 @@ namespace TileStack
         private void OnMouseDown()
         {
             if (_isMoving) return;
-            if (_direction == Direction.None) return;
+            if (Direction == Direction.None) return;
             Move();
         }
     }
