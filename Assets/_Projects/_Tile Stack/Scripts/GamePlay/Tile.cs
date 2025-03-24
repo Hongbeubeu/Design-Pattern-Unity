@@ -22,14 +22,42 @@ namespace TileStack
 
     public class Tile : PoolableMonoBehaviourBase
     {
-        [SerializeField] private Board _board;
-        [SerializeField] private Transform _indicator;
-        [SerializeField] private Transform _cube;
-        [SerializeField] private Transform _jumpTarget;
-        [SerializeField] private Collider _collider;
-        [SerializeField] private Vector2Int _currentPosition;
-        [SerializeField] private float _speed = 1f;
-        [SerializeField] private TileData _tileData;
+        [SerializeField]
+        private Board _board;
+
+        [SerializeField]
+        private Transform _indicator;
+
+        [SerializeField]
+        private Transform _cube;
+
+        [SerializeField]
+        private Transform _jumpTarget;
+
+        [SerializeField]
+        private Collider _collider;
+
+        [SerializeField]
+        private Vector2Int _currentPosition;
+
+        [SerializeField]
+        private float _speed = 1f;
+
+        [SerializeField]
+        private TileData _tileData;
+
+
+        public Board Board
+        {
+            get => _board;
+            set => _board = value;
+        }
+
+        public TileData TileData
+        {
+            get => _tileData;
+            set => _tileData = value;
+        }
 
         public Vector2Int CurrentPosition => _currentPosition;
         private Transform JumpTarget => _jumpTarget;
@@ -47,20 +75,6 @@ namespace TileStack
 
         private bool _isMoving;
 
-        private void OnValidate()
-        {
-#if UNITY_EDITOR
-            EditorApplication.delayCall += () =>
-            {
-                if (this != null)
-                {
-                    UpdateIndicator();
-                    UpdatePosition();
-                }
-            };
-#endif
-        }
-
         private void Start()
         {
             UpdateIndicator();
@@ -68,7 +82,7 @@ namespace TileStack
         }
 
         [Button]
-        private void UpdateIndicator()
+        public void UpdateIndicator()
         {
             if (Direction == Direction.None)
             {
@@ -112,7 +126,7 @@ namespace TileStack
 
         private void DoMove(Vector2Int newPosition)
         {
-            if (!_board.IsInsideBoard(newPosition))
+            if (!_board.HasCell(newPosition))
             {
                 ResetTile();
                 return;
@@ -131,7 +145,7 @@ namespace TileStack
 
         private void DoJump(Vector2Int newPosition, Tile targetTile)
         {
-            if (!_board.IsInsideBoard(newPosition))
+            if (!_board.HasCell(newPosition))
             {
                 ResetTile();
                 return;

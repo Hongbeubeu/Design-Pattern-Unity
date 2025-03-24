@@ -7,9 +7,14 @@ namespace TileStack
     [Serializable]
     public class Cell : PoolableMonoBehaviourBase
     {
-        [SerializeField] private Board _board;
-        [SerializeField] private GameObject _indicator;
-        [SerializeField] private CellData _cellData;
+        [SerializeField]
+        private Board _board;
+
+        [SerializeField]
+        private GameObject _indicator;
+
+        [SerializeField]
+        private CellData _cellData;
 
         public Board Board
         {
@@ -24,13 +29,6 @@ namespace TileStack
         }
 
         public Direction Direction => _cellData.direction;
-
-        private void OnValidate()
-        {
-#if UNITY_EDITOR
-            UpdateIndicator();
-#endif
-        }
 
         public void UpdateIndicator()
         {

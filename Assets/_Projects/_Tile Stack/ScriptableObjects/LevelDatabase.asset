@@ -13,25 +13,4 @@ MonoBehaviour:
   m_Name: LevelDatabase
   m_EditorClassIdentifier: 
   _levels:
-  - width: 3
-    height: 3
-    cells:
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    - position: {x: 0, y: 0}
-      direction: 0
-    tiles: []
+  - {fileID: 11400000, guid: 6df32c018efa2794f8119661eee0073e, type: 2}
