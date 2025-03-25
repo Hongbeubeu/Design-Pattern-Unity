@@ -8,20 +8,33 @@ namespace TileStack
     {
         public int width;
         public int height;
-        public CellData[] cells;
-        public TileData[] tiles;
+        public DesignedCellData[] designedCellDatas;
+    }
+
+    [Serializable]
+    public struct DesignedCellData
+    {
+        public Vector2Int position;
+        public bool hasTile;
+        public MoveDirection moveDirection;
     }
 
     [Serializable]
     public class TileData
     {
         public Vector2Int position;
-        public Direction direction;
+        public MoveDirection moveDirection;
 
         public TileData(TileData tileData)
         {
             position = tileData.position;
-            direction = tileData.direction;
+            moveDirection = tileData.moveDirection;
+        }
+
+        public TileData(Vector2Int position, MoveDirection moveDirection)
+        {
+            this.position = position;
+            this.moveDirection = moveDirection;
         }
     }
 
@@ -29,12 +42,18 @@ namespace TileStack
     public class CellData
     {
         public Vector2Int position;
-        public Direction direction;
+        public MoveDirection moveDirection;
 
         public CellData(CellData cellData)
         {
             position = cellData.position;
-            direction = cellData.direction;
+            moveDirection = cellData.moveDirection;
+        }
+
+        public CellData(Vector2Int position, MoveDirection moveDirection)
+        {
+            this.position = position;
+            this.moveDirection = moveDirection;
         }
     }
 }

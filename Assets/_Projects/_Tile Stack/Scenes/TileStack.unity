@@ -291,9 +291,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelDatabase: {fileID: 11400000, guid: 69f7737f2acadfa4c9aeb8e15974186c, type: 2}
-  _cellPrefab: {fileID: 4404437911789723946, guid: 94c61deb54bcb824eb0bbcd9fa2b7fc6, type: 3}
-  _tilePrefab: {fileID: 4870781198302700184, guid: 266416b8d9bd60b44ac2880761b122ca, type: 3}
-  _groundCellPrefab: {fileID: -4498175466251488747, guid: 3b7f140a5034379448f0f7a92899ae45, type: 3}
+  _boardCellPrefab: {fileID: 4404437911789723946, guid: 94c61deb54bcb824eb0bbcd9fa2b7fc6, type: 3}
+  _stackTilePrefab: {fileID: 4870781198302700184, guid: 266416b8d9bd60b44ac2880761b122ca, type: 3}
+  _decorationCellPrefab: {fileID: -4498175466251488747, guid: 3b7f140a5034379448f0f7a92899ae45, type: 3}
   _cells: []
   _tiles: []
 --- !u!4 &1308456021

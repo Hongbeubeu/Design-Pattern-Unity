@@ -6,8 +6,7 @@ namespace TileStack
     [CreateAssetMenu(fileName = "LevelDatabase", menuName = "LevelDatabase")]
     public class LevelDatabase : ScriptableObject
     {
-        [SerializeField]
-        private LevelData[] _levels;
+        [SerializeField] private LevelData[] _levels;
 
         public LevelData GetLevel(int index)
         {
