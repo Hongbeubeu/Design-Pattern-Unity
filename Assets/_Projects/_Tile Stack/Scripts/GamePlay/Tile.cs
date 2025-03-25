@@ -22,30 +22,14 @@ namespace TileStack
 
     public class Tile : PoolableMonoBehaviourBase
     {
-        [SerializeField]
-        private Board _board;
-
-        [SerializeField]
-        private Transform _indicator;
-
-        [SerializeField]
-        private Transform _cube;
-
-        [SerializeField]
-        private Transform _jumpTarget;
-
-        [SerializeField]
-        private Collider _collider;
-
-        [SerializeField]
-        private Vector2Int _currentPosition;
-
-        [SerializeField]
-        private float _speed = 1f;
-
-        [SerializeField]
-        private TileData _tileData;
-
+        [SerializeField] private Board _board;
+        [SerializeField] private Transform _indicator;
+        [SerializeField] private Transform _cube;
+        [SerializeField] private Transform _jumpTarget;
+        [SerializeField] private Collider _collider;
+        [SerializeField] private Vector2Int _currentPosition;
+        [SerializeField] private float _speed = 1f;
+        [SerializeField] private TileData _tileData;
 
         public Board Board
         {
@@ -59,7 +43,12 @@ namespace TileStack
             set => _tileData = value;
         }
 
-        public Vector2Int CurrentPosition => _currentPosition;
+        public Vector2Int CurrentPosition
+        {
+            get => _currentPosition;
+            set => _currentPosition = value;
+        }
+
         private Transform JumpTarget => _jumpTarget;
 
         private Direction Direction
@@ -98,6 +87,7 @@ namespace TileStack
         private void UpdatePosition()
         {
             if (_board == null) return;
+            _currentPosition = _tileData.position;
             var cell = _board.GetCell(_currentPosition);
             if (cell == null) return;
             transform.position = cell.transform.position;
@@ -157,7 +147,6 @@ namespace TileStack
             var duration = Vector3.Distance(transform.position, targetPosition) / _speed;
             if (targetTile != null)
                 targetPosition = targetTile.JumpTarget.transform.position;
-            targetPosition.y = transform.position.y;
             var jumpPower = targetPosition.y - transform.position.y + 0.1f;
 
             _tween = transform.DOJump(targetPosition, jumpPower: jumpPower, numJumps: 1, duration: duration)
@@ -174,7 +163,7 @@ namespace TileStack
 
         private void OnDoneStep(Vector2Int newPosition, Cell targetCell, Tile targetTile = null)
         {
-            _board.TileMap.Remove(_currentPosition);
+            _board.RemoveTileMap(_currentPosition);
             _currentPosition = newPosition;
             if (targetCell.Direction != Direction.None)
             {
@@ -204,8 +193,23 @@ namespace TileStack
 
         private void StackTile(Tile targetTile)
         {
-            _board.TileMap.Remove(_currentPosition);
+            var position = transform.position;
+            position.y = 0;
+            transform.position = position;
+            // _board.RemoveTileMap(_currentPosition);
             _stackedTiles.Add(targetTile);
+            var tileStackedTiles = targetTile._stackedTiles;
+            if (tileStackedTiles is { Count: > 0 })
+            {
+                targetTile.PopStack();
+                _stackedTiles.AddRange(tileStackedTiles);
+                foreach (var t in tileStackedTiles)
+                {
+                    t.transform.parent = transform;
+                }
+            }
+
+
             var cubePosition = _cube.localPosition;
             cubePosition.y = GetStackedHeight(0);
             _cube.localPosition = cubePosition;
@@ -217,6 +221,11 @@ namespace TileStack
                 var height = GetStackedHeight(i + 1);
                 _stackedTiles[i].transform.localPosition = new Vector3(0, height, 0);
             }
+        }
+
+        private void PopStack()
+        {
+            _cube.localPosition = Vector3.zero;
         }
 
         private float GetStackedHeight(int index)

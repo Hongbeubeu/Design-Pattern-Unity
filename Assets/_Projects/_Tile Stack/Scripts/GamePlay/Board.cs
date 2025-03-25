@@ -7,23 +7,17 @@ namespace TileStack
 {
     public class Board : MonoBehaviour
     {
-        [SerializeField]
-        private LevelDatabase _levelDatabase;
+        [SerializeField] private LevelDatabase _levelDatabase;
 
-        [SerializeField]
-        private Cell _cellPrefab;
+        [SerializeField] private Cell _cellPrefab;
 
-        [SerializeField]
-        private Tile _tilePrefab;
+        [SerializeField] private Tile _tilePrefab;
 
-        [SerializeField]
-        private GroundCell _groundCellPrefab;
+        [SerializeField] private GroundCell _groundCellPrefab;
 
-        [SerializeField]
-        private List<Cell> _cells = new();
+        [SerializeField] private List<Cell> _cells = new();
 
-        [SerializeField]
-        private List<Tile> _tiles = new();
+        [SerializeField] private List<Tile> _tiles = new();
 
         public int Width => _levelDatabase.GetLevel(_currentLevelIndex).width;
         public int Height => _levelDatabase.GetLevel(_currentLevelIndex).height;
@@ -45,6 +39,11 @@ namespace TileStack
             MapTiles();
             MapCells();
             CreateGround();
+        }
+
+        public void RemoveTileMap(Vector2Int position)
+        {
+            TileMap.Remove(position);
         }
 
         private void CreateGround()
@@ -116,6 +115,7 @@ namespace TileStack
                 var position = t.position.GridToWorldPosition(level.width, level.height);
                 var tile = ObjectPoolManager.Instance.GetObject<Tile>(_tilePrefab);
                 tile.transform.position = position;
+                tile.CurrentPosition = t.position;
                 tile.transform.parent = transform;
                 tile.Board = this;
                 tile.TileData = new TileData(t);
@@ -147,6 +147,15 @@ namespace TileStack
             tile = null;
             TileMap.TryGetValue(position, out tile);
             return tile != null;
+        }
+
+        private void OnDrawGizmos()
+        {
+            foreach (var tile in TileMap)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireCube(tile.Value.transform.position, Vector3.one * 0.1f);
+            }
         }
     }
 }
