@@ -1,0 +1,4 @@
+﻿{
+  "name": "ObjectPooler",
+  "references":[ "GUID:60e1bd04f29cc6c4daa6f1bb16ebe841", "CustomAttribute" ]
+}
