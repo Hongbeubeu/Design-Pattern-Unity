@@ -20,6 +20,25 @@ namespace TileStack
         BackwardRight
     }
 
+    [Serializable]
+    public class StackTileData
+    {
+        public Vector2Int position;
+        public MoveDirection moveDirection;
+
+        public StackTileData(StackTileData stackTileData)
+        {
+            position = stackTileData.position;
+            moveDirection = stackTileData.moveDirection;
+        }
+
+        public StackTileData(Vector2Int position, MoveDirection moveDirection)
+        {
+            this.position = position;
+            this.moveDirection = moveDirection;
+        }
+    }
+
     public class StackTile : PoolableMonoBehaviourBase
     {
         [SerializeField] private GameBoard _gameBoard;
@@ -29,7 +48,7 @@ namespace TileStack
         [SerializeField] private Collider _collider;
         [SerializeField] private Vector2Int _currentPosition;
         [SerializeField] private float _speed = 1f;
-        [SerializeField] private TileData _tileData;
+        [SerializeField] private StackTileData _data;
 
         private Vector2Int CurrentPosition
         {
@@ -41,23 +60,22 @@ namespace TileStack
 
         private MoveDirection MoveDirection
         {
-            get => _tileData.moveDirection;
-            set => _tileData.moveDirection = value;
+            get => _data.moveDirection;
+            set => _data.moveDirection = value;
         }
 
-        private Vector2Int DirectionVector => _tileData.moveDirection.GetDirectionVector();
-
+        private Vector2Int DirectionVector => _data.moveDirection.GetDirectionVector();
         private readonly List<StackTile> _stackedTiles = new();
         private Tween _tween;
         private bool _isMoving;
 
-        public void SetupData(GameBoard gameBoard, TileData tileData, Transform parent = null)
+        public void SetupData(GameBoard gameBoard, StackTileData stackTileData, Transform parent = null)
         {
-            CurrentPosition = tileData.position;
+            CurrentPosition = stackTileData.position;
             _gameBoard = gameBoard;
-            _tileData = tileData;
+            _data = stackTileData;
             transform.parent = parent;
-            _collider.enabled = _tileData.moveDirection != MoveDirection.None;
+            _collider.enabled = _data.moveDirection != MoveDirection.None;
             UpdateIndicator();
             UpdatePosition();
         }
@@ -83,7 +101,7 @@ namespace TileStack
                 throw new NullReferenceException("<color=red>Game board is null.</color>");
             }
 
-            _currentPosition = _tileData.position;
+            _currentPosition = _data.position;
             var cell = _gameBoard.GetCell(_currentPosition);
 
             if (cell == null) return;
@@ -251,6 +269,16 @@ namespace TileStack
         private void OnDisable()
         {
             _tween?.Kill();
+        }
+
+        public void ReturnToPoolImmediate()
+        {
+            foreach (var tile in _stackedTiles)
+            {
+                DataManager.Instance.ReturnStackTile(tile);
+            }
+
+            DataManager.Instance.ReturnStackTile(this);
         }
 
         private void OnMouseDown()

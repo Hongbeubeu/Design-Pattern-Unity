@@ -5,13 +5,31 @@ using UnityEngine;
 namespace TileStack
 {
     [Serializable]
+    public class BoardCellData
+    {
+        public Vector2Int position;
+        public MoveDirection moveDirection;
+
+        public BoardCellData(BoardCellData boardCellData)
+        {
+            position = boardCellData.position;
+            moveDirection = boardCellData.moveDirection;
+        }
+
+        public BoardCellData(Vector2Int position, MoveDirection moveDirection)
+        {
+            this.position = position;
+            this.moveDirection = moveDirection;
+        }
+    }
+
+    [Serializable]
     public class BoardCell : PoolableMonoBehaviourBase
     {
         [SerializeField] private GameBoard _gameBoard;
         [SerializeField] private GameObject _indicator;
-        [SerializeField] private CellData _cellData;
-
-        public MoveDirection MoveDirection => _cellData.moveDirection;
+        [SerializeField] private BoardCellData _data;
+        public MoveDirection MoveDirection => _data.moveDirection;
 
         public void UpdateIndicator()
         {
@@ -19,7 +37,7 @@ namespace TileStack
 
             if (_gameBoard != null)
             {
-                transform.position = _gameBoard.GridToWorldPosition(_cellData.position);
+                transform.position = _gameBoard.GridToWorldPosition(_data.position);
             }
 
             if (_indicator == null) return;
@@ -36,10 +54,10 @@ namespace TileStack
             _indicator.transform.forward = new Vector3(directionVector.x, 0, directionVector.y);
         }
 
-        public void SetupData(GameBoard gameBoard, CellData cellData, Transform parent = null)
+        public void SetupData(GameBoard gameBoard, BoardCellData boardCellData, Transform parent = null)
         {
             _gameBoard = gameBoard;
-            _cellData = cellData;
+            _data = boardCellData;
             transform.parent = parent;
             UpdateIndicator();
         }

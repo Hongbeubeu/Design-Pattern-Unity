@@ -1,44 +1,45 @@
 using System.Collections.Generic;
-using hcore.Extensions;
-using hcore.ObjectPooler;
-using hcore.Singleton;
 using hcore.Tool;
 using UnityEngine;
 
 namespace TileStack
 {
-    public class GameController : Singleton<GameController>
-    {
-    }
-
     public class GameBoard : MonoBehaviour
     {
-        [SerializeField] private LevelDatabase _levelDatabase;
-        [SerializeField] private BoardCell _boardCellPrefab;
-        [SerializeField] private StackTile _stackTilePrefab;
-        [SerializeField] private DecorationCell _decorationCellPrefab;
-
-        private int Width => _levelDatabase.GetLevel(_currentLevelIndex).width;
-
-        private int Height => _levelDatabase.GetLevel(_currentLevelIndex).height;
-
+        private int Width => DataManager.Instance.GetLevel(_currentLevelIndex).width;
+        private int Height => DataManager.Instance.GetLevel(_currentLevelIndex).height;
         public Dictionary<Vector2Int, StackTile> TileMap { get; } = new();
-
         private Dictionary<Vector2Int, BoardCell> CellMap { get; } = new();
-
+        private List<DecorationCell> DecorationCells { get; } = new();
         private int _currentLevelIndex;
 
-        private void Awake()
+        public void SetupLevel(int currentLevel)
         {
-            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_boardCellPrefab), _boardCellPrefab, 25, 25);
-            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_decorationCellPrefab), _decorationCellPrefab, 50, 50);
-            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_stackTilePrefab), _stackTilePrefab, 25, 25);
+            _currentLevelIndex = currentLevel;
         }
 
-        private void Start()
+        public void CreateBoard()
         {
             SpawnBoard();
             SpawnDecoration();
+        }
+
+        public void ClearBoard()
+        {
+            foreach (var (_, stackTile) in TileMap)
+            {
+                stackTile.ReturnToPoolImmediate();
+            }
+
+            foreach (var (_, boardCell) in CellMap)
+            {
+                DataManager.Instance.ReturnBoardCell(boardCell);
+            }
+
+            foreach (var decorationCell in DecorationCells)
+            {
+                DataManager.Instance.ReturnDecorationCell(decorationCell);
+            }
         }
 
         public void RemoveTileMap(Vector2Int position)
@@ -49,8 +50,7 @@ namespace TileStack
         [Button]
         private void SpawnBoard()
         {
-            SpawnDecoration();
-            var level = _levelDatabase.GetLevel(_currentLevelIndex);
+            var level = DataManager.Instance.GetLevel(_currentLevelIndex);
 
             foreach (var designedCellData in level.designedCellDatas)
             {
@@ -63,16 +63,16 @@ namespace TileStack
 
         private void SpawnBoardCell(DesignedCellData designedCellData)
         {
-            var cell = ObjectPoolManager.Instance.GetObject<BoardCell>(_boardCellPrefab);
+            var cell = DataManager.Instance.GetBoardCell();
             var direction = designedCellData.hasTile ? MoveDirection.None : designedCellData.moveDirection;
-            cell.SetupData(this, new CellData(designedCellData.position, direction), transform);
+            cell.SetupData(this, new BoardCellData(designedCellData.position, direction), transform);
             CellMap[designedCellData.position] = cell;
         }
 
         private void SpawnStackTile(DesignedCellData designedCellData)
         {
-            var tile = ObjectPoolManager.Instance.GetObject<StackTile>(_stackTilePrefab);
-            tile.SetupData(this, new TileData(designedCellData.position, designedCellData.moveDirection), transform);
+            var tile = DataManager.Instance.GetStackTile();
+            tile.SetupData(this, new StackTileData(designedCellData.position, designedCellData.moveDirection), transform);
             TileMap[designedCellData.position] = tile;
         }
 
@@ -85,9 +85,10 @@ namespace TileStack
                     var position = new Vector2Int(x, y);
 
                     if (CellMap.ContainsKey(position)) continue;
-                    var groundCell = ObjectPoolManager.Instance.GetObject<DecorationCell>(_decorationCellPrefab);
-                    groundCell.transform.position = GridToWorldPosition(position);
-                    groundCell.transform.parent = transform;
+                    var decorationCell = DataManager.Instance.GetDecorationCell();
+                    decorationCell.transform.position = GridToWorldPosition(position);
+                    decorationCell.transform.parent = transform;
+                    DecorationCells.Add(decorationCell);
                 }
             }
         }

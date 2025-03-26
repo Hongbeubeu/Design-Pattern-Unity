@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f0891a3b4c4b3fa75ca03b2d658e69, type: 3}
+  m_Name: LevelData_002
+  m_EditorClassIdentifier: 
+  width: 4
+  height: 4
+  designedCellDatas:
+  - position: {x: 2, y: 0}
+    hasTile: 1
+    moveDirection: 1
+  - position: {x: 2, y: 1}
+    hasTile: 1
+    moveDirection: 1
+  - position: {x: 1, y: 2}
+    hasTile: 1
+    moveDirection: 4
+  - position: {x: 0, y: 2}
+    hasTile: 1
+    moveDirection: 4
+  - position: {x: 2, y: 2}
+    hasTile: 1
+    moveDirection: 0

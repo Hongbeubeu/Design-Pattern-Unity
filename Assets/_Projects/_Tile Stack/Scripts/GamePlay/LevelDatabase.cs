@@ -7,6 +7,7 @@ namespace TileStack
     public class LevelDatabase : ScriptableObject
     {
         [SerializeField] private LevelData[] _levels;
+        public int LevelCount => _levels.Length;
 
         public LevelData GetLevel(int index)
         {
