@@ -1,4 +1,17 @@
-﻿{
-  "name": "EzySlice",
-  "references":[ "GUID:ea7b7f0ecc67140a48b2b52595417671", "GUID:b097bb8e96d047a199ea4013a5ae10f9", "hcore.ToolsAssembly" ]
+{
+    "name": "EzySlice",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ea7b7f0ecc67140a48b2b52595417671",
+        "GUID:b097bb8e96d047a199ea4013a5ae10f9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
