@@ -10,8 +10,6 @@ namespace ObjectPooler
     /// </summary>
     public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
-       
-
         private Dictionary<object, Pool> _poolDictionary = new();
 
         /// <summary>
@@ -26,6 +24,7 @@ namespace ObjectPooler
         {
             var key = targetObject;
             _poolDictionary ??= new Dictionary<object, Pool>();
+
             if (_poolDictionary.ContainsKey(key)) return;
             var pool = new Pool(() => createFunc(), poolSize, additionalSize);
             _poolDictionary.Add(key, pool);
@@ -36,6 +35,7 @@ namespace ObjectPooler
             if (!_poolDictionary.TryGetValue(targetObject, out var pool))
             {
                 Debug.LogWarning($"Pool with type {targetObject} doesn't exist.");
+
                 return default;
             }
 
@@ -50,6 +50,7 @@ namespace ObjectPooler
             if (!_poolDictionary.TryGetValue(key, value: out var pool))
             {
                 Debug.LogWarning($"Pool with type {key} doesn't exist.");
+
                 return;
             }
 
