@@ -30,6 +30,7 @@ namespace TileStack
         [SerializeField] private GameObject _indicator;
         [SerializeField] private BoardCellData _data;
         public MoveDirection MoveDirection => _data.moveDirection;
+        public Vector2Int Position => _data.position;
 
         public void UpdateIndicator()
         {

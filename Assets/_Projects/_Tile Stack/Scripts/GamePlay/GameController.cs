@@ -1,4 +1,5 @@
-﻿using hcore.Singleton;
+﻿using System;
+using hcore.Singleton;
 using hcore.Tool;
 using UnityEngine;
 
@@ -9,6 +10,11 @@ namespace TileStack
         [SerializeField] private GameBoard _gameBoard;
         private int CurrentLevel { get; set; }
         private bool IsGamePlaying { get; set; }
+
+        private void Start()
+        {
+            StartGame();
+        }
 
         [Button]
         private void StartGame()

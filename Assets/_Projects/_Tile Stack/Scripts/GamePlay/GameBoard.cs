@@ -31,15 +31,21 @@ namespace TileStack
                 stackTile.ReturnToPoolImmediate();
             }
 
+            TileMap.Clear();
+
             foreach (var (_, boardCell) in CellMap)
             {
                 DataManager.Instance.ReturnBoardCell(boardCell);
             }
 
+            CellMap.Clear();
+
             foreach (var decorationCell in DecorationCells)
             {
                 DataManager.Instance.ReturnDecorationCell(decorationCell);
             }
+
+            DecorationCells.Clear();
         }
 
         public void RemoveTileMap(Vector2Int position)

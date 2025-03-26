@@ -157,6 +157,8 @@ namespace TileStack
         {
             _gameBoard.RemoveTileMap(_currentPosition);
 
+            _currentPosition = targetBoardCell.Position;
+
             if (targetBoardCell.MoveDirection != MoveDirection.None)
             {
                 MoveDirection = targetBoardCell.MoveDirection;
@@ -275,10 +277,14 @@ namespace TileStack
         {
             foreach (var tile in _stackedTiles)
             {
-                DataManager.Instance.ReturnStackTile(tile);
+                tile.ArrangeStackedTiles();
+                tile.ReturnToPoolImmediate();
             }
 
+            _stackedTiles.Clear();
+
             DataManager.Instance.ReturnStackTile(this);
+            ArrangeStackedTiles();
         }
 
         private void OnMouseDown()

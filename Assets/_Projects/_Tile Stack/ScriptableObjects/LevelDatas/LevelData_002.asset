@@ -20,13 +20,31 @@ MonoBehaviour:
     moveDirection: 1
   - position: {x: 2, y: 1}
     hasTile: 1
-    moveDirection: 1
+    moveDirection: 0
   - position: {x: 1, y: 2}
-    hasTile: 1
-    moveDirection: 4
+    hasTile: 0
+    moveDirection: 0
   - position: {x: 0, y: 2}
     hasTile: 1
-    moveDirection: 4
+    moveDirection: 8
   - position: {x: 2, y: 2}
+    hasTile: 0
+    moveDirection: 1
+  - position: {x: 1, y: 3}
+    hasTile: 1
+    moveDirection: 0
+  - position: {x: 2, y: 3}
+    hasTile: 1
+    moveDirection: 0
+  - position: {x: 3, y: 2}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 3, y: 1}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 3, y: 0}
+    hasTile: 1
+    moveDirection: 0
+  - position: {x: 3, y: 3}
     hasTile: 1
     moveDirection: 0
