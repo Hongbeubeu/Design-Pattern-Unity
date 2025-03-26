@@ -52,8 +52,8 @@ MonoBehaviour:
   _jumpTarget: {fileID: 7145816509638884215}
   _collider: {fileID: 8336796404144150221}
   _currentPosition: {x: 0, y: 0}
-  _speed: 4
-  _tileData:
+  _speed: 5
+  _data:
     position: {x: 0, y: 0}
     moveDirection: 0
 --- !u!65 &8336796404144150221

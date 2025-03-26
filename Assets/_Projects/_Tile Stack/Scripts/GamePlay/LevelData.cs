@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TileStack
@@ -8,11 +9,11 @@ namespace TileStack
     {
         public int width;
         public int height;
-        public DesignedCellData[] designedCellDatas;
+        public List<DesignedCellData> designedCellDatas = new();
     }
 
     [Serializable]
-    public struct DesignedCellData
+    public class DesignedCellData
     {
         public Vector2Int position;
         public bool hasTile;

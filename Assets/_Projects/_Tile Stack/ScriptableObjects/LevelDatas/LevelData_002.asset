@@ -12,39 +12,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f0891a3b4c4b3fa75ca03b2d658e69, type: 3}
   m_Name: LevelData_002
   m_EditorClassIdentifier: 
-  width: 4
-  height: 4
+  width: 5
+  height: 5
   designedCellDatas:
-  - position: {x: 2, y: 0}
-    hasTile: 1
-    moveDirection: 1
-  - position: {x: 2, y: 1}
-    hasTile: 1
-    moveDirection: 0
-  - position: {x: 1, y: 2}
+  - position: {x: 1, y: 1}
     hasTile: 0
-    moveDirection: 0
-  - position: {x: 0, y: 2}
-    hasTile: 1
     moveDirection: 8
   - position: {x: 2, y: 2}
     hasTile: 0
-    moveDirection: 1
-  - position: {x: 1, y: 3}
-    hasTile: 1
+    moveDirection: 8
+  - position: {x: 3, y: 3}
+    hasTile: 0
+    moveDirection: 8
+  - position: {x: 4, y: 4}
+    hasTile: 0
+    moveDirection: 2
+  - position: {x: 0, y: 0}
+    hasTile: 0
+    moveDirection: 4
+  - position: {x: 4, y: 2}
+    hasTile: 0
+    moveDirection: 2
+  - position: {x: 2, y: 0}
+    hasTile: 0
+    moveDirection: 4
+  - position: {x: 4, y: 0}
+    hasTile: 0
     moveDirection: 0
-  - position: {x: 2, y: 3}
-    hasTile: 1
-    moveDirection: 0
-  - position: {x: 3, y: 2}
+  - position: {x: 4, y: 1}
     hasTile: 0
     moveDirection: 0
   - position: {x: 3, y: 1}
     hasTile: 0
     moveDirection: 0
   - position: {x: 3, y: 0}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 3, y: 2}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 2, y: 1}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 1, y: 0}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 4, y: 3}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 3, y: 4}
+    hasTile: 0
+    moveDirection: 4
+  - position: {x: 0, y: 1}
+    hasTile: 0
+    moveDirection: 2
+  - position: {x: 0, y: 4}
+    hasTile: 1
+    moveDirection: 8
+  - position: {x: 1, y: 4}
+    hasTile: 1
+    moveDirection: 4
+  - position: {x: 1, y: 3}
     hasTile: 1
     moveDirection: 0
-  - position: {x: 3, y: 3}
+  - position: {x: 0, y: 3}
     hasTile: 1
+    moveDirection: 2
+  - position: {x: 2, y: 4}
+    hasTile: 0
+    moveDirection: 0
+  - position: {x: 0, y: 2}
+    hasTile: 0
     moveDirection: 0
