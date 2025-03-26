@@ -1,5 +1,5 @@
-﻿using IoC;
-using IoC.Services;
+﻿using hcore.IoC;
+using hcore.IoC.Services;
 
 namespace Builder.Entity
 {

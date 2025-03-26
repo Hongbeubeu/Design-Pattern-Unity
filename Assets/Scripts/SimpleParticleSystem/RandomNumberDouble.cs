@@ -1,6 +1,6 @@
 using System;
 
-namespace SimpleParticleSystem
+namespace hcore.SimpleParticleSystem
 {
     [Serializable]
     public class RandomNumberDouble : RandomNumber<double> { }

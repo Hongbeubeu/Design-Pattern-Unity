@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using IoC;
+using hcore.IoC;
 using MessagePack;
 using UnityEngine;
 

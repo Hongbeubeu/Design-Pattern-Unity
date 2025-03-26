@@ -1,7 +1,7 @@
 using System;
 using Builder.Actions;
-using IoC;
-using IoC.Services;
+using hcore.IoC;
+using hcore.IoC.Services;
 using UnityEngine;
 
 namespace Builder.Entity

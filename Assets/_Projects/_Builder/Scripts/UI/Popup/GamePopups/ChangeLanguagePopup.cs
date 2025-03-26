@@ -1,5 +1,5 @@
 ﻿using Builder.Services;
-using IoC;
+using hcore.IoC;
 
 namespace Builder.UI
 {

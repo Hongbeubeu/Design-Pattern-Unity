@@ -3,7 +3,7 @@ using System.Globalization;
 using UnityEditor;
 using UnityEngine;
 
-namespace InspectorCustom
+namespace hcore.InspectorCustom
 {
     public readonly struct BorderItem
     {

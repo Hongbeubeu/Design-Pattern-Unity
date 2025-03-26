@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SimpleParticleSystem
+namespace hcore.SimpleParticleSystem
 {
     public class SimpleParticleSystemRendererAdapter : MonoBehaviour
     {

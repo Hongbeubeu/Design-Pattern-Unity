@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IoC
+namespace hcore.IoC
 {
     public class MonoStartup : MonoBehaviour, IStartup
     {

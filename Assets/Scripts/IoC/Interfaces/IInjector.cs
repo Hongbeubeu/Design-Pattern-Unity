@@ -1,4 +1,4 @@
-﻿namespace IoC
+﻿namespace hcore.IoC
 {
     public interface IInjector
     {

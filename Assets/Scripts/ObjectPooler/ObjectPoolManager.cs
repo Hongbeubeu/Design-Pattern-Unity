@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Singleton;
+using hcore.Singleton;
 using UnityEngine;
 
-namespace ObjectPooler
+namespace hcore.ObjectPooler
 {
     /// <summary>
     /// Singleton class that manages object pools

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace SimpleParticleSystem
+namespace hcore.SimpleParticleSystem
 {
     public partial class SimpleParticleSystem : MonoBehaviour
     {

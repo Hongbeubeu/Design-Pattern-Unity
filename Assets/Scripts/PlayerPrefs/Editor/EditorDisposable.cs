@@ -1,11 +1,10 @@
 ﻿#if UNITY_EDITOR
-
 using System;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace PlayerPrefs.Editor
+namespace hcore.PlayerPrefsManager.Editor
 {
     public class UndoAndDirty : IDisposable
     {

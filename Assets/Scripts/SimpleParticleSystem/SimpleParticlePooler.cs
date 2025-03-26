@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SimpleParticleSystem
+namespace hcore.SimpleParticleSystem
 {
     public static class SimpleParticlePooler
     {

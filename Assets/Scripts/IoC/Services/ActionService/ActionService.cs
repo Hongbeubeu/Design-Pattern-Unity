@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IoC.Services
+namespace hcore.IoC.Services
 {
     public class ActionService : BaseService, IActionService
     {

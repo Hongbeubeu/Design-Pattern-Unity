@@ -1,4 +1,4 @@
-namespace IoC.Services
+namespace hcore.IoC.Services
 {
     public abstract class ListenerPriority
     {

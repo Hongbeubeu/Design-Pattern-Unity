@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-namespace Tool
+namespace hcore.Tool
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class ButtonAttribute : PropertyAttribute

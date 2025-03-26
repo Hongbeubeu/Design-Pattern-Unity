@@ -1,5 +1,5 @@
 ﻿using DG.Tweening;
-using Tool;
+using hcore.Tool;
 using UnityEngine;
 
 public class Jump : MonoBehaviour

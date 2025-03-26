@@ -1,5 +1,5 @@
 ﻿using System;
-using ObjectPooler;
+using hcore.ObjectPooler;
 using UnityEngine;
 
 namespace TileStack

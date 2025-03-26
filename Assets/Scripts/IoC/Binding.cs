@@ -1,8 +1,8 @@
 using System;
-using IoC.Providers;
-using Logger;
+using hcore.IoC.Providers;
+using hcore.Logger;
 
-namespace IoC
+namespace hcore.IoC
 {
     public class Binding : IBinding
     {

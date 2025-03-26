@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace InspectorCustom
+namespace hcore.InspectorCustom
 {
     public class DisposableAction : IDisposable
     {

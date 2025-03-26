@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ObjectPooler
+namespace hcore.ObjectPooler
 {
     public abstract class PoolableMonoBehaviourBase : MonoBehaviour, IPoolable
     {

@@ -1,4 +1,4 @@
-﻿using IoC.Services;
+﻿using hcore.IoC.Services;
 using UnityEngine.Localization.Settings;
 
 namespace Builder.Services

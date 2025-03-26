@@ -1,4 +1,4 @@
-namespace SimpleParticleSystem
+namespace hcore.SimpleParticleSystem
 {
     public enum RandomType
     {

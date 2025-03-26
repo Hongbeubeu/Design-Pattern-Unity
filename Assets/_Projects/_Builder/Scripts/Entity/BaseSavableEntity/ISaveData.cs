@@ -1,4 +1,4 @@
-﻿using IoC;
+﻿using hcore.IoC;
 
 public interface ISaveData : IInjectable
 {

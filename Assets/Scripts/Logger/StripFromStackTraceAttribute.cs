@@ -1,6 +1,6 @@
 using System;
 
-namespace Logger
+namespace hcore.Logger
 {
     /// <summary>
     /// This will remove any method with this attribute from a custom stack trace.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace InspectorCustom.TestDrive
+namespace hcore.InspectorCustom.TestDrive
 {
     public class DictionaryExample : MonoBehaviour
     {

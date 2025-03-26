@@ -1,6 +1,6 @@
 using System;
 
-namespace Logger
+namespace hcore.Logger
 {
     [Flags]
     public enum LogSeverity

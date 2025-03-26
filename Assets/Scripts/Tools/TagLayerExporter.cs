@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.IO;
 
-namespace Tool
+namespace hcore.Tool
 {
     public class TagLayerExporter : EditorWindow
     {

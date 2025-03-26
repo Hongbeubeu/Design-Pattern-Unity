@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ObjectPooler
+namespace hcore.ObjectPooler
 {
     public class Pool
     {

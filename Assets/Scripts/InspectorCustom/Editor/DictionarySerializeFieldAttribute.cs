@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InspectorCustom
+namespace hcore.InspectorCustom
 {
     public class DictionarySerializeFieldAttribute : PropertyAttribute
     {

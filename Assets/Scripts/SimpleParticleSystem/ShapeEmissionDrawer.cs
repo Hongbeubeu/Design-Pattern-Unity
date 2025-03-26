@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace SimpleParticleSystem
+namespace hcore.SimpleParticleSystem
 {
     [CustomPropertyDrawer(typeof(ShapeEmission))]
     public class ShapeEmissionDrawer : PropertyDrawer

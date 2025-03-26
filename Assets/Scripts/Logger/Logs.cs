@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Logger
+namespace hcore.Logger
 {
     public static class Logs
     {

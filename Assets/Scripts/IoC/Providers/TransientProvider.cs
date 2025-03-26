@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IoC.Providers
+namespace hcore.IoC.Providers
 {
     public class TransientProvider : IProvider
     {

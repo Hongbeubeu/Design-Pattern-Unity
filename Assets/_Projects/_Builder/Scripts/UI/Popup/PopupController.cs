@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using IoC;
+using hcore.IoC;
 using UnityEngine;
-using Tool;
+using hcore.Tool;
 
 namespace Builder.UI
 {

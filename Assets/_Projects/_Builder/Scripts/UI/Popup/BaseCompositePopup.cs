@@ -1,5 +1,5 @@
 ﻿using System;
-using IoC;
+using hcore.IoC;
 using UnityEngine;
 
 namespace Builder.UI

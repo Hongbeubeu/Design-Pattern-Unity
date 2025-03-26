@@ -1,10 +1,16 @@
 using System.Collections.Generic;
-using ObjectPooler;
-using Tool;
+using hcore.Extensions;
+using hcore.ObjectPooler;
+using hcore.Singleton;
+using hcore.Tool;
 using UnityEngine;
 
 namespace TileStack
 {
+    public class GameController : Singleton<GameController>
+    {
+    }
+
     public class GameBoard : MonoBehaviour
     {
         [SerializeField] private LevelDatabase _levelDatabase;
@@ -45,22 +51,6 @@ namespace TileStack
         {
             SpawnDecoration();
             var level = _levelDatabase.GetLevel(_currentLevelIndex);
-
-            if (level.width <= 0 || level.height <= 0)
-            {
-                Debug.LogWarning("Width and height must be greater than 0.");
-
-                return;
-            }
-
-            if (_boardCellPrefab == null)
-            {
-                Debug.LogWarning("Cell prefab is null.");
-
-                return;
-            }
-
-            gameObject.DestroyAllChildrenImmediate();
 
             foreach (var designedCellData in level.designedCellDatas)
             {

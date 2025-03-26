@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace Logger
+namespace hcore.Logger
 {
     public sealed class Logger
     {

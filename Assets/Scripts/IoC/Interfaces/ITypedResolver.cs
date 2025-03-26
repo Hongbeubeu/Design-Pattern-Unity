@@ -1,7 +1,7 @@
 using System;
-using IoC.Services;
+using hcore.IoC.Services;
 
-namespace IoC
+namespace hcore.IoC
 {
     public interface IActionResolver : ITypedResolver<IAction>
     {

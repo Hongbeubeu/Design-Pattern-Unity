@@ -1,4 +1,4 @@
-﻿namespace ObjectPooler
+﻿namespace hcore.ObjectPooler
 {
     public class Item : PoolableMonoBehaviourBase
     {

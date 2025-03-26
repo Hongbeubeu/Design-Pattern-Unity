@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace SimpleParticleSystem
+namespace hcore.SimpleParticleSystem
 {
     [Serializable]
     public class ShapeEmission

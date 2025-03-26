@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using hcore.Attributes;
+using UnityEngine;
 
 public class VictorianFurnitureFactory : MonoBehaviour, IFurnitureFactory
 {

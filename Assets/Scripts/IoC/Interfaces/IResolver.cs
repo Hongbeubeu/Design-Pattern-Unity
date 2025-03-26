@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IoC
+namespace hcore.IoC
 {
     public interface IResolver
     {

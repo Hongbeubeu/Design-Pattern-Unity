@@ -1,4 +1,4 @@
-namespace IoC
+namespace hcore.IoC
 {
     internal class Injector : IInjector
     {

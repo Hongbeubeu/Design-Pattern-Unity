@@ -1,6 +1,6 @@
 using System;
 
-namespace IoC
+namespace hcore.IoC
 {
     public class BindingException : Exception
     {

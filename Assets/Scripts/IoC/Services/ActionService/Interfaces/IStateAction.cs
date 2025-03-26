@@ -1,4 +1,4 @@
-﻿namespace IoC.Services
+﻿namespace hcore.IoC.Services
 {
     public interface IStateAction : IAction
     {

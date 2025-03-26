@@ -1,4 +1,4 @@
-﻿using ObjectPooler;
+﻿using hcore.ObjectPooler;
 
 namespace TileStack
 {

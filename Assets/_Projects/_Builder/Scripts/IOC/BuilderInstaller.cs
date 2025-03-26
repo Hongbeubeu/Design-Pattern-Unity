@@ -1,6 +1,6 @@
 ﻿using Builder.Actions;
 using Builder.Services;
-using IoC;
+using hcore.IoC;
 
 namespace Builder.Entity
 {

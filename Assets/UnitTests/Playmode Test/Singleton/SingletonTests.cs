@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using System.Collections;
 using NUnit.Framework;
-using Singleton;
+using hcore.Singleton;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;

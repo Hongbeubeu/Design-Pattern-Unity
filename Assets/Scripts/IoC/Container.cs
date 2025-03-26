@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Logger;
+using hcore.Logger;
 
-namespace IoC
+namespace hcore.IoC
 {
     public delegate void BindResolver(IBinding binding);
 

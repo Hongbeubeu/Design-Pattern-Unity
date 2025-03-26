@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using ObjectPooler;
-using Tool;
+using hcore.ObjectPooler;
+using hcore.Tool;
 using UnityEngine;
 
 namespace TileStack

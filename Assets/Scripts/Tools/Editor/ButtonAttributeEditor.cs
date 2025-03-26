@@ -2,7 +2,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tool
+namespace hcore.Tool
 {
     [CustomEditor(typeof(MonoBehaviour), true)] // Applies to all MonoBehaviour scripts
     public class ButtonAttributeEditor : UnityEditor.Editor

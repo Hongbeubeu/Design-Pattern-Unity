@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace InspectorCustom
+namespace hcore.InspectorCustom
 {
     [Serializable]
     public class SerializableDictionary<TKey, TValue>

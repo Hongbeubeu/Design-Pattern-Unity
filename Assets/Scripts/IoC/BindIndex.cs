@@ -1,6 +1,6 @@
 using System;
 
-namespace IoC
+namespace hcore.IoC
 {
     public struct BindIndex : IEquatable<BindIndex>
     {

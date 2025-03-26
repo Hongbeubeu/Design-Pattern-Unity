@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace IoC.Services
+namespace hcore.IoC.Services
 {
     public class ActionServiceTestDrive : MonoBehaviour
     {

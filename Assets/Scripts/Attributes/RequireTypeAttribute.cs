@@ -1,13 +1,16 @@
 using System;
 using UnityEngine;
 
-[AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
-public class RequireTypeAttribute : PropertyAttribute
+namespace hcore.Attributes
 {
-    public Type RequiredType { get; private set; }
-
-    public RequireTypeAttribute(Type requiredType)
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+    public class RequireTypeAttribute : PropertyAttribute
     {
-        RequiredType = requiredType;
+        public Type RequiredType { get; private set; }
+
+        public RequireTypeAttribute(Type requiredType)
+        {
+            RequiredType = requiredType;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IoC.Services
+namespace hcore.IoC.Services
 {
     public class SampleAction : IAction
     {

@@ -1,7 +1,7 @@
-using IoC.Services;
+using hcore.IoC.Services;
 using UnityEngine;
 
-namespace IoC
+namespace hcore.IoC
 {
     public class MonoInstaller : MonoBehaviour, IInstaller
     {

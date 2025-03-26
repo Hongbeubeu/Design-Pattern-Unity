@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Logger.TestDrive
+namespace hcore.Logger.TestDrive
 {
     public class LoggerTestDrive : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-namespace Logger
+namespace hcore.Logger
 {
     public struct LogEntry
     {

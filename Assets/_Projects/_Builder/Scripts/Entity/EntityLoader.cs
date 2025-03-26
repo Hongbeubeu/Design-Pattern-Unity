@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Tool;
+using hcore.Tool;
 
 namespace Builder.Entity
 {
