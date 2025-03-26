@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "7c80e98d3b56ecbcf854a9336458b6b0dedf1b8f"
+      "hash": "fe31ad0904abee296b5ea72c6073157accba59e8"
     },
     "com.github.messagepack-csharp": {
       "version": "https://github.com/MessagePack-CSharp/MessagePack-CSharp.git?path=src/MessagePack.UnityClient/Assets/Scripts/MessagePack",
