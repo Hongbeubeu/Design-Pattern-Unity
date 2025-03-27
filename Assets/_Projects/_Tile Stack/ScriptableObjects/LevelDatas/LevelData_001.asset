@@ -30,6 +30,3 @@ MonoBehaviour:
   - position: {x: 2, y: 2}
     hasTile: 1
     moveDirection: 0
-  - position: {x: 0, y: 0}
-    hasTile: 0
-    moveDirection: 0
