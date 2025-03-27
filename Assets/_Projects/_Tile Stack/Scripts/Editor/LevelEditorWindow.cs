@@ -21,7 +21,12 @@ namespace TileStack.Design.Editor
         private int _cellTypeSelected;
         private bool _hasTile;
         private GUIStyle _buttonStyle;
+
+        private LevelDatabase LevelDatabase { get; set; }
+
         private LevelData LevelData { get; set; }
+
+        private int CurrentLevel { get; set; }
 
         private MoveDirection CellMoveDirection
         {
@@ -54,20 +59,38 @@ namespace TileStack.Design.Editor
             window.LevelData = levelData;
         }
 
+        private static void OpenWindow(LevelDatabase levelDatabase)
+        {
+            var window = GetWindow<LevelEditorWindow>("Level Editor");
+            window.LevelDatabase = levelDatabase;
+            window.LevelData = levelDatabase.GetLevel(0);
+            window.CurrentLevel = 0;
+        }
+
         [MenuItem("Assets/Edit Level")]
         public static void ShowLevelEditor()
         {
-            var levelData = (LevelData)Selection.activeObject;
+            switch (Selection.activeObject)
+            {
+                case LevelData levelData when levelData == null:
+                    return;
+                case LevelData levelData:
+                    OpenWindow(levelData);
 
-            if (levelData == null) return;
+                    break;
+                case LevelDatabase levelDatabase when levelDatabase == null:
+                    return;
+                case LevelDatabase levelDatabase:
+                    OpenWindow(levelDatabase);
 
-            OpenWindow(levelData);
+                    break;
+            }
         }
 
         [MenuItem("Assets/Edit Level", true)]
-        private static bool ValidatePingAtlas()
+        private static bool ValidateShowLevelEditor()
         {
-            return Selection.activeObject is LevelData;
+            return Selection.activeObject is LevelData || Selection.activeObject is LevelDatabase;
         }
 
         private void OnEnable()
@@ -78,9 +101,64 @@ namespace TileStack.Design.Editor
 
         private void OnGUI()
         {
-            GUILayout.Label("Level Editor", EditorStyles.boldLabel);
+            DrawHeader();
+            DrawEditorZone();
+        }
 
-            LevelData = (LevelData)EditorGUILayout.ObjectField("Level Data", LevelData, typeof(LevelData), false);
+        private void DrawHeader()
+        {
+            using (new VerticalHelpBox())
+            {
+                LevelDatabase = (LevelDatabase)EditorGUILayout.ObjectField("Level Database", LevelDatabase, typeof(LevelDatabase), false);
+                LevelData = (LevelData)EditorGUILayout.ObjectField("Level Data", LevelData, typeof(LevelData), false);
+                GUILayout.Space(EditorGUIUtility.singleLineHeight);
+
+                using (new HorizontalHelpBox())
+                {
+                    using (new DisabledGUI(!LevelDatabase))
+                    {
+                        if (GUILayout.Button("Prev", GUILayout.Width(50)))
+                        {
+                            CurrentLevel--;
+                            CurrentLevel = Mathf.Max(CurrentLevel, 1);
+                            LevelData = LevelDatabase.GetLevel(CurrentLevel - 1);
+                        }
+                    }
+
+                    GUILayout.FlexibleSpace();
+                    EditorGUI.BeginChangeCheck();
+
+                    using (new DisabledGUI(!LevelDatabase))
+                    {
+                        CurrentLevel = EditorGUILayout.DelayedIntField("Select Level", CurrentLevel);
+                    }
+
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        CurrentLevel = Mathf.Clamp(CurrentLevel, 1, LevelDatabase.LevelCount);
+                        LevelData = LevelDatabase.GetLevel(CurrentLevel - 1);
+                    }
+
+                    GUILayout.FlexibleSpace();
+
+                    using (new DisabledGUI(!LevelDatabase))
+                    {
+                        if (GUILayout.Button("Next", GUILayout.Width(50)))
+                        {
+                            CurrentLevel++;
+                            CurrentLevel = Mathf.Min(CurrentLevel, LevelDatabase.LevelCount);
+                            LevelData = LevelDatabase.GetLevel(CurrentLevel - 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        private GUIStyle _levelNameStyle;
+
+        private void DrawEditorZone()
+        {
+            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 
             if (!LevelData)
             {
@@ -89,33 +167,52 @@ namespace TileStack.Design.Editor
                 return;
             }
 
-            _buttonStyle ??= new GUIStyle(GUI.skin.button)
-                             {
-                                 fontStyle = FontStyle.Bold,
-                                 fontSize = 20
-                             };
-
-            LevelData.width = EditorGUILayout.IntField("Width", LevelData.width);
-            LevelData.height = EditorGUILayout.IntField("Height", LevelData.height);
-
-            var color = GUI.color;
-            GUI.color = Color.red;
-
-            if (GUILayout.Button("Reset Board", _buttonStyle, GUILayout.Height(30)))
+            using (new VerticalHelpBox())
             {
-                ResetBoard();
+                using (new HorizontalLayout(true))
+                {
+                    _levelNameStyle ??= new GUIStyle(GUI.skin.label)
+                                        {
+                                            fontStyle = FontStyle.Bold,
+                                            fontSize = 20,
+                                            alignment = TextAnchor.MiddleCenter,
+                                            normal = { textColor = Color.green }
+                                        };
+                    GUILayout.Label($"{LevelData.name}", _levelNameStyle);
+                }
+
+                _buttonStyle ??= new GUIStyle(GUI.skin.button)
+                                 {
+                                     fontStyle = FontStyle.Bold,
+                                     fontSize = 20
+                                 };
+
+                using (new HorizontalLayout())
+                {
+                    var color = GUI.color;
+                    GUI.color = Color.green;
+
+                    if (GUILayout.Button("Save", _buttonStyle, GUILayout.Height(30)))
+                    {
+                        AssetDatabase.SaveAssets();
+                    }
+
+                    GUI.color = Color.red;
+
+                    if (GUILayout.Button("Reset", _buttonStyle, GUILayout.Height(30), GUILayout.Width(100)))
+                    {
+                        ResetBoard();
+                    }
+
+                    GUI.color = color;
+                }
+
+                LevelData.width = EditorGUILayout.IntField("Width", LevelData.width);
+
+                LevelData.height = EditorGUILayout.IntField("Height", LevelData.height);
+
+                DrawGrid();
             }
-
-            GUI.color = Color.green;
-
-            if (GUILayout.Button("Save Data", _buttonStyle, GUILayout.Height(40)))
-            {
-                AssetDatabase.SaveAssets();
-            }
-
-            GUI.color = color;
-
-            DrawGrid();
 
             if (GUI.changed)
             {
@@ -195,6 +292,8 @@ namespace TileStack.Design.Editor
                    };
         }
 
+        private GUIStyle _directionStyle;
+
         private void DrawBrushOptions()
         {
             using (new VerticalHelpBox())
@@ -204,14 +303,13 @@ namespace TileStack.Design.Editor
 
                 if ((CellType)_cellTypeSelected == CellType.Empty) return;
                 _hasTile = EditorGUILayout.Toggle("Has Tile", _hasTile);
-                // _directionSelected = EditorGUILayout.Popup("Direction", _directionSelected, _directions);
-                var style = new GUIStyle(GUI.skin.button)
-                            {
-                                fixedWidth = 60,
-                                fixedHeight = 30,
-                                fontSize = 16
-                            };
-                _directionSelected = GUILayout.SelectionGrid(_directionSelected, _directions, _directions.Length, style);
+                _directionStyle ??= new GUIStyle(GUI.skin.button)
+                                    {
+                                        fixedWidth = 60,
+                                        fixedHeight = 30,
+                                        fontSize = 16
+                                    };
+                _directionSelected = GUILayout.SelectionGrid(_directionSelected, _directions, _directions.Length, _directionStyle);
             }
         }
 
