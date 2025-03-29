@@ -1,5 +1,4 @@
-﻿using System;
-using hcore.Singleton;
+﻿using hcore.Singleton;
 using hcore.Tool;
 using UnityEngine;
 
@@ -33,12 +32,19 @@ namespace TileStack
         }
 
         [Button]
-        private void NextLevel()
+        public void RestartGame()
+        {
+            EndGame();
+            StartGame();
+        }
+
+        [Button]
+        public void NextLevel()
         {
             if (IsGamePlaying)
                 EndGame();
             CurrentLevel++;
-            CurrentLevel = Mathf.Clamp(CurrentLevel, 0, DataManager.Instance.MaxLevel - 1);
+            CurrentLevel %= DataManager.Instance.MaxLevel;
             StartGame();
         }
     }

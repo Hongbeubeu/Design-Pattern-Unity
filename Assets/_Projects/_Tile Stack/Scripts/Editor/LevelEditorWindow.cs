@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿#if UNITY_EDITOR
+using System.Linq;
 using hcore.PlayerPrefsManager.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -20,7 +21,6 @@ namespace TileStack.Design.Editor
         private int _cellTypeSelected;
         private bool _hasTile;
         private GUIStyle _buttonStyle;
-
         private LevelData LevelData { get; set; }
 
         private MoveDirection CellMoveDirection
@@ -241,3 +241,4 @@ namespace TileStack.Design.Editor
         }
     }
 }
+#endif

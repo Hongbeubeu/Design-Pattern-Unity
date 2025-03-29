@@ -50,6 +50,7 @@ namespace TileStack
         [SerializeField] private float _speed = 1f;
         [SerializeField] private StackTileData _data;
 
+        private event Action OnMoveDoneEvent;
         private Vector2Int CurrentPosition
         {
             get => _currentPosition;
@@ -58,10 +59,10 @@ namespace TileStack
 
         private Transform JumpTarget => _jumpTarget;
 
-        private MoveDirection MoveDirection
+        public MoveDirection MoveDirection
         {
             get => _data.moveDirection;
-            set => _data.moveDirection = value;
+            private set => _data.moveDirection = value;
         }
 
         private Vector2Int DirectionVector => _data.moveDirection.GetDirectionVector();
@@ -73,6 +74,7 @@ namespace TileStack
         {
             CurrentPosition = stackTileData.position;
             _gameBoard = gameBoard;
+            OnMoveDoneEvent += _gameBoard.OnTileMoveDone;
             _data = stackTileData;
             transform.parent = parent;
             _collider.enabled = _data.moveDirection != MoveDirection.None;
@@ -140,6 +142,7 @@ namespace TileStack
             if (targetCell == null)
             {
                 ResetTile();
+                OnMoveDoneEvent?.Invoke();
 
                 return;
             }
@@ -187,7 +190,11 @@ namespace TileStack
 
             DoStackTile(targetStackTile);
 
-            if (ShouldStop(targetStackTile)) return;
+            if (ShouldStop(targetStackTile))
+            {
+                OnMoveDoneEvent?.Invoke();
+                return;
+            }
 
             Move();
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using hcore.Tool;
 using UnityEngine;
@@ -26,20 +27,33 @@ namespace TileStack
 
         public void ClearBoard()
         {
+            ClearStackedTiles();
+            ClearBoardCells();
+            ClearDecorations();
+        }
+
+        private void ClearStackedTiles()
+        {
             foreach (var (_, stackTile) in TileMap)
             {
                 stackTile.ReturnToPoolImmediate();
             }
 
             TileMap.Clear();
+        }
 
+        private void ClearBoardCells()
+        {
             foreach (var (_, boardCell) in CellMap)
             {
                 DataManager.Instance.ReturnBoardCell(boardCell);
             }
 
             CellMap.Clear();
+        }
 
+        private void ClearDecorations()
+        {
             foreach (var decorationCell in DecorationCells)
             {
                 DataManager.Instance.ReturnDecorationCell(decorationCell);
@@ -136,6 +150,38 @@ namespace TileStack
             var offset = new Vector3((Width - 1) / 2f, 0, (Height - 1) / 2f);
 
             return new Vector2Int(Mathf.RoundToInt(position.x + offset.x), Mathf.RoundToInt(position.z + offset.z));
+        }
+
+        public void OnTileMoveDone()
+        {
+            if (CheckWin())
+            {
+                GameController.Instance.NextLevel();
+            }
+            else if (CheckLose())
+            {
+                GameController.Instance.RestartGame();
+            }
+        }
+
+        private bool CheckWin()
+        {
+            return TileMap.Count == 1;
+        }
+
+        private bool CheckLose()
+        {
+            var isLost = true;
+
+            foreach (var (_, tile) in TileMap)
+            {
+                if (tile.MoveDirection == MoveDirection.None) continue;
+                isLost = false;
+
+                break;
+            }
+
+            return isLost;
         }
 
         private void OnDrawGizmos()
