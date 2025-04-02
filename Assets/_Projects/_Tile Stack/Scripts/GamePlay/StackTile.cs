@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using hcore.ObjectPooler;
@@ -51,6 +52,7 @@ namespace TileStack
         [SerializeField] private StackTileData _data;
 
         private event Action OnMoveDoneEvent;
+
         private Vector2Int CurrentPosition
         {
             get => _currentPosition;
@@ -66,9 +68,11 @@ namespace TileStack
         }
 
         private Vector2Int DirectionVector => _data.moveDirection.GetDirectionVector();
+
+        public bool IsMoving { get; private set; }
+
         private readonly List<StackTile> _stackedTiles = new();
         private Tween _tween;
-        private bool _isMoving;
 
         public void SetupData(GameBoard gameBoard, StackTileData stackTileData, Transform parent = null)
         {
@@ -80,6 +84,7 @@ namespace TileStack
             _collider.enabled = _data.moveDirection != MoveDirection.None;
             UpdateIndicator();
             UpdatePosition();
+            OnMoveDoneEvent += DoAnimationStacked;
         }
 
         [Button]
@@ -113,7 +118,7 @@ namespace TileStack
         [Button]
         public void ForceMove()
         {
-            if (_isMoving) return;
+            if (IsMoving) return;
             Move();
         }
 
@@ -147,7 +152,7 @@ namespace TileStack
                 return;
             }
 
-            _isMoving = true;
+            IsMoving = true;
             var targetPosition = targetCell.transform.position;
             targetPosition.y = transform.position.y;
             var duration = Vector3.Distance(transform.position, targetPosition) / _speed;
@@ -174,7 +179,7 @@ namespace TileStack
 
         private void DoJump(StackTile targetStackTile)
         {
-            _isMoving = true;
+            IsMoving = true;
             var targetPosition = targetStackTile.JumpTarget.transform.position;
             var duration = Vector3.Distance(transform.position, targetPosition) / _speed;
             _tween = transform.DOJump(targetPosition, jumpPower: 0.1f, numJumps: 1, duration: duration)
@@ -193,6 +198,7 @@ namespace TileStack
             if (ShouldStop(targetStackTile))
             {
                 OnMoveDoneEvent?.Invoke();
+
                 return;
             }
 
@@ -248,7 +254,7 @@ namespace TileStack
 
             if (direction == MoveDirection.None) return false;
 
-            _isMoving = false;
+            IsMoving = false;
             MoveDirection = direction;
             targetStackTile.SetStacked();
             UpdateIndicator();
@@ -265,7 +271,7 @@ namespace TileStack
 
         private void ResetTile()
         {
-            _isMoving = false;
+            IsMoving = false;
             MoveDirection = MoveDirection.None;
             UpdateIndicator();
         }
@@ -294,9 +300,35 @@ namespace TileStack
             ArrangeStackedTiles();
         }
 
+        private void DoAnimationStacked()
+        {
+            if (_stackedTiles?.Count == 0) return;
+            StartCoroutine(AnimationStackedCoroutine());
+        }
+
+        private IEnumerator AnimationStackedCoroutine()
+        {
+            for (var i = _stackedTiles.Count - 1; i >= 0; i--)
+            {
+                var tile = _stackedTiles[i];
+                tile.DoScale();
+
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            DoScale();
+        }
+
+        private void DoScale()
+        {
+            _tileVisual.DOScaleX(1.2f, 0.1f).OnComplete(() => { _tileVisual.DOScaleX(1f, 0.1f); });
+            _tileVisual.DOScaleZ(1.2f, 0.1f).OnComplete(() => { _tileVisual.DOScaleZ(1f, 0.1f); });
+        }
+
         private void OnMouseDown()
         {
-            if (_isMoving) return;
+            if (IsMoving) return;
+            if (GameController.Instance.IsAnyTileMoving()) return;
             if (MoveDirection == MoveDirection.None) return;
             Move();
         }

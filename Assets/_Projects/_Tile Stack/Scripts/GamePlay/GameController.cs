@@ -7,8 +7,20 @@ namespace TileStack
     public class GameController : Singleton<GameController>
     {
         [SerializeField] private GameBoard _gameBoard;
+
         private int CurrentLevel { get; set; }
+
         private bool IsGamePlaying { get; set; }
+
+        public bool IsAnyTileMoving()
+        {
+            foreach (var (_, tile) in _gameBoard.TileMap)
+            {
+                if (tile.IsMoving) return true;
+            }
+
+            return false;
+        }
 
         private void Start()
         {
@@ -41,8 +53,7 @@ namespace TileStack
         [Button]
         public void NextLevel()
         {
-            if (IsGamePlaying)
-                EndGame();
+            if (IsGamePlaying) EndGame();
             CurrentLevel++;
             CurrentLevel %= DataManager.Instance.MaxLevel;
             StartGame();

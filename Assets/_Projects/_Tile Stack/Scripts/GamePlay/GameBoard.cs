@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using hcore.Tool;
 using UnityEngine;
 
@@ -7,10 +9,15 @@ namespace TileStack
     public class GameBoard : MonoBehaviour
     {
         private int Width => DataManager.Instance.GetLevel(_currentLevelIndex).width;
+
         private int Height => DataManager.Instance.GetLevel(_currentLevelIndex).height;
+
         public Dictionary<Vector2Int, StackTile> TileMap { get; } = new();
+
         private Dictionary<Vector2Int, BoardCell> CellMap { get; } = new();
+
         private List<DecorationCell> DecorationCells { get; } = new();
+
         private int _currentLevelIndex;
 
         public void SetupLevel(int currentLevel)
@@ -155,11 +162,11 @@ namespace TileStack
         {
             if (CheckWin())
             {
-                GameController.Instance.NextLevel();
+                DOVirtual.DelayedCall(2f, () => GameController.Instance.NextLevel());
             }
             else if (CheckLose())
             {
-                GameController.Instance.RestartGame();
+                DOVirtual.DelayedCall(2f, () => GameController.Instance.RestartGame());
             }
         }
 
