@@ -19,7 +19,7 @@ MonoBehaviour:
     hasTile: 1
     moveDirection: 4
   - position: {x: 1, y: 1}
-    hasTile: 0
+    hasTile: 1
     moveDirection: 0
   - position: {x: 2, y: 0}
     hasTile: 0
@@ -31,11 +31,11 @@ MonoBehaviour:
     hasTile: 1
     moveDirection: 0
   - position: {x: 2, y: 1}
-    hasTile: 0
+    hasTile: 1
     moveDirection: 0
   - position: {x: 1, y: 2}
-    hasTile: 0
+    hasTile: 1
     moveDirection: 0
   - position: {x: 1, y: 0}
-    hasTile: 0
-    moveDirection: 0
+    hasTile: 1
+    moveDirection: 1
