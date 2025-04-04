@@ -8,19 +8,6 @@ using UnityEngine;
 
 namespace TileStack
 {
-    public enum MoveDirection
-    {
-        None,
-        Forward,
-        Backward,
-        Left,
-        Right,
-        ForwardLeft,
-        ForwardRight,
-        BackwardLeft,
-        BackwardRight
-    }
-
     [Serializable]
     public class StackTileData
     {
@@ -40,55 +27,56 @@ namespace TileStack
         }
     }
 
+    [RequireComponent(typeof(TileMovement))]
     public class StackTile : PoolableMonoBehaviourBase
     {
+        [SerializeField] private TileMovement _movement;
         [SerializeField] private GameBoard _gameBoard;
         [SerializeField] private Transform _indicator;
         [SerializeField] private Transform _tileVisual;
         [SerializeField] private Transform _jumpTarget;
-        [SerializeField] private Collider _collider;
+        [SerializeField] private BoxCollider _collider;
+        [SerializeField] private float _singleTileHeight;
         [SerializeField] private Vector2Int _currentPosition;
-        [SerializeField] private float _speed = 1f;
         [SerializeField] private StackTileData _data;
+        public Action onMoveDone;
+        private readonly List<StackTile> _stackedTiles = new();
 
-        private event Action OnMoveDoneEvent;
-
-        private Vector2Int CurrentPosition
+        public Vector2Int CurrentPosition
         {
             get => _currentPosition;
             set => _currentPosition = value;
         }
 
-        private Transform JumpTarget => _jumpTarget;
+        public Transform JumpTarget => _jumpTarget;
+
+        public TileMovement Movement => _movement;
+
+        public GameBoard GameBoard => _gameBoard;
 
         public MoveDirection MoveDirection
         {
             get => _data.moveDirection;
-            private set => _data.moveDirection = value;
+            set => _data.moveDirection = value;
         }
 
         private Vector2Int DirectionVector => _data.moveDirection.GetDirectionVector();
-
-        public bool IsMoving { get; private set; }
-
-        private readonly List<StackTile> _stackedTiles = new();
-        private Tween _tween;
 
         public void SetupData(GameBoard gameBoard, StackTileData stackTileData, Transform parent = null)
         {
             CurrentPosition = stackTileData.position;
             _gameBoard = gameBoard;
-            OnMoveDoneEvent += _gameBoard.OnTileMoveDone;
+            onMoveDone += _gameBoard.OnTileMoveDone;
             _data = stackTileData;
             transform.parent = parent;
             _collider.enabled = _data.moveDirection != MoveDirection.None;
             UpdateIndicator();
             UpdatePosition();
-            OnMoveDoneEvent += DoAnimationStacked;
+            UpdateCollider();
+            onMoveDone += DoAnimationStacked;
         }
 
-        [Button]
-        private void UpdateIndicator()
+        public void UpdateIndicator()
         {
             if (MoveDirection == MoveDirection.None)
             {
@@ -118,11 +106,11 @@ namespace TileStack
         [Button]
         public void ForceMove()
         {
-            if (IsMoving) return;
+            if (Movement.IsMoving) return;
             Move();
         }
 
-        private void Move()
+        public void Move()
         {
             if (_gameBoard == null)
             {
@@ -134,79 +122,17 @@ namespace TileStack
 
             if (_gameBoard.TryGetTileAt(newPosition, out var targetStackTile))
             {
-                DoJump(targetStackTile);
+                _movement.Setup(new JumpMove(this, targetStackTile));
             }
             else
             {
-                DoMove(targetCell);
-            }
-        }
-
-        private void DoMove(BoardCell targetCell)
-        {
-            if (targetCell == null)
-            {
-                ResetTile();
-                OnMoveDoneEvent?.Invoke();
-
-                return;
+                _movement.Setup(new LinearMove(this, targetCell));
             }
 
-            IsMoving = true;
-            var targetPosition = targetCell.transform.position;
-            targetPosition.y = transform.position.y;
-            var duration = Vector3.Distance(transform.position, targetPosition) / _speed;
-            _tween = transform.DOMove(targetPosition, duration: duration)
-                              .SetEase(Ease.Linear)
-                              .OnComplete(() => { OnMoveDone(targetCell); });
+            _movement.MoveTo(newPosition);
         }
 
-        private void OnMoveDone(BoardCell targetBoardCell)
-        {
-            _gameBoard.RemoveTileMap(_currentPosition);
-
-            _currentPosition = targetBoardCell.Position;
-
-            if (targetBoardCell.MoveDirection != MoveDirection.None)
-            {
-                MoveDirection = targetBoardCell.MoveDirection;
-                UpdateIndicator();
-            }
-
-            _gameBoard.TileMap[_currentPosition] = this;
-            Move();
-        }
-
-        private void DoJump(StackTile targetStackTile)
-        {
-            IsMoving = true;
-            var targetPosition = targetStackTile.JumpTarget.transform.position;
-            var sequence = DOTween.Sequence();
-            var startPos = transform.position;
-            sequence.Append(transform.DOMoveY(startPos.y - 0.2f, 0.1f).SetEase(Ease.InOutBack));
-            sequence.Append(transform.DOJump(targetPosition, jumpPower: 0.2f, numJumps: 1, duration: 0.2f).SetEase(Ease.InOutQuad));
-            _tween = sequence.OnComplete(() => { OnJumpDone(targetStackTile); });
-        }
-
-        private void OnJumpDone(StackTile targetStackTile)
-        {
-            _gameBoard.RemoveTileMap(_currentPosition);
-            _currentPosition = targetStackTile.CurrentPosition;
-            _gameBoard.TileMap[_currentPosition] = this;
-
-            DoStackTile(targetStackTile);
-
-            if (ShouldStop(targetStackTile))
-            {
-                OnMoveDoneEvent?.Invoke();
-
-                return;
-            }
-
-            Move();
-        }
-
-        private void DoStackTile(StackTile targetStackTile)
+        public void DoStackTile(StackTile targetStackTile)
         {
             var position = transform.position;
             position.y = 0;
@@ -229,6 +155,7 @@ namespace TileStack
             targetStackTile.transform.SetParent(transform, true);
             targetStackTile.transform.localPosition = Vector3.zero;
             ArrangeStackedTiles();
+            UpdateCollider();
         }
 
         private void ArrangeStackedTiles()
@@ -244,35 +171,26 @@ namespace TileStack
             }
         }
 
-        /// <summary>
-        /// If the target stack tile has a move direction, the current stack tile should stop.
-        /// </summary>
-        /// <param name="targetStackTile"></param>
-        /// <returns></returns>
-        private bool ShouldStop(StackTile targetStackTile)
+        private void UpdateCollider()
         {
-            var direction = targetStackTile.MoveDirection;
-
-            if (direction == MoveDirection.None) return false;
-
-            IsMoving = false;
-            MoveDirection = direction;
-            targetStackTile.SetStacked();
-            UpdateIndicator();
-
-            return true;
+            var size = _collider.size;
+            var center = _collider.center;
+            size.y = _singleTileHeight * (_stackedTiles.Count + 1);
+            center.y = size.y / 2;
+            _collider.size = size;
+            _collider.center = center;
         }
 
-        private void SetStacked()
+        public void SetStacked()
         {
             MoveDirection = MoveDirection.None;
             _collider.enabled = false;
-            UpdateIndicator();
+            UpdateCollider();
         }
 
-        private void ResetTile()
+        public void ResetTile()
         {
-            IsMoving = false;
+            Movement.IsMoving = false;
             MoveDirection = MoveDirection.None;
             UpdateIndicator();
         }
@@ -280,11 +198,6 @@ namespace TileStack
         private float GetStackedHeight(int index)
         {
             return (_stackedTiles.Count - index) * _jumpTarget.localPosition.y;
-        }
-
-        private void OnDisable()
-        {
-            _tween?.Kill();
         }
 
         public void ReturnToPoolImmediate()
@@ -326,12 +239,14 @@ namespace TileStack
             _tileVisual.DOScaleZ(1.2f, 0.1f).OnComplete(() => { _tileVisual.DOScaleZ(1f, 0.1f); });
         }
 
-        private void OnMouseDown()
+        public void RemoveFromBoard()
         {
-            if (IsMoving) return;
-            if (GameController.Instance.IsAnyTileMoving()) return;
-            if (MoveDirection == MoveDirection.None) return;
-            Move();
+            _gameBoard.RemoveTileMap(CurrentPosition);
+        }
+
+        public void UpdatePositionOnBoard()
+        {
+            _gameBoard.TileMap[CurrentPosition] = this;
         }
     }
 }

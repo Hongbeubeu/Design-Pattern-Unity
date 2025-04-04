@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using hcore.Tool;
@@ -8,6 +7,10 @@ namespace TileStack
 {
     public class GameBoard : MonoBehaviour
     {
+        [SerializeField] private Transform _tileParent;
+        [SerializeField] private Transform _boardCellParent;
+        [SerializeField] private Transform _decorationParent;
+
         private int Width => DataManager.Instance.GetLevel(_currentLevelIndex).width;
 
         private int Height => DataManager.Instance.GetLevel(_currentLevelIndex).height;
@@ -91,14 +94,14 @@ namespace TileStack
         {
             var cell = DataManager.Instance.GetBoardCell();
             var direction = designedCellData.hasTile ? MoveDirection.None : designedCellData.moveDirection;
-            cell.SetupData(this, new BoardCellData(designedCellData.position, direction), transform);
+            cell.SetupData(this, new BoardCellData(designedCellData.position, direction), _boardCellParent);
             CellMap[designedCellData.position] = cell;
         }
 
         private void SpawnStackTile(DesignedCellData designedCellData)
         {
             var tile = DataManager.Instance.GetStackTile();
-            tile.SetupData(this, new StackTileData(designedCellData.position, designedCellData.moveDirection), transform);
+            tile.SetupData(this, new StackTileData(designedCellData.position, designedCellData.moveDirection), _tileParent);
             TileMap[designedCellData.position] = tile;
         }
 
@@ -113,7 +116,7 @@ namespace TileStack
                     if (CellMap.ContainsKey(position)) continue;
                     var decorationCell = DataManager.Instance.GetDecorationCell();
                     decorationCell.transform.position = GridToWorldPosition(position);
-                    decorationCell.transform.parent = transform;
+                    decorationCell.transform.parent = _decorationParent;
                     DecorationCells.Add(decorationCell);
                 }
             }
@@ -188,15 +191,6 @@ namespace TileStack
             }
 
             return isLost;
-        }
-
-        private void OnDrawGizmos()
-        {
-            foreach (var tile in TileMap)
-            {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireCube(tile.Value.transform.position, Vector3.one);
-            }
         }
     }
 }

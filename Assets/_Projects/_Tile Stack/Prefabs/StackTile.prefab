@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 9049970958794590287}
   - component: {fileID: 4870781198302700184}
   - component: {fileID: 8336796404144150221}
+  - component: {fileID: 5607482667511201220}
+  - component: {fileID: 6971188395841868575}
   m_Layer: 0
   m_Name: StackTile
   m_TagString: Untagged
@@ -46,13 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130c47f99c594f143aae9dc965f31390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movement: {fileID: 5607482667511201220}
   _gameBoard: {fileID: 0}
   _indicator: {fileID: 1643103906802312495}
   _tileVisual: {fileID: 6680370432526897215}
   _jumpTarget: {fileID: 7145816509638884215}
   _collider: {fileID: 8336796404144150221}
+  _singleTileHeight: 0.3
   _currentPosition: {x: 0, y: 0}
-  _speed: 5
   _data:
     position: {x: 0, y: 0}
     moveDirection: 0
@@ -75,8 +78,34 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.4, z: 1}
-  m_Center: {x: 0, y: 0.2, z: 0}
+  m_Size: {x: 1, y: 0.28, z: 1}
+  m_Center: {x: 0, y: 0.14, z: 0}
+--- !u!114 &5607482667511201220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987384028003242124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c532e47dca9a4b9e96fb753b77f5d67f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
+--- !u!114 &6971188395841868575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987384028003242124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58d030260ba4e8193febd3bc5b7648d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tile: {fileID: 4870781198302700184}
 --- !u!1 &1321513890393181941
 GameObject:
   m_ObjectHideFlags: 0

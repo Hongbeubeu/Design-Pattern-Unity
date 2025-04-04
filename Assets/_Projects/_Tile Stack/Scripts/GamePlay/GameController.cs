@@ -16,7 +16,7 @@ namespace TileStack
         {
             foreach (var (_, tile) in _gameBoard.TileMap)
             {
-                if (tile.IsMoving) return true;
+                if (tile.Movement.IsMoving) return true;
             }
 
             return false;
