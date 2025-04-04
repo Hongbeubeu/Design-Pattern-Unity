@@ -181,10 +181,11 @@ namespace TileStack
         {
             IsMoving = true;
             var targetPosition = targetStackTile.JumpTarget.transform.position;
-            var duration = Vector3.Distance(transform.position, targetPosition) / _speed;
-            _tween = transform.DOJump(targetPosition, jumpPower: 0.1f, numJumps: 1, duration: duration)
-                              .SetEase(Ease.InOutCubic)
-                              .OnComplete(() => { OnJumpDone(targetStackTile); });
+            var sequence = DOTween.Sequence();
+            var startPos = transform.position;
+            sequence.Append(transform.DOMoveY(startPos.y - 0.2f, 0.1f).SetEase(Ease.InOutBack));
+            sequence.Append(transform.DOJump(targetPosition, jumpPower: 0.2f, numJumps: 1, duration: 0.2f).SetEase(Ease.InOutQuad));
+            _tween = sequence.OnComplete(() => { OnJumpDone(targetStackTile); });
         }
 
         private void OnJumpDone(StackTile targetStackTile)
