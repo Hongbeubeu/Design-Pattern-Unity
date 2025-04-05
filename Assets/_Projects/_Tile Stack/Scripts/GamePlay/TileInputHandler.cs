@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TileStack
 {
     [RequireComponent(typeof(StackTile))]
-    public class InputHandler : MonoBehaviour
+    public class TileInputHandler : MonoBehaviour
     {
         [SerializeField] private StackTile _tile;
 

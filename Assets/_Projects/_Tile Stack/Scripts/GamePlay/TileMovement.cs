@@ -65,6 +65,7 @@ namespace TileStack
             }
 
             MoveTile.UpdatePositionOnBoard();
+            OnEndMove?.Invoke();
             MoveTile.Move();
         }
     }
@@ -87,12 +88,14 @@ namespace TileStack
 
         public void MoveTo(Vector2Int targetGridPosition)
         {
+            OnBeginMove?.Invoke();
+
             MoveTile.Movement.IsMoving = true;
             var targetPosition = _targetTile.JumpTarget.transform.position;
             var sequence = DOTween.Sequence();
             var startPos = MoveTile.transform.position;
             sequence.Append(MoveTile.transform.DOMoveY(startPos.y - 0.2f, 0.1f).SetEase(Ease.InOutBack));
-            sequence.Append(MoveTile.transform.DOJump(targetPosition, jumpPower: 0.2f, numJumps: 1, duration: 0.2f).SetEase(Ease.InOutQuad));
+            sequence.Append(MoveTile.transform.DOJump(targetPosition, jumpPower: 0.2f, numJumps: 1, duration: 0.2f));
             sequence.OnComplete(() => { OnJumpDone(_targetTile); });
         }
 
@@ -110,9 +113,11 @@ namespace TileStack
                 MoveTile.MoveDirection = targetStackTile.MoveDirection;
                 targetStackTile.SetStacked();
                 MoveTile.UpdateIndicator();
+
                 return;
             }
 
+            OnEndMove?.Invoke();
             MoveTile.Move();
         }
 

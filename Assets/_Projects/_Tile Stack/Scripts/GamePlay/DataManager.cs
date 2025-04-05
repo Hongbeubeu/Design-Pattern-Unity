@@ -15,9 +15,9 @@ namespace TileStack
 
         private void Awake()
         {
-            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_boardCellPrefab, _poolParent), _boardCellPrefab, 25, 25);
-            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_decorationCellPrefab, _poolParent), _decorationCellPrefab, 50, 50);
-            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_stackTilePrefab, _poolParent), _stackTilePrefab, 25, 25);
+            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_boardCellPrefab, _poolParent), _boardCellPrefab, 25, 10);
+            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_decorationCellPrefab, _poolParent), _decorationCellPrefab, 25, 25);
+            ObjectPoolManager.Instance.CreatePool(() => Instantiate(_stackTilePrefab, _poolParent), _stackTilePrefab, 10, 10);
         }
 
         public BoardCell GetBoardCell()

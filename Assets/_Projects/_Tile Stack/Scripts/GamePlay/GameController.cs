@@ -1,12 +1,16 @@
 ﻿using hcore.Singleton;
 using hcore.Tool;
+using TMPro;
 using UnityEngine;
 
 namespace TileStack
 {
     public class GameController : Singleton<GameController>
     {
+        [SerializeField] private TextMeshProUGUI _levelText;
         [SerializeField] private GameBoard _gameBoard;
+
+        public GameBoard GameBoard => _gameBoard;
 
         private int CurrentLevel { get; set; }
 
@@ -32,6 +36,7 @@ namespace TileStack
         {
             if (IsGamePlaying) return;
             IsGamePlaying = true;
+            UpdateLevelText();
             _gameBoard.SetupLevel(CurrentLevel);
             _gameBoard.CreateBoard();
         }
@@ -57,6 +62,11 @@ namespace TileStack
             CurrentLevel++;
             CurrentLevel %= DataManager.Instance.MaxLevel;
             StartGame();
+        }
+
+        private void UpdateLevelText()
+        {
+            _levelText.text = $"Level {CurrentLevel + 1}";
         }
     }
 }

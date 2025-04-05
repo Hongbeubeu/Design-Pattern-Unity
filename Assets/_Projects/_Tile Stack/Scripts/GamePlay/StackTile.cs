@@ -30,9 +30,8 @@ namespace TileStack
     [RequireComponent(typeof(TileMovement))]
     public class StackTile : PoolableMonoBehaviourBase
     {
+        [SerializeField] private Indicator _indicator;
         [SerializeField] private TileMovement _movement;
-        [SerializeField] private GameBoard _gameBoard;
-        [SerializeField] private Transform _indicator;
         [SerializeField] private Transform _tileVisual;
         [SerializeField] private Transform _jumpTarget;
         [SerializeField] private BoxCollider _collider;
@@ -51,9 +50,7 @@ namespace TileStack
         public Transform JumpTarget => _jumpTarget;
 
         public TileMovement Movement => _movement;
-
-        public GameBoard GameBoard => _gameBoard;
-
+        
         public MoveDirection MoveDirection
         {
             get => _data.moveDirection;
@@ -62,42 +59,36 @@ namespace TileStack
 
         private Vector2Int DirectionVector => _data.moveDirection.GetDirectionVector();
 
-        public void SetupData(GameBoard gameBoard, StackTileData stackTileData, Transform parent = null)
+        private GameBoard GameBoard => GameController.Instance.GameBoard;
+
+        public void SetupData(StackTileData stackTileData, Transform parent = null)
         {
             CurrentPosition = stackTileData.position;
-            _gameBoard = gameBoard;
-            onMoveDone += _gameBoard.OnTileMoveDone;
             _data = stackTileData;
             transform.parent = parent;
             _collider.enabled = _data.moveDirection != MoveDirection.None;
+            _tileVisual.localScale = Vector3.one;
             UpdateIndicator();
             UpdatePosition();
             UpdateCollider();
+            onMoveDone += GameBoard.OnTileMoveDone;
             onMoveDone += DoAnimationStacked;
         }
 
         public void UpdateIndicator()
         {
-            if (MoveDirection == MoveDirection.None)
+            if (_indicator == null)
             {
-                _indicator.gameObject.SetActive(false);
+                throw new NullReferenceException("<color=red>Indicator is null.</color>");
             }
-            else
-            {
-                _indicator.gameObject.SetActive(true);
-                _indicator.forward = new Vector3(DirectionVector.x, 0, DirectionVector.y);
-            }
+
+            _indicator.UpdateIndicator(MoveDirection);
         }
 
         private void UpdatePosition()
         {
-            if (_gameBoard == null)
-            {
-                throw new NullReferenceException("<color=red>Game board is null.</color>");
-            }
-
             _currentPosition = _data.position;
-            var cell = _gameBoard.GetCell(_currentPosition);
+            var cell = GameBoard.GetCell(_currentPosition);
 
             if (cell == null) return;
             transform.position = cell.transform.position;
@@ -112,15 +103,10 @@ namespace TileStack
 
         public void Move()
         {
-            if (_gameBoard == null)
-            {
-                throw new NullReferenceException("<color=red>GameBoard is null.</color>");
-            }
-
             var newPosition = _currentPosition + DirectionVector;
-            var targetCell = _gameBoard.GetCell(newPosition);
+            var targetCell = GameBoard.GetCell(newPosition);
 
-            if (_gameBoard.TryGetTileAt(newPosition, out var targetStackTile))
+            if (GameBoard.TryGetTileAt(newPosition, out var targetStackTile))
             {
                 _movement.Setup(new JumpMove(this, targetStackTile));
             }
@@ -186,6 +172,7 @@ namespace TileStack
             MoveDirection = MoveDirection.None;
             _collider.enabled = false;
             UpdateCollider();
+            UpdateIndicator();
         }
 
         public void ResetTile()
@@ -241,12 +228,23 @@ namespace TileStack
 
         public void RemoveFromBoard()
         {
-            _gameBoard.RemoveTileMap(CurrentPosition);
+            GameBoard.RemoveTileMap(CurrentPosition);
         }
 
         public void UpdatePositionOnBoard()
         {
-            _gameBoard.TileMap[CurrentPosition] = this;
+            GameBoard.TileMap[CurrentPosition] = this;
+        }
+
+        private void OnDisable()
+        {
+            transform.DOKill();
+            _tileVisual.DOKill();
+
+            if (onMoveDone == null) return;
+            onMoveDone -= GameBoard.OnTileMoveDone;
+            onMoveDone -= DoAnimationStacked;
+            onMoveDone = null;
         }
     }
 }

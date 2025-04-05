@@ -94,14 +94,14 @@ namespace TileStack
         {
             var cell = DataManager.Instance.GetBoardCell();
             var direction = designedCellData.hasTile ? MoveDirection.None : designedCellData.moveDirection;
-            cell.SetupData(this, new BoardCellData(designedCellData.position, direction), _boardCellParent);
+            cell.SetupData(new BoardCellData(designedCellData.position, direction), _boardCellParent);
             CellMap[designedCellData.position] = cell;
         }
 
         private void SpawnStackTile(DesignedCellData designedCellData)
         {
             var tile = DataManager.Instance.GetStackTile();
-            tile.SetupData(this, new StackTileData(designedCellData.position, designedCellData.moveDirection), _tileParent);
+            tile.SetupData(new StackTileData(designedCellData.position, designedCellData.moveDirection), _tileParent);
             TileMap[designedCellData.position] = tile;
         }
 
@@ -165,11 +165,11 @@ namespace TileStack
         {
             if (CheckWin())
             {
-                DOVirtual.DelayedCall(2f, () => GameController.Instance.NextLevel());
+                DOVirtual.DelayedCall(1f, () => GameController.Instance.NextLevel());
             }
             else if (CheckLose())
             {
-                DOVirtual.DelayedCall(2f, () => GameController.Instance.RestartGame());
+                DOVirtual.DelayedCall(1f, () => GameController.Instance.RestartGame());
             }
         }
 
