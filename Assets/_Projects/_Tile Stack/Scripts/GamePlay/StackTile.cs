@@ -50,7 +50,7 @@ namespace TileStack
         public Transform JumpTarget => _jumpTarget;
 
         public TileMovement Movement => _movement;
-        
+
         public MoveDirection MoveDirection
         {
             get => _data.moveDirection;
@@ -236,8 +236,9 @@ namespace TileStack
             GameBoard.TileMap[CurrentPosition] = this;
         }
 
-        private void OnDisable()
+        public override void OnReturn()
         {
+            base.OnReturn();
             transform.DOKill();
             _tileVisual.DOKill();
 
