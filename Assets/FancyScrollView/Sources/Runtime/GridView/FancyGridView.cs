@@ -113,7 +113,7 @@ namespace FancyScrollView
             Context.CellTemplate = cellTemplate.gameObject;
 
             cellGroupTemplate = new GameObject("Group").AddComponent<TGroup>().gameObject;
-            cellGroupTemplate.transform.SetParent(cellContainer, false);
+            cellGroupTemplate.transform.SetParent(_cellContainer, false);
             cellGroupTemplate.SetActive(false);
         }
 

@@ -70,7 +70,7 @@ namespace FancyScrollView
         /// </remarks>
         protected Scroller Scroller => cachedScroller ?? (cachedScroller = GetComponent<Scroller>());
 
-        float ScrollLength => 1f / Mathf.Max(cellInterval, 1e-2f) - 1f;
+        float ScrollLength => 1f / Mathf.Max(_cellInterval, 1e-2f) - 1f;
 
         float ViewportLength => ScrollLength - reuseCellMarginCount * 2f;
 
@@ -261,23 +261,23 @@ namespace FancyScrollView
 
         /// <summary>
         /// 指定された設定を実現するための
-        /// <see cref="FancyScrollView{TItemData,TContext}.cellInterval"/> と
-        /// <see cref="FancyScrollView{TItemData,TContext}.scrollOffset"/> を計算して適用します.
+        /// <see cref="FancyScrollView{TItemData,TContext}._cellInterval"/> と
+        /// <see cref="FancyScrollView{TItemData,TContext}._scrollOffset"/> を計算して適用します.
         /// </summary>
         protected void AdjustCellIntervalAndScrollOffset()
         {
             var totalSize = Scroller.ViewportSize + (CellSize + spacing) * (1f + reuseCellMarginCount * 2f);
-            cellInterval = (CellSize + spacing) / totalSize;
-            scrollOffset = cellInterval * (1f + reuseCellMarginCount);
+            _cellInterval = (CellSize + spacing) / totalSize;
+            _scrollOffset = _cellInterval * (1f + reuseCellMarginCount);
         }
 
         protected virtual void OnValidate()
         {
             AdjustCellIntervalAndScrollOffset();
 
-            if (loop)
+            if (_loop)
             {
-                loop = false;
+                _loop = false;
                 Debug.LogError("Loop is currently not supported in FancyScrollRect.");
             }
 

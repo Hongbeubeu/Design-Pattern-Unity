@@ -20,7 +20,7 @@ namespace FancyScrollView.Example05
 
         protected override GameObject CellPrefab => cellPrefab;
 
-        public int CellInstanceCount => Mathf.CeilToInt(1f / Mathf.Max(cellInterval, 1e-3f));
+        public int CellInstanceCount => Mathf.CeilToInt(1f / Mathf.Max(_cellInterval, 1e-3f));
 
         protected override void Initialize()
         {
