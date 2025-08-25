@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: main_content
+  m_EditorClassIdentifier: 
+  m_GroupName: main_content
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 27bec83406dd8024c8b9140abe1d8b36
+  m_SerializeEntries:
+  - m_GUID: 43b064a7e5a1a3e449d53e18ccb400e6
+    m_Address: Assets/_Projects/_SampleAddressable/Cube.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - main_content
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44279f0b701e27f40bf50c88782a8569
+    m_Address: Assets/_Projects/_SampleAddressable/Sphere.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - main_content
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd53dc01f7773b34f99e2485e17779d0
+    m_Address: Assets/_Projects/_SampleAddressable/Data.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - main_content
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: fa797a7c77f1cd54ab4172a4002ada66, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 973f33ca236555d47be8f5e74f21bb02, type: 2}
+    - {fileID: 11400000, guid: 6380249e283c0ba4a88fffe92cf9037c, type: 2}

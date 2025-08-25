@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace hcore.InspectorCustom
 {
     public class DisposableAction : IDisposable
@@ -46,3 +47,4 @@ namespace hcore.InspectorCustom
         }
     }
 }
+#endif

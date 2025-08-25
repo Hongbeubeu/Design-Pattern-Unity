@@ -6,7 +6,7 @@ using UnityEngine;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Services;
-
+#if UNITY_EDITOR
 namespace hcore.GoogleSheetImporter.Editor
 {
     public class GoogleSheetEditorTool : EditorWindow
@@ -142,3 +142,4 @@ namespace hcore.GoogleSheetImporter.Editor
         }
     }
 }
+#endif

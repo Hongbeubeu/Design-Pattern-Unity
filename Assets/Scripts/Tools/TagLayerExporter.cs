@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
-
+#if UNITY_EDITOR
 namespace hcore.Tool
 {
     public class TagLayerExporter : EditorWindow
@@ -130,3 +130,5 @@ public static class TagLayerData
         }
     }
 }
+
+#endif

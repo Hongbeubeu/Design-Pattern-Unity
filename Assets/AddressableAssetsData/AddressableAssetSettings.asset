@@ -15,9 +15,9 @@ MonoBehaviour:
   m_DefaultGroup: 48e1c2f458c0afc4c92029f15929e9cf
   m_currentHash:
     serializedVersion: 2
-    Hash: ba659986fbf657139e9d7cdf1fb24a92
+    Hash: af4b79b1a5f7f798e022b90e9d7badcd
   m_OptimizeCatalogSize: 0
-  m_BuildRemoteCatalog: 0
+  m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
   m_CatalogRequestsTimeout: 0
   m_DisableCatalogUpdateOnStart: 0
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: aa2518579d002e74d8f0794689215160, type: 2}
   - {fileID: 11400000, guid: 5518ee8ab9253a048a8a42a2c845eb78, type: 2}
+  - {fileID: 11400000, guid: 0a660b3e341a52f44b14cbbae717035b, type: 2}
   - {fileID: 11400000, guid: 98e5774b3f5753f418a86cc10734bef8, type: 2}
   - {fileID: 11400000, guid: a59adf22707ea9e4ea54be32e85729c1, type: 2}
   - {fileID: 11400000, guid: ce12a7541ff4a8846bd3dc6b5bafd85e, type: 2}
@@ -69,9 +70,9 @@ MonoBehaviour:
       - m_Id: 3ec5680451013cf4a826eb282d3b9a2c
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: 1ba94369bea77bd4da76a6a06de13ccb
-        m_Value: ServerData/[BuildTarget]
+        m_Value: ServerData/StandaloneWindows64
       - m_Id: deb6148561245014e9c64ed7b3290971
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: http://localhost:8000/StandaloneWindows64
     m_ProfileEntryNames:
     - m_Id: 06026282daf765345b98cb80c9194230
       m_Name: BuildTarget
@@ -96,6 +97,7 @@ MonoBehaviour:
     - Locale-en-US
     - Locale-vi-VN
     - Locale-ru
+    - main_content
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 370b28c472344fb45a93100ce4449f91, type: 2}

@@ -7,12 +7,9 @@ namespace EzySlice
     public class TestDriveEzySlice : MonoBehaviour
     {
         public Plane plane = new(Vector3.zero, Vector3.up);
-
-        [SerializeField]
-        private Transform _point;
-
-        [SerializeField]
-        private GameObject _objectToSlice;
+        [SerializeField] private Transform _point;
+        [SerializeField] private GameObject _objectToSlice;
+        private Mesh _sharedMesh;
 
         [Button("Slice")]
         private void Slice()
@@ -20,11 +17,13 @@ namespace EzySlice
             _objectToSlice.SliceInstantiate(plane);
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             DrawNormals();
             plane.Compute(transform);
             plane.OnDebugDraw();
+
             if (_point == null) return;
             var side = plane.SideOf(_point.position);
 
@@ -43,14 +42,14 @@ namespace EzySlice
 
             Gizmos.DrawSphere(_point.position, 0.1f);
         }
-
-        private Mesh _sharedMesh;
+        
 
         [Button]
         private void GetSharedMesh()
         {
             if (_objectToSlice == null) return;
             var meshFilter = _objectToSlice.GetComponent<MeshFilter>();
+
             if (meshFilter == null) return;
             _sharedMesh = meshFilter.sharedMesh;
         }
@@ -64,7 +63,6 @@ namespace EzySlice
             var norm = _sharedMesh.normals;
             var tan = _sharedMesh.tangents;
             var tris = _sharedMesh.triangles;
-
 
             for (var i = 0; i < tris.Length; i++)
             {
@@ -84,5 +82,7 @@ namespace EzySlice
                 Gizmos.DrawLine(point, r);
             }
         }
+
+#endif
     }
 }

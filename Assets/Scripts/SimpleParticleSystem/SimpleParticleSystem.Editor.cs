@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace hcore.SimpleParticleSystem
 {
     public partial class SimpleParticleSystem
@@ -102,3 +103,4 @@ namespace hcore.SimpleParticleSystem
         }
     }
 }
+#endif

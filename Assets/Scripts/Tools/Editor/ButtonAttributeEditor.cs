@@ -1,7 +1,7 @@
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-
+#if UNITY_EDITOR
 namespace hcore.Tool
 {
     [CustomEditor(typeof(MonoBehaviour), true)] // Applies to all MonoBehaviour scripts
@@ -38,3 +38,4 @@ namespace hcore.Tool
         }
     }
 }
+#endif

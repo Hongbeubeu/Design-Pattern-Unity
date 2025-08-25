@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
-
+#if UNITY_EDITOR
 namespace hcore.SimpleParticleSystem
 {
     [CustomPropertyDrawer(typeof(ShapeEmission))]
@@ -87,3 +87,5 @@ namespace hcore.SimpleParticleSystem
         }
     }
 }
+
+#endif

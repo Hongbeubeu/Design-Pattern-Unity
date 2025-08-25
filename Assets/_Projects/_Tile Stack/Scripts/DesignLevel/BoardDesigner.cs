@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace TileStack.Design
 {
     public class BoardDesigner : MonoBehaviour
@@ -80,3 +81,4 @@ namespace TileStack.Design
         }
     }
 }
+#endif

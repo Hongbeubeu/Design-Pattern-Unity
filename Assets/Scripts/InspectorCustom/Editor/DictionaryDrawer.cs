@@ -3,6 +3,7 @@ using System.Globalization;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace hcore.InspectorCustom
 {
     public readonly struct BorderItem
@@ -948,3 +949,4 @@ namespace hcore.InspectorCustom
         #endregion
     }
 }
+#endif

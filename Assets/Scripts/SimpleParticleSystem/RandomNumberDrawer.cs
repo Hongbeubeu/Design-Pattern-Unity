@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace hcore.SimpleParticleSystem
 {
     [CustomPropertyDrawer(typeof(RandomNumberInt))]
@@ -63,3 +64,4 @@ namespace hcore.SimpleParticleSystem
         }
     }
 }
+#endif

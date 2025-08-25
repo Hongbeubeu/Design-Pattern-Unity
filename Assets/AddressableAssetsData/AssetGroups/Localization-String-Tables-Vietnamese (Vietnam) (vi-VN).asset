@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Vietnamese (Vietnam) (vi-VN)
   m_Data:
     m_SerializedData: []
-  m_GUID: c4992eb4719144b48862449d847aa649
+  m_GUID: 7bc01d8bca1e38047996192e664d2b04
   m_SerializeEntries:
   - m_GUID: 58dd47f538d38044a9db61995a334ea0
     m_Address: Common_vi-VN
