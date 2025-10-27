@@ -10,12 +10,11 @@ public enum ArcOrientation
 
 public class ArcLayoutStrategy : CardLayoutStrategy
 {
-    [Header("Arc Shape")] 
-    [SerializeField, Range(0.1f, 20f)] private float _arcWidth = 10f;
+    [Header("Arc Shape")] [SerializeField, Range(0.1f, 20f)]
+    private float _arcWidth = 10f;
     [SerializeField, Range(0.01f, 5f)] private float _arcHeight = 2f;
     [SerializeField, Range(0.01f, 5f)] private float _maxSpacing = 1f;
     [SerializeField] private ArcOrientation _arcOrientation = ArcOrientation.Up;
-    
     private float _calculatedClosedSpacing;
     private Vector3 _arcCenter;
     private float _arcRadius;
@@ -90,7 +89,7 @@ public class ArcLayoutStrategy : CardLayoutStrategy
         {
             changed = true;
             _prevMaxSpacing = _maxSpacing;
-        } 
+        }
 
         if (_arcOrientation != _prevArcOrientation)
         {
@@ -100,7 +99,6 @@ public class ArcLayoutStrategy : CardLayoutStrategy
 
         return changed;
     }
-
 
     #region Unchanged GetArcAxes
 
@@ -229,11 +227,13 @@ public class ArcLayoutStrategy : CardLayoutStrategy
             var currentTangentDir = Quaternion.AngleAxis(_tangentRotationAngle, rotationAxis) * currentRadiusVector.normalized;
             var currentTangentAngle = Mathf.Atan2(currentTangentDir.y, currentTangentDir.x) * Mathf.Rad2Deg;
             rotations[i] = Quaternion.AngleAxis(currentTangentAngle, rotationAxis);
+
+            positions[i] += new Vector3(0f, 0f, -i * 0.001f);
         }
 
         return (positions, rotations, zOffsets);
     }
-    
+
     #region Unchanged CalculateClosedPositions
 
     private (Vector3[] positions, Quaternion[] rotations) CalculateClosedPositions(int cardCount, Vector3[] openPositions, float[] zOffsets)
@@ -271,7 +271,7 @@ public class ArcLayoutStrategy : CardLayoutStrategy
     }
 
     #endregion
-    
+
     #region Unchanged OnDrawGizmosSelected
 
     private void OnDrawGizmosSelected()
