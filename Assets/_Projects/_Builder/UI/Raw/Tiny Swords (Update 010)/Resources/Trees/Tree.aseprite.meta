@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -83,6 +84,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   asepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
@@ -96,6 +99,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   importFileNodeState: 1
   platformSettingsDirtyTick: 0
   textureAssetName: 
@@ -105,6 +110,7 @@ ScriptedImporter:
     pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 0
@@ -126,6 +132,7 @@ ScriptedImporter:
     pivot: {x: 0.47747752, y: -0.080459766}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -146,6 +153,7 @@ ScriptedImporter:
     pivot: {x: 0.47747752, y: -0.080459766}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -166,6 +174,7 @@ ScriptedImporter:
     pivot: {x: 0.47272724, y: -0.080459766}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 242
@@ -186,6 +195,7 @@ ScriptedImporter:
     pivot: {x: 0.47747752, y: -0.080459766}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 123
@@ -206,6 +216,7 @@ ScriptedImporter:
     pivot: {x: 0.4864865, y: -0.080459766}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 123
@@ -226,6 +237,7 @@ ScriptedImporter:
     pivot: {x: 0.5377359, y: -0.08092485}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 360
@@ -246,6 +258,7 @@ ScriptedImporter:
     pivot: {x: 0.48623857, y: -0.081871346}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 242
@@ -266,6 +279,7 @@ ScriptedImporter:
     pivot: {x: 0.47222218, y: -0.53333336}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -282,72 +296,86 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 368}
   spriteSheetImportData: []
+  tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 780980726
+    uuid:
+      value0: 3323264334
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: -971702962
     name: Tree
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Tree_Frame_0
+    - name: Frame_0
       frameIndex: 0
+      additiveSortOrder: 0
       cellRect:
         x: 43
         y: 14
         width: 111
         height: 174
       spriteId: b7cc65e2f3093ec48b807221666c3f81
-    - name: Tree_Frame_1
+    - name: Frame_1
       frameIndex: 1
+      additiveSortOrder: 0
       cellRect:
         x: 43
         y: 14
         width: 111
         height: 174
       spriteId: 88d6640211350f74091beebdcecb7bc6
-    - name: Tree_Frame_2
+    - name: Frame_2
       frameIndex: 2
+      additiveSortOrder: 0
       cellRect:
         x: 44
         y: 14
         width: 110
         height: 174
       spriteId: b3701f38f6516a4479777e98ee043927
-    - name: Tree_Frame_3
+    - name: Frame_3
       frameIndex: 3
+      additiveSortOrder: 0
       cellRect:
         x: 43
         y: 14
         width: 111
         height: 174
       spriteId: 91f962dd47328e04f81ae426f7da3b9f
-    - name: Tree_Frame_4
+    - name: Frame_4
       frameIndex: 4
+      additiveSortOrder: 0
       cellRect:
         x: 42
         y: 14
         width: 111
         height: 174
       spriteId: f786d59ccf566cf4e943e30d79cb2b12
-    - name: Tree_Frame_5
+    - name: Frame_5
       frameIndex: 5
+      additiveSortOrder: 0
       cellRect:
         x: 39
         y: 14
         width: 106
         height: 173
       spriteId: e5198f17c6c71924892dab1638369639
-    - name: Tree_Frame_6
+    - name: Frame_6
       frameIndex: 6
+      additiveSortOrder: 0
       cellRect:
         x: 43
         y: 14
         width: 109
         height: 171
       spriteId: 9e460c388f112c14a8f6bc8cc557b7ab
-    - name: Tree_Frame_7
+    - name: Frame_7
       frameIndex: 7
+      additiveSortOrder: 0
       cellRect:
         x: 79
         y: 16
@@ -355,9 +383,13 @@ ScriptedImporter:
         height: 30
       spriteId: 281b5fd0bd60bd24cbb34e933aff6a1a
     linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
     parentIndex: -1
+  tileSets: []
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 192, y: 192}
+  previousTextureSize: {x: 512, y: 512}

@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -83,6 +84,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   asepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
@@ -96,6 +99,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   importFileNodeState: 1
   platformSettingsDirtyTick: 0
   textureAssetName: 
@@ -105,6 +110,7 @@ ScriptedImporter:
     pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 0
@@ -126,6 +132,7 @@ ScriptedImporter:
     pivot: {x: 0.42307693, y: -0.61538464}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 809
@@ -146,6 +153,7 @@ ScriptedImporter:
     pivot: {x: 0.42307693, y: -0.61538464}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 895
@@ -166,6 +174,7 @@ ScriptedImporter:
     pivot: {x: 0.42307693, y: -0.61538464}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 241
@@ -186,6 +195,7 @@ ScriptedImporter:
     pivot: {x: 0.42500004, y: -0.62921345}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 721
@@ -206,6 +216,7 @@ ScriptedImporter:
     pivot: {x: 0.42500004, y: -0.6436781}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 413
@@ -226,6 +237,7 @@ ScriptedImporter:
     pivot: {x: 0.42307693, y: -0.6363636}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 501
@@ -246,6 +258,7 @@ ScriptedImporter:
     pivot: {x: 0.42307693, y: -0.61538464}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 327
@@ -266,6 +279,7 @@ ScriptedImporter:
     pivot: {x: 0.41666672, y: -0.6021505}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 956
@@ -286,6 +300,7 @@ ScriptedImporter:
     pivot: {x: 0.40579712, y: -0.59574467}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 661
@@ -306,6 +321,7 @@ ScriptedImporter:
     pivot: {x: 0.41025642, y: -0.7}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 825
@@ -326,6 +342,7 @@ ScriptedImporter:
     pivot: {x: 0.44210526, y: -0.6021505}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 538
@@ -346,6 +363,7 @@ ScriptedImporter:
     pivot: {x: 0.43820223, y: -0.59574467}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 641
@@ -366,6 +384,7 @@ ScriptedImporter:
     pivot: {x: 0.4177215, y: -0.7}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 738
@@ -386,6 +405,7 @@ ScriptedImporter:
     pivot: {x: 0.5352112, y: -0.5185185}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 162
@@ -406,6 +426,7 @@ ScriptedImporter:
     pivot: {x: 0.5492958, y: -0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -426,6 +447,7 @@ ScriptedImporter:
     pivot: {x: 0.5492958, y: -0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 83
@@ -446,6 +468,7 @@ ScriptedImporter:
     pivot: {x: 0.18691586, y: -0.49107146}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 858
@@ -466,6 +489,7 @@ ScriptedImporter:
     pivot: {x: 0.20560749, y: -0.57608694}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 841
@@ -486,6 +510,7 @@ ScriptedImporter:
     pivot: {x: 0.28999996, y: -0.62921345}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 430
@@ -506,6 +531,7 @@ ScriptedImporter:
     pivot: {x: 0.75609756, y: -0.62921345}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 631
@@ -526,6 +552,7 @@ ScriptedImporter:
     pivot: {x: 0.7619048, y: -0.62921345}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 359
@@ -546,6 +573,7 @@ ScriptedImporter:
     pivot: {x: 0.7619048, y: -0.62921345}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 451
@@ -566,6 +594,7 @@ ScriptedImporter:
     pivot: {x: 0.30894306, y: -0.45999998}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 593
@@ -586,6 +615,7 @@ ScriptedImporter:
     pivot: {x: 0.29508197, y: -0.59574467}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 508
@@ -606,6 +636,7 @@ ScriptedImporter:
     pivot: {x: 0.40000004, y: -0.6363636}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 916
@@ -626,6 +657,7 @@ ScriptedImporter:
     pivot: {x: 0.4871795, y: -0.55445546}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 186
@@ -646,6 +678,7 @@ ScriptedImporter:
     pivot: {x: 0.49397585, y: -0.5436893}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -666,6 +699,7 @@ ScriptedImporter:
     pivot: {x: 0.49397585, y: -0.5436893}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 95
@@ -686,6 +720,7 @@ ScriptedImporter:
     pivot: {x: 0.42372882, y: -0.09489051}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -706,6 +741,7 @@ ScriptedImporter:
     pivot: {x: 0.6179775, y: -0.20161289}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 638
@@ -726,6 +762,7 @@ ScriptedImporter:
     pivot: {x: 0.6363636, y: -0.5252526}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 587
@@ -746,6 +783,7 @@ ScriptedImporter:
     pivot: {x: 0.75, y: -0.6021505}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 543
@@ -766,6 +804,7 @@ ScriptedImporter:
     pivot: {x: 0.7530864, y: -0.59574467}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 738
@@ -786,6 +825,7 @@ ScriptedImporter:
     pivot: {x: 0.7530864, y: -0.59574467}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 827
@@ -806,6 +846,7 @@ ScriptedImporter:
     pivot: {x: 0.39041096, y: -0.23931624}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -826,6 +867,7 @@ ScriptedImporter:
     pivot: {x: 0.24137934, y: -0.24786326}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 469
@@ -846,6 +888,7 @@ ScriptedImporter:
     pivot: {x: 0.34343436, y: -0.59574467}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -866,6 +909,7 @@ ScriptedImporter:
     pivot: {x: 0.65254235, y: -0.56565654}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 382
@@ -886,6 +930,7 @@ ScriptedImporter:
     pivot: {x: 0.6355932, y: -0.55445546}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 130
@@ -906,6 +951,7 @@ ScriptedImporter:
     pivot: {x: 0.6355932, y: -0.55445546}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 256
@@ -926,6 +972,7 @@ ScriptedImporter:
     pivot: {x: 0.5037038, y: -0.53271025}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 326
@@ -946,6 +993,7 @@ ScriptedImporter:
     pivot: {x: 0.26530612, y: -0.53271025}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 735
@@ -966,6 +1014,7 @@ ScriptedImporter:
     pivot: {x: 0.25316453, y: -0.5833333}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 272
@@ -986,6 +1035,7 @@ ScriptedImporter:
     pivot: {x: 0.20618555, y: -0.6086956}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 325
@@ -1006,6 +1056,7 @@ ScriptedImporter:
     pivot: {x: 0.20202018, y: -0.61538464}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 111
@@ -1026,6 +1077,7 @@ ScriptedImporter:
     pivot: {x: 0.20202018, y: -0.61538464}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 218
@@ -1046,6 +1098,7 @@ ScriptedImporter:
     pivot: {x: 0.54375005, y: -0.57}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 158
@@ -1066,6 +1119,7 @@ ScriptedImporter:
     pivot: {x: 0.72222227, y: -0.58762884}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 724
@@ -1086,6 +1140,7 @@ ScriptedImporter:
     pivot: {x: 0.59782606, y: -0.58947366}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -1102,400 +1157,455 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 376}
   spriteSheetImportData: []
+  tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1758611691
+    uuid:
+      value0: 1486572119
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 1486572119
     name: Warrior_Blue
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Warrior_Blue_Frame_0
+    - name: Frame_0
       frameIndex: 0
+      additiveSortOrder: 0
       cellRect:
         x: 63
         y: 56
         width: 78
         height: 91
       spriteId: 23f1108b725428841b8b29343ab4d01e
-    - name: Warrior_Blue_Frame_1
+    - name: Frame_1
       frameIndex: 1
+      additiveSortOrder: 0
       cellRect:
         x: 63
         y: 56
         width: 78
         height: 91
       spriteId: fcc70de96f564e4489113fea5bbe339a
-    - name: Warrior_Blue_Frame_2
+    - name: Frame_2
       frameIndex: 2
+      additiveSortOrder: 0
       cellRect:
         x: 63
         y: 56
         width: 78
         height: 91
       spriteId: d38a6b096ce57414784453df6b98278c
-    - name: Warrior_Blue_Frame_3
+    - name: Frame_3
       frameIndex: 3
+      additiveSortOrder: 0
       cellRect:
         x: 62
         y: 56
         width: 80
         height: 89
       spriteId: 1f61c49f9add3a84b96a53ae9d0b6c09
-    - name: Warrior_Blue_Frame_4
+    - name: Frame_4
       frameIndex: 4
+      additiveSortOrder: 0
       cellRect:
         x: 62
         y: 56
         width: 80
         height: 87
       spriteId: ce7ded8b107661048b6c69e40efe9ffc
-    - name: Warrior_Blue_Frame_5
+    - name: Frame_5
       frameIndex: 5
+      additiveSortOrder: 0
       cellRect:
         x: 63
         y: 56
         width: 78
         height: 88
       spriteId: 20e0ab76210bdd54f93ba30acfefe750
-    - name: Warrior_Blue_Frame_6
+    - name: Frame_6
       frameIndex: 6
+      additiveSortOrder: 0
       cellRect:
         x: 63
         y: 56
         width: 78
         height: 91
       spriteId: df3d890bec118af4ea2f14f19747466d
-    - name: Warrior_Blue_Frame_7
+    - name: Frame_7
       frameIndex: 7
+      additiveSortOrder: 0
       cellRect:
         x: 71
         y: 56
         width: 60
         height: 93
       spriteId: 50b7a383b15cdd649bd451b3ae41025c
-    - name: Warrior_Blue_Frame_8
+    - name: Frame_8
       frameIndex: 8
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 56
         width: 69
         height: 94
       spriteId: 20938b8c7ccc7094cac2cb80ed5fa01d
-    - name: Warrior_Blue_Frame_9
+    - name: Frame_9
       frameIndex: 9
+      additiveSortOrder: 0
       cellRect:
         x: 64
         y: 56
         width: 78
         height: 80
       spriteId: a12bd4dc4ba57c6428e1515a3a7333b3
-    - name: Warrior_Blue_Frame_10
+    - name: Frame_10
       frameIndex: 10
+      additiveSortOrder: 0
       cellRect:
         x: 54
         y: 56
         width: 95
         height: 93
       spriteId: e28fcf94ba8ea1f4289a41be87496b40
-    - name: Warrior_Blue_Frame_11
+    - name: Frame_11
       frameIndex: 11
+      additiveSortOrder: 0
       cellRect:
         x: 57
         y: 56
         width: 89
         height: 94
       spriteId: 5675c3eeacb9bf34bbf3fe10cbff59b4
-    - name: Warrior_Blue_Frame_12
+    - name: Frame_12
       frameIndex: 12
+      additiveSortOrder: 0
       cellRect:
         x: 63
         y: 56
         width: 79
         height: 80
       spriteId: 522df8711c78f3f4bb77883227c4b489
-    - name: Warrior_Blue_Frame_13
+    - name: Frame_13
       frameIndex: 13
+      additiveSortOrder: 0
       cellRect:
         x: 58
         y: 56
         width: 71
         height: 108
       spriteId: 1d9a60549b5ff4145bb2780a902c87e3
-    - name: Warrior_Blue_Frame_14
+    - name: Frame_14
       frameIndex: 14
+      additiveSortOrder: 0
       cellRect:
         x: 57
         y: 56
         width: 71
         height: 112
       spriteId: 80cfee9591c7cd44b8df92d07b784763
-    - name: Warrior_Blue_Frame_15
+    - name: Frame_15
       frameIndex: 15
+      additiveSortOrder: 0
       cellRect:
         x: 57
         y: 56
         width: 71
         height: 112
       spriteId: 1072cd590df2714479a756f0ecb132df
-    - name: Warrior_Blue_Frame_16
+    - name: Frame_16
       frameIndex: 16
+      additiveSortOrder: 0
       cellRect:
         x: 76
         y: 55
         width: 107
         height: 112
       spriteId: a59d713c667875449aa5b53a4b03b71a
-    - name: Warrior_Blue_Frame_17
+    - name: Frame_17
       frameIndex: 17
+      additiveSortOrder: 0
       cellRect:
         x: 74
         y: 53
         width: 107
         height: 92
       spriteId: 525d924c70c866f42b005df59b1d2db8
-    - name: Warrior_Blue_Frame_18
+    - name: Frame_18
       frameIndex: 18
+      additiveSortOrder: 0
       cellRect:
         x: 67
         y: 56
         width: 100
         height: 89
       spriteId: 8f7d0bb8632096b468b209eb1810f9e7
-    - name: Warrior_Blue_Frame_19
+    - name: Frame_19
       frameIndex: 19
+      additiveSortOrder: 0
       cellRect:
         x: 34
         y: 56
         width: 82
         height: 89
       spriteId: 947f11eb6e2389d4795b2ae8eac0e4c5
-    - name: Warrior_Blue_Frame_20
+    - name: Frame_20
       frameIndex: 20
+      additiveSortOrder: 0
       cellRect:
         x: 32
         y: 56
         width: 84
         height: 89
       spriteId: 3d29134242a7136408ab41808bd14d23
-    - name: Warrior_Blue_Frame_21
+    - name: Frame_21
       frameIndex: 21
+      additiveSortOrder: 0
       cellRect:
         x: 32
         y: 56
         width: 84
         height: 89
       spriteId: b3dc3159397da424183d0a19ca87ae49
-    - name: Warrior_Blue_Frame_22
+    - name: Frame_22
       frameIndex: 22
+      additiveSortOrder: 0
       cellRect:
         x: 58
         y: 46
         width: 123
         height: 100
       spriteId: a5959691165aa4a45bbde38815971085
-    - name: Warrior_Blue_Frame_23
+    - name: Frame_23
       frameIndex: 23
+      additiveSortOrder: 0
       cellRect:
         x: 60
         y: 56
         width: 122
         height: 94
       spriteId: 98da4b44ac8786c4da609f6b8501cd38
-    - name: Warrior_Blue_Frame_24
+    - name: Frame_24
       frameIndex: 24
+      additiveSortOrder: 0
       cellRect:
         x: 62
         y: 56
         width: 85
         height: 88
       spriteId: 669626b150b390642822415c010554af
-    - name: Warrior_Blue_Frame_25
+    - name: Frame_25
       frameIndex: 25
+      additiveSortOrder: 0
       cellRect:
         x: 58
         y: 56
         width: 78
         height: 101
       spriteId: e2bb8383564e3bb408c64d65f875e1da
-    - name: Warrior_Blue_Frame_26
+    - name: Frame_26
       frameIndex: 26
+      additiveSortOrder: 0
       cellRect:
         x: 55
         y: 56
         width: 83
         height: 103
       spriteId: 8a562d15cf3f5024996f0a6abb87ca18
-    - name: Warrior_Blue_Frame_27
+    - name: Frame_27
       frameIndex: 27
+      additiveSortOrder: 0
       cellRect:
         x: 55
         y: 56
         width: 83
         height: 103
       spriteId: f70fe1e9262ea7c45a6e71f31c77997c
-    - name: Warrior_Blue_Frame_28
+    - name: Frame_28
       frameIndex: 28
+      additiveSortOrder: 0
       cellRect:
         x: 46
         y: 13
         width: 118
         height: 137
       spriteId: fdfc3c0ed1432c245a5c6349cc9f6d8d
-    - name: Warrior_Blue_Frame_29
+    - name: Frame_29
       frameIndex: 29
+      additiveSortOrder: 0
       cellRect:
         x: 41
         y: 25
         width: 89
         height: 124
       spriteId: af0ffa129aeb77043b6b40ec03e3921c
-    - name: Warrior_Blue_Frame_30
+    - name: Frame_30
       frameIndex: 30
+      additiveSortOrder: 0
       cellRect:
         x: 54
         y: 52
         width: 66
         height: 99
       spriteId: fe03c970a7a6c8640a59704c2647c2a6
-    - name: Warrior_Blue_Frame_31
+    - name: Frame_31
       frameIndex: 31
+      additiveSortOrder: 0
       cellRect:
         x: 36
         y: 56
         width: 80
         height: 93
       spriteId: aa9c9b3934ff75a489af734a6b27c7a0
-    - name: Warrior_Blue_Frame_32
+    - name: Frame_32
       frameIndex: 32
+      additiveSortOrder: 0
       cellRect:
         x: 35
         y: 56
         width: 81
         height: 94
       spriteId: 133d411a788a34241a7424819e048ebe
-    - name: Warrior_Blue_Frame_33
+    - name: Frame_33
       frameIndex: 33
+      additiveSortOrder: 0
       cellRect:
         x: 35
         y: 56
         width: 81
         height: 94
       spriteId: c0cd6fe87f8718842a871198416612b6
-    - name: Warrior_Blue_Frame_34
+    - name: Frame_34
       frameIndex: 34
+      additiveSortOrder: 0
       cellRect:
         x: 39
         y: 28
         width: 146
         height: 117
       spriteId: bc3af0681815ff74cbb664c7ee6ef023
-    - name: Warrior_Blue_Frame_35
+    - name: Frame_35
       frameIndex: 35
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 29
         width: 116
         height: 117
       spriteId: 393ac2718cd68554db6ae3150db77617
-    - name: Warrior_Blue_Frame_36
+    - name: Frame_36
       frameIndex: 36
+      additiveSortOrder: 0
       cellRect:
         x: 62
         y: 56
         width: 99
         height: 94
       spriteId: b6b29fa4c8ecc5f4e991f219e7943feb
-    - name: Warrior_Blue_Frame_37
+    - name: Frame_37
       frameIndex: 37
+      additiveSortOrder: 0
       cellRect:
         x: 19
         y: 56
         width: 118
         height: 99
       spriteId: 1e60d44a48d38f649a6c863392b290eb
-    - name: Warrior_Blue_Frame_38
+    - name: Frame_38
       frameIndex: 38
+      additiveSortOrder: 0
       cellRect:
         x: 21
         y: 56
         width: 118
         height: 101
       spriteId: 0159bca90fc363f4eacb57df0a8b8fd8
-    - name: Warrior_Blue_Frame_39
+    - name: Frame_39
       frameIndex: 39
+      additiveSortOrder: 0
       cellRect:
         x: 21
         y: 56
         width: 118
         height: 101
       spriteId: 924ff2eda5d2cd34db51f6c7d70e973b
-    - name: Warrior_Blue_Frame_40
+    - name: Frame_40
       frameIndex: 40
+      additiveSortOrder: 0
       cellRect:
         x: 28
         y: 57
         width: 135
         height: 107
       spriteId: c8674fe192dd273429827c16691b742c
-    - name: Warrior_Blue_Frame_41
+    - name: Frame_41
       frameIndex: 41
+      additiveSortOrder: 0
       cellRect:
         x: 70
         y: 57
         width: 98
         height: 107
       spriteId: 9b2dcb3a1b1edf542b6da2ea247c2c4e
-    - name: Warrior_Blue_Frame_42
+    - name: Frame_42
       frameIndex: 42
+      additiveSortOrder: 0
       cellRect:
         x: 76
         y: 56
         width: 79
         height: 96
       spriteId: 070db5d2417ee654986e37fd476d7883
-    - name: Warrior_Blue_Frame_43
+    - name: Frame_43
       frameIndex: 43
+      additiveSortOrder: 0
       cellRect:
         x: 76
         y: 56
         width: 97
         height: 92
       spriteId: 6cd1faa2baa79f64cb523c2d00fbd084
-    - name: Warrior_Blue_Frame_44
+    - name: Frame_44
       frameIndex: 44
+      additiveSortOrder: 0
       cellRect:
         x: 76
         y: 56
         width: 99
         height: 91
       spriteId: ac3c82f5081b7f8468782746e78319d3
-    - name: Warrior_Blue_Frame_45
+    - name: Frame_45
       frameIndex: 45
+      additiveSortOrder: 0
       cellRect:
         x: 76
         y: 56
         width: 99
         height: 91
       spriteId: ed94ea5ba296a4c4297276be2b45fb67
-    - name: Warrior_Blue_Frame_46
+    - name: Frame_46
       frameIndex: 46
+      additiveSortOrder: 0
       cellRect:
         x: 9
         y: 57
         width: 160
         height: 100
       spriteId: 57057ce6cde590844be15cbd3c0fab72
-    - name: Warrior_Blue_Frame_47
+    - name: Frame_47
       frameIndex: 47
+      additiveSortOrder: 0
       cellRect:
         x: 5
         y: 57
         width: 126
         height: 97
       spriteId: 8f7d6bfc6bed0f64f885a99156f7d2be
-    - name: Warrior_Blue_Frame_48
+    - name: Frame_48
       frameIndex: 48
+      additiveSortOrder: 0
       cellRect:
         x: 41
         y: 56
@@ -1503,9 +1613,13 @@ ScriptedImporter:
         height: 95
       spriteId: d20f9e7a3dff37542bb6fdeb308edaf0
     linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
     parentIndex: -1
+  tileSets: []
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 192, y: 192}
+  previousTextureSize: {x: 1024, y: 1024}

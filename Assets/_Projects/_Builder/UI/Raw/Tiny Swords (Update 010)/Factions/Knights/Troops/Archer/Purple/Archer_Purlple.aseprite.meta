@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -83,6 +84,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   asepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
@@ -96,6 +99,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   importFileNodeState: 1
   platformSettingsDirtyTick: 0
   textureAssetName: 
@@ -105,6 +110,7 @@ ScriptedImporter:
     pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 0
@@ -126,6 +132,7 @@ ScriptedImporter:
     pivot: {x: 0.44444448, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -146,6 +153,7 @@ ScriptedImporter:
     pivot: {x: 0.45161292, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -166,6 +174,7 @@ ScriptedImporter:
     pivot: {x: 0.44444448, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -186,6 +195,7 @@ ScriptedImporter:
     pivot: {x: 0.44444448, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -206,6 +216,7 @@ ScriptedImporter:
     pivot: {x: 0.44776118, y: -0.7837838}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -226,6 +237,7 @@ ScriptedImporter:
     pivot: {x: 0.46153846, y: -0.81690145}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -246,6 +258,7 @@ ScriptedImporter:
     pivot: {x: 0.46774188, y: -0.79452056}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -266,6 +279,7 @@ ScriptedImporter:
     pivot: {x: 0.44776118, y: -0.7532468}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -286,6 +300,7 @@ ScriptedImporter:
     pivot: {x: 0.44615382, y: -0.7631579}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -306,6 +321,7 @@ ScriptedImporter:
     pivot: {x: 0.45161292, y: -0.8285715}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -326,6 +342,7 @@ ScriptedImporter:
     pivot: {x: 0.4861111, y: -0.7532468}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -346,6 +363,7 @@ ScriptedImporter:
     pivot: {x: 0.47826087, y: -0.7631579}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -366,6 +384,7 @@ ScriptedImporter:
     pivot: {x: 0.45161292, y: -0.8285715}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -386,6 +405,7 @@ ScriptedImporter:
     pivot: {x: 0.44615382, y: -0.725}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -406,6 +426,7 @@ ScriptedImporter:
     pivot: {x: 0.38666663, y: -0.70731705}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -426,6 +447,7 @@ ScriptedImporter:
     pivot: {x: 0.46774188, y: -0.50877196}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -446,6 +468,7 @@ ScriptedImporter:
     pivot: {x: 0.530303, y: -0.59183675}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -466,6 +489,7 @@ ScriptedImporter:
     pivot: {x: 0.530303, y: -0.6304348}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -486,6 +510,7 @@ ScriptedImporter:
     pivot: {x: 0.530303, y: -0.6304348}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -506,6 +531,7 @@ ScriptedImporter:
     pivot: {x: 0.53623194, y: -0.6170213}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -526,6 +552,7 @@ ScriptedImporter:
     pivot: {x: 0.46774188, y: -0.65909094}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -546,6 +573,7 @@ ScriptedImporter:
     pivot: {x: 0.625, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -566,6 +594,7 @@ ScriptedImporter:
     pivot: {x: 0.5636364, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -586,6 +615,7 @@ ScriptedImporter:
     pivot: {x: 0.33695653, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -606,6 +636,7 @@ ScriptedImporter:
     pivot: {x: 0.51388896, y: -0.79452056}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -626,6 +657,7 @@ ScriptedImporter:
     pivot: {x: 0.5, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -646,6 +678,7 @@ ScriptedImporter:
     pivot: {x: 0.5, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -666,6 +699,7 @@ ScriptedImporter:
     pivot: {x: 0.51282054, y: -0.7631579}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -686,6 +720,7 @@ ScriptedImporter:
     pivot: {x: 0.469697, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -706,6 +741,7 @@ ScriptedImporter:
     pivot: {x: 0.625, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -726,6 +762,7 @@ ScriptedImporter:
     pivot: {x: 0.5636364, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -746,6 +783,7 @@ ScriptedImporter:
     pivot: {x: 0.33695653, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -766,6 +804,7 @@ ScriptedImporter:
     pivot: {x: 0.46835443, y: -0.79452056}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -786,6 +825,7 @@ ScriptedImporter:
     pivot: {x: 0.50684935, y: -0.79452056}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -806,6 +846,7 @@ ScriptedImporter:
     pivot: {x: 0.50684935, y: -0.79452056}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -826,6 +867,7 @@ ScriptedImporter:
     pivot: {x: 0.5625, y: -0.79452056}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -846,6 +888,7 @@ ScriptedImporter:
     pivot: {x: 0.49206352, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -866,6 +909,7 @@ ScriptedImporter:
     pivot: {x: 0.625, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -886,6 +930,7 @@ ScriptedImporter:
     pivot: {x: 0.5636364, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -906,6 +951,7 @@ ScriptedImporter:
     pivot: {x: 0.33695653, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -926,6 +972,7 @@ ScriptedImporter:
     pivot: {x: 0.52459013, y: -0.5930233}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -946,6 +993,7 @@ ScriptedImporter:
     pivot: {x: 0.53731346, y: -0.55681825}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -966,6 +1014,7 @@ ScriptedImporter:
     pivot: {x: 0.53731346, y: -0.55681825}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -986,6 +1035,7 @@ ScriptedImporter:
     pivot: {x: 0.5675675, y: -0.53932583}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -1006,6 +1056,7 @@ ScriptedImporter:
     pivot: {x: 0.53623194, y: -0.64197534}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -1026,6 +1077,7 @@ ScriptedImporter:
     pivot: {x: 0.625, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -1046,6 +1098,7 @@ ScriptedImporter:
     pivot: {x: 0.5636364, y: -0.7733334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -1066,6 +1119,7 @@ ScriptedImporter:
     pivot: {x: 0.36904767, y: -0.70512825}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 74
@@ -1086,6 +1140,7 @@ ScriptedImporter:
     pivot: {x: 0.58181816, y: -0.45744678}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -1106,6 +1161,7 @@ ScriptedImporter:
     pivot: {x: 0.58181816, y: -0.53932583}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -1126,6 +1182,7 @@ ScriptedImporter:
     pivot: {x: 0.58181816, y: -0.53932583}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -1146,6 +1203,7 @@ ScriptedImporter:
     pivot: {x: 0.5932203, y: -0.53932583}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 174
@@ -1166,6 +1224,7 @@ ScriptedImporter:
     pivot: {x: 0.53623194, y: -0.64197534}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 249
@@ -1186,6 +1245,7 @@ ScriptedImporter:
     pivot: {x: 0.49206352, y: -6.142857}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 337
@@ -1206,6 +1266,7 @@ ScriptedImporter:
     pivot: {x: 0.6326531, y: -6.142857}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
@@ -1222,448 +1283,509 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 614}
   spriteSheetImportData: []
+  tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 399872802
+    uuid:
+      value0: 379656746
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 379656746
     name: Archer_Purlple
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Archer_Purlple_Frame_0
+    - name: Frame_0
       frameIndex: 0
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 58
         width: 63
         height: 75
       spriteId: b498aab5a00ba9040afc6264c57a4c97
-    - name: Archer_Purlple_Frame_1
+    - name: Frame_1
       frameIndex: 1
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 58
         width: 62
         height: 75
       spriteId: 7bbccec595a71a54e98c641c255fd9a8
-    - name: Archer_Purlple_Frame_2
+    - name: Frame_2
       frameIndex: 2
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 58
         width: 63
         height: 75
       spriteId: ea5273a775aff9049a8854336f953919
-    - name: Archer_Purlple_Frame_3
+    - name: Frame_3
       frameIndex: 3
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 58
         width: 63
         height: 75
       spriteId: 023c5586e003a07418ce032346411d3a
-    - name: Archer_Purlple_Frame_4
+    - name: Frame_4
       frameIndex: 4
+      additiveSortOrder: 0
       cellRect:
         x: 66
         y: 58
         width: 67
         height: 74
       spriteId: 259699c8f6874184aad4a4a2edcdd865
-    - name: Archer_Purlple_Frame_5
+    - name: Frame_5
       frameIndex: 5
+      additiveSortOrder: 0
       cellRect:
         x: 66
         y: 58
         width: 65
         height: 71
       spriteId: 340cff6b29d617544a9997f8bf1b17ac
-    - name: Archer_Purlple_Frame_6
+    - name: Frame_6
       frameIndex: 6
+      additiveSortOrder: 0
       cellRect:
         x: 67
         y: 58
         width: 62
         height: 73
       spriteId: 09f08ed3d1960bb4e8a46e67b126c916
-    - name: Archer_Purlple_Frame_7
+    - name: Frame_7
       frameIndex: 7
+      additiveSortOrder: 0
       cellRect:
         x: 66
         y: 58
         width: 67
         height: 77
       spriteId: 126b83e47d563344db83472ec5710178
-    - name: Archer_Purlple_Frame_8
+    - name: Frame_8
       frameIndex: 8
+      additiveSortOrder: 0
       cellRect:
         x: 67
         y: 58
         width: 65
         height: 76
       spriteId: ddd887117567376418c87b5230b0e5ed
-    - name: Archer_Purlple_Frame_9
+    - name: Frame_9
       frameIndex: 9
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 58
         width: 62
         height: 70
       spriteId: 5e00cb2e6cc7dde4dbb10dc013fa2bdc
-    - name: Archer_Purlple_Frame_10
+    - name: Frame_10
       frameIndex: 10
+      additiveSortOrder: 0
       cellRect:
         x: 61
         y: 58
         width: 72
         height: 77
       spriteId: 030dd164d1f384b469eff26c7ed7d05c
-    - name: Archer_Purlple_Frame_11
+    - name: Frame_11
       frameIndex: 11
+      additiveSortOrder: 0
       cellRect:
         x: 63
         y: 58
         width: 69
         height: 76
       spriteId: 1cc2f2c92defceb448bf2f54a6a77cf2
-    - name: Archer_Purlple_Frame_12
+    - name: Frame_12
       frameIndex: 12
+      additiveSortOrder: 0
       cellRect:
         x: 68
         y: 58
         width: 62
         height: 70
       spriteId: 98263c607d45d964086d70c6729acc51
-    - name: Archer_Purlple_Frame_13
+    - name: Frame_13
       frameIndex: 13
+      additiveSortOrder: 0
       cellRect:
         x: 67
         y: 58
         width: 65
         height: 80
       spriteId: d32ba8b3ce7d7eb4da6628b3895c897e
-    - name: Archer_Purlple_Frame_14
+    - name: Frame_14
       frameIndex: 14
+      additiveSortOrder: 0
       cellRect:
         x: 67
         y: 58
         width: 75
         height: 82
       spriteId: 44a59aa3282f3034385ad2d4bdd5d818
-    - name: Archer_Purlple_Frame_15
+    - name: Frame_15
       frameIndex: 15
+      additiveSortOrder: 0
       cellRect:
         x: 67
         y: 58
         width: 62
         height: 114
       spriteId: eaf3156395b2b4b4ca65af56019a7906
-    - name: Archer_Purlple_Frame_16
+    - name: Frame_16
       frameIndex: 16
+      additiveSortOrder: 0
       cellRect:
         x: 61
         y: 58
         width: 66
         height: 98
       spriteId: 8655cf4f9307aad4b93458ca86bad0ab
-    - name: Archer_Purlple_Frame_17
+    - name: Frame_17
       frameIndex: 17
+      additiveSortOrder: 0
       cellRect:
         x: 61
         y: 58
         width: 66
         height: 92
       spriteId: 84ef93314b9ea2d47ad7ee1a1f0458b2
-    - name: Archer_Purlple_Frame_18
+    - name: Frame_18
       frameIndex: 18
+      additiveSortOrder: 0
       cellRect:
         x: 61
         y: 58
         width: 66
         height: 92
       spriteId: d2a2eac903e6573458b80f04bda5abe6
-    - name: Archer_Purlple_Frame_19
+    - name: Frame_19
       frameIndex: 19
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 58
         width: 69
         height: 94
       spriteId: 735b436cbc425834ea3e3bf9464ba728
-    - name: Archer_Purlple_Frame_20
+    - name: Frame_20
       frameIndex: 20
+      additiveSortOrder: 0
       cellRect:
         x: 67
         y: 58
         width: 62
         height: 88
       spriteId: eade6f8357aef3c40a97bb665962c845
-    - name: Archer_Purlple_Frame_21
+    - name: Frame_21
       frameIndex: 21
+      additiveSortOrder: 0
       cellRect:
         x: 56
         y: 58
         width: 64
         height: 75
       spriteId: d21a8680c745cdb41ba5c711544eb334
-    - name: Archer_Purlple_Frame_22
+    - name: Frame_22
       frameIndex: 22
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 55
         height: 75
       spriteId: 57386e2974b380945a8e0e8a9b68ec16
-    - name: Archer_Purlple_Frame_23
+    - name: Frame_23
       frameIndex: 23
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 92
         height: 75
       spriteId: 446c78e080de24944983ee92c377af20
-    - name: Archer_Purlple_Frame_24
+    - name: Frame_24
       frameIndex: 24
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 58
         width: 72
         height: 73
       spriteId: b3415db6c71447e4caf88e5bc5b48a48
-    - name: Archer_Purlple_Frame_25
+    - name: Frame_25
       frameIndex: 25
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 58
         width: 74
         height: 75
       spriteId: 9f2b99bda880c3242bebfdc5940db3a0
-    - name: Archer_Purlple_Frame_26
+    - name: Frame_26
       frameIndex: 26
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 58
         width: 74
         height: 75
       spriteId: f6e98812e2871de46bc6a81101d9c4f3
-    - name: Archer_Purlple_Frame_27
+    - name: Frame_27
       frameIndex: 27
+      additiveSortOrder: 0
       cellRect:
         x: 56
         y: 58
         width: 78
         height: 76
       spriteId: 38828d0397a797840a6a08e0250614bf
-    - name: Archer_Purlple_Frame_28
+    - name: Frame_28
       frameIndex: 28
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 66
         height: 75
       spriteId: 2bff08512f77e1140b503f72768760f3
-    - name: Archer_Purlple_Frame_29
+    - name: Frame_29
       frameIndex: 29
+      additiveSortOrder: 0
       cellRect:
         x: 56
         y: 58
         width: 64
         height: 75
       spriteId: c90276bbce1dccf42a381cc7166aa90a
-    - name: Archer_Purlple_Frame_30
+    - name: Frame_30
       frameIndex: 30
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 55
         height: 75
       spriteId: c7878b5d315833f4b8e3d7df3c17468a
-    - name: Archer_Purlple_Frame_31
+    - name: Frame_31
       frameIndex: 31
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 92
         height: 75
       spriteId: a49cc17892f6cbe42acab6f6bbb96453
-    - name: Archer_Purlple_Frame_32
+    - name: Frame_32
       frameIndex: 32
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 58
         width: 79
         height: 73
       spriteId: 6615c79af511d6c4288943be05a5f529
-    - name: Archer_Purlple_Frame_33
+    - name: Frame_33
       frameIndex: 33
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 58
         width: 73
         height: 73
       spriteId: 97f377c3eb01ef944a56aa0121f471e5
-    - name: Archer_Purlple_Frame_34
+    - name: Frame_34
       frameIndex: 34
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 58
         width: 73
         height: 73
       spriteId: b00bfbfb252c0594e8b8f1c25d95b9b8
-    - name: Archer_Purlple_Frame_35
+    - name: Frame_35
       frameIndex: 35
+      additiveSortOrder: 0
       cellRect:
         x: 51
         y: 58
         width: 80
         height: 73
       spriteId: 3c6ce27e258e924419b6cbedd6eab67b
-    - name: Archer_Purlple_Frame_36
+    - name: Frame_36
       frameIndex: 36
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 63
         height: 75
       spriteId: b2cd1108d05b9fb4ea2149b02f43b614
-    - name: Archer_Purlple_Frame_37
+    - name: Frame_37
       frameIndex: 37
+      additiveSortOrder: 0
       cellRect:
         x: 56
         y: 58
         width: 64
         height: 75
       spriteId: fd9587bb329dfa043980aa64f0098c3f
-    - name: Archer_Purlple_Frame_38
+    - name: Frame_38
       frameIndex: 38
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 55
         height: 75
       spriteId: 4fb0372b85ddf1e47a80f0d8ad2a0f02
-    - name: Archer_Purlple_Frame_39
+    - name: Frame_39
       frameIndex: 39
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 92
         height: 75
       spriteId: 132012a7d98e00c489f4020e7575638a
-    - name: Archer_Purlple_Frame_40
+    - name: Frame_40
       frameIndex: 40
+      additiveSortOrder: 0
       cellRect:
         x: 64
         y: 51
         width: 61
         height: 86
       spriteId: a6a50dc11a91e924ab5358879543335f
-    - name: Archer_Purlple_Frame_41
+    - name: Frame_41
       frameIndex: 41
+      additiveSortOrder: 0
       cellRect:
         x: 60
         y: 49
         width: 67
         height: 88
       spriteId: acc9f241db23e3c4a94b539a0b75dcb7
-    - name: Archer_Purlple_Frame_42
+    - name: Frame_42
       frameIndex: 42
+      additiveSortOrder: 0
       cellRect:
         x: 60
         y: 49
         width: 67
         height: 88
       spriteId: b2aeda4b446bdeb44946896412b692e4
-    - name: Archer_Purlple_Frame_43
+    - name: Frame_43
       frameIndex: 43
+      additiveSortOrder: 0
       cellRect:
         x: 54
         y: 48
         width: 74
         height: 89
       spriteId: 17963b6b94e7b7f438c98852c9835e76
-    - name: Archer_Purlple_Frame_44
+    - name: Frame_44
       frameIndex: 44
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 52
         width: 69
         height: 81
       spriteId: f18d106d87a84cf4a82337e6c4c70ab6
-    - name: Archer_Purlple_Frame_45
+    - name: Frame_45
       frameIndex: 45
+      additiveSortOrder: 0
       cellRect:
         x: 56
         y: 58
         width: 64
         height: 75
       spriteId: fe0beaceb72bc4548a0e6895e54686f5
-    - name: Archer_Purlple_Frame_46
+    - name: Frame_46
       frameIndex: 46
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 58
         width: 55
         height: 75
       spriteId: 05fff83dc8861fb45b60399dd87fd283
-    - name: Archer_Purlple_Frame_47
+    - name: Frame_47
       frameIndex: 47
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 55
         width: 84
         height: 78
       spriteId: 92a7d7a0b0313b84d97f18edb8164079
-    - name: Archer_Purlple_Frame_48
+    - name: Frame_48
       frameIndex: 48
+      additiveSortOrder: 0
       cellRect:
         x: 64
         y: 43
         width: 55
         height: 94
       spriteId: 89169e4e8718ce94681a7f7f35111f96
-    - name: Archer_Purlple_Frame_49
+    - name: Frame_49
       frameIndex: 49
+      additiveSortOrder: 0
       cellRect:
         x: 64
         y: 48
         width: 55
         height: 89
       spriteId: f81f2ef81e576a74eaf13f336db8b34e
-    - name: Archer_Purlple_Frame_50
+    - name: Frame_50
       frameIndex: 50
+      additiveSortOrder: 0
       cellRect:
         x: 64
         y: 48
         width: 55
         height: 89
       spriteId: 994d38be3dd11484e96ebf2e78188740
-    - name: Archer_Purlple_Frame_51
+    - name: Frame_51
       frameIndex: 51
+      additiveSortOrder: 0
       cellRect:
         x: 61
         y: 48
         width: 59
         height: 89
       spriteId: 4d61be011a5f9e64b8defa9bd5dbe3f8
-    - name: Archer_Purlple_Frame_52
+    - name: Frame_52
       frameIndex: 52
+      additiveSortOrder: 0
       cellRect:
         x: 59
         y: 52
         width: 69
         height: 81
       spriteId: 6550cec38dc37a5469e0fbc8e116118c
-    - name: Archer_Purlple_Frame_53
+    - name: Frame_53
       frameIndex: 53
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 86
         width: 63
         height: 14
       spriteId: e7488a371247f41439691bc7e8ce83e9
-    - name: Archer_Purlple_Frame_54
+    - name: Frame_54
       frameIndex: 54
+      additiveSortOrder: 0
       cellRect:
         x: 65
         y: 86
@@ -1671,9 +1793,13 @@ ScriptedImporter:
         height: 14
       spriteId: 9ec1428ed2b24db41994f9ee9eb3d5f3
     linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
     parentIndex: -1
+  tileSets: []
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 192, y: 192}
+  previousTextureSize: {x: 512, y: 1024}
