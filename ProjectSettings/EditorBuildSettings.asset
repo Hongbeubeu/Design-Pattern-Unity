@@ -41,9 +41,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/FancyScrollView/Examples/09_LoadTexture.unity
     guid: eb8cb776d6776468eb0bec979e0c2010
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Projects/_SampleAddressable/Addressable.unity
     guid: a813ddfa4ad194f4283343feda6e69a0
+  - enabled: 1
+    path: Assets/NiceVibrations/Demos/NiceVibrationsDemo.unity
+    guid: a40d966b5d8df3140955c23cdc4994c8
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 32984576d75a8094f90b10ef1137265b, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: f19e6ad7d9b25334790f82bb5d62ead6, type: 2}
+  m_UseUCBPForAssetBundles: 0
